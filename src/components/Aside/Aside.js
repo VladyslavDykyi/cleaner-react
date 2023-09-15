@@ -1,6 +1,12 @@
 import React from "react";
 
-const Aside = ({typeOfRoom, typeOfCleaning}) => {
+const Aside = ({
+	               typeOfRoom,
+	               typeOfCleaning,
+	               quantityOfCleaner,
+	               quantityOfRooms,
+	               quantityOfBathroom
+               }) => {
 	const renderElem = ({content}) => {
 		if ( !content) return;
 		return (
@@ -8,6 +14,21 @@ const Aside = ({typeOfRoom, typeOfCleaning}) => {
 				{content}
 			</li>
 		);
+	}
+	const renderQuantityRoom = (content, text, texts) => {
+		if ( !content.quantityRooms) return;
+		return (
+			<li className="aside-list-item">
+				{(content.quantityRooms > 5 ? `${content.quantityRooms} ${text}` : `${content.quantityRooms} ${texts}`)}
+			</li>
+		);
+	}
+	const renderQuantityCleaner = (obj) => {
+		return (
+			<span>
+				{obj.quantity} працівника
+			</span>
+		)
 	}
 	return (
 		<aside className="col-md-3">
@@ -28,12 +49,8 @@ const Aside = ({typeOfRoom, typeOfCleaning}) => {
 				<ul className="aside-list">
 					{renderElem(typeOfCleaning)}
 					{renderElem(typeOfRoom)}
-					<li className="aside-list-item">
-						3 кімнати
-					</li>
-					<li className="aside-list-item">
-						1 санвузол
-					</li>
+					{renderQuantityRoom(quantityOfRooms, 'кімнат', 'кімнати')}
+					{renderQuantityRoom(quantityOfBathroom, 'санвузлів', 'санвузла')}
 					<li className="aside-list-item">
 						105 м2
 					</li>
@@ -76,9 +93,7 @@ const Aside = ({typeOfRoom, typeOfCleaning}) => {
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-people"/>
-					<span>
-						3 працівника
-					</span>
+					{renderQuantityCleaner(quantityOfCleaner)}
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-arrow-repeat"/>
@@ -98,11 +113,11 @@ const Aside = ({typeOfRoom, typeOfCleaning}) => {
 				<label className="my-checkbox" htmlFor="checkbox">
 					<input className="visually-hidden" type="checkbox" name="politick" id="checkbox"/>
 					<span className="t-8">
-						<>Я приймаю </>
+						Я приймаю
 						<a href="#">Політику</a>
-						<>та </>
+						та
 						<a href="#">Умови використання</a>
-						<>даним сайтом та послугами</>
+						даним сайтом та послугами
 					</span>
 				</label>
 				<button className="btn btn-pink" type="button">
@@ -115,5 +130,7 @@ const Aside = ({typeOfRoom, typeOfCleaning}) => {
 Aside.defaultProps = {
 	typeOfCleaning: null,
 	typeOfRoom: null,
+	quantityOfCleaner: 1,
+	quantityOfRooms: null,
 }
 export default Aside;
