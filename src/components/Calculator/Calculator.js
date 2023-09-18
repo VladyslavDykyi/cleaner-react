@@ -6,6 +6,7 @@ import AddCleaners from "./AddCleaners";
 import QuantityRooms from "./QuantityRooms";
 import QuantityBathrooms from "./QuantityBathrooms";
 import TotalAreaRoom from "./TotalAreaRoom";
+import ContactData from "./ContactData";
 
 const Calculator = ({
 	                    typeOfCleaning,
@@ -64,20 +65,8 @@ const Calculator = ({
 			<QuantityRooms onChange={handleQuantityRooms}/>
 			<QuantityBathrooms onChange={handleQuantityBathrooms}/>
 			<TotalAreaRoom onChange={handleAreaRoom}/>
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		6. Загальний метраж приміщення*/}
-			{/*	</h2>*/}
-			{/*	<div className="total-square-footage">*/}
-			{/*		<div className="total-square-footage-range">*/}
-			{/*			min 10m2 max 200m2*/}
-			{/*		</div>*/}
-			{/*		<label className="input" htmlFor="totalSquareFootage">*/}
-			{/*			<input type="number" name="totalSquareFootage" id="totalSquareFootage"*/}
-			{/*			       placeholder="Введіть власноруч, якщо більше"/>*/}
-			{/*		</label>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
+			
+			<ContactData/>
 			{/*<section className="calculator-wrapper">*/}
 			{/*	<h2 className="t-s-bold t-4">*/}
 			{/*		7. Додаткові послуги*/}
@@ -837,33 +826,7 @@ const Calculator = ({
 			{/*		</label>*/}
 			{/*	</div>*/}
 			{/*</section>*/}
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		12. Вкажіть ваші контактні дані*/}
-			{/*	</h2>*/}
-			{/*	<div className="contact-data">*/}
-			{/*		<label className="input" htmlFor="userName">*/}
-			{/*			<input type="text" name="userName" id="userName" placeholder="Ваше імʼя"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="userTel">*/}
-			{/*			<input type="tel" name="userTel" id="userTel"*/}
-			{/*			       placeholder="+38 (0 _ _ ) - _ _ _ - _ _ - _ _" required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="userEmail">*/}
-			{/*			<input type="email" name="userEmail" id="userEmail" placeholder="Email"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="textarea" htmlFor="comment">*/}
-			{/*			<textarea name="comment" id="comment" cols="30" rows="10" placeholder="Коментар (опціонно)"/>*/}
-			{/*		</label>*/}
-			{/*		<p className="contact-text">*/}
-			{/*			Наш менеджер звʼяжеться з вами для уточнення деталей або для підтвердження*/}
-			{/*			замовлення.*/}
-			{/*			Або чекайте повідомлення з підтвердженням замовлення у ваших месенджерах.*/}
-			{/*		</p>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
+			
 		</div>
 	);
 }
