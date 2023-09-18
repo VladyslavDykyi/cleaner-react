@@ -8,6 +8,7 @@ const App = () => {
 	const [typeDataRoom, setTypeDataRoom] = useState({});
 	const [dataQuantityRoom, setDataQuantityRoom] = useState({});
 	const [dataQuantityBathroom, setDataQuantityBathroom] = useState({});
+	const [dataAreaRoom, setDataAreaRoom] = useState({});
 	
 	const handleTypeCleaning = (typeData) => {
 		setTypeDataCleaning(typeData);
@@ -24,6 +25,9 @@ const App = () => {
 	const handleQuantityBathroom = (typeData) => {
 		setDataQuantityBathroom(typeData);
 	};
+	const handleAreaRoom = (typeData) => {
+		setDataAreaRoom(typeData);
+	};
 	return (
 		<div className="container-xxl">
 			<section className="works-reviews">
@@ -36,7 +40,8 @@ const App = () => {
 						typeOfRoom={handleTypeRoom}
 						quantityOfCleaner={handlerQuantityCleaner}
 						quantityOfRooms={handleQuantityRoom}
-						quantityOfBathroom={setDataQuantityBathroom}
+						quantityOfBathroom={handleQuantityBathroom}
+						areaOfRoom={handleAreaRoom}
 					/>
 					<Aside
 						typeOfCleaning={typeDataCleaning}
@@ -44,6 +49,7 @@ const App = () => {
 						quantityOfCleaner={dataQuantityCleaner}
 						quantityOfRooms={dataQuantityRoom}
 						quantityOfBathroom={dataQuantityBathroom}
+						areaOfRoom={dataAreaRoom}
 					/>
 				</div>
 			</section>

@@ -5,6 +5,7 @@ import TypeOfRoom from "./TypeOfRoom";
 import AddCleaners from "./AddCleaners";
 import QuantityRooms from "./QuantityRooms";
 import QuantityBathrooms from "./QuantityBathrooms";
+import TotalAreaRoom from "./TotalAreaRoom";
 
 const Calculator = ({
 	                    typeOfCleaning,
@@ -12,12 +13,14 @@ const Calculator = ({
 	                    quantityOfCleaner,
 	                    quantityOfRooms,
 	                    quantityOfBathroom,
+	                    areaOfRoom,
 }) => {
 	const [typeCleaning, setTypeCleaning] = useState({});
 	const [quantityCleaner, setQuantityCleaner] = useState({});
 	const [typeRoom, setTypeRoom] = useState({});
 	const [quantityRooms, setQuantityRooms] = useState({});
 	const [quantityBathrooms, setQuantityBathrooms] = useState({});
+	const [areaRoom, setAreaRoom] = useState({});
 	
 	const handleTypeCleaning = (radioData) => {
 		setTypeCleaning(radioData);
@@ -34,18 +37,23 @@ const Calculator = ({
 	const handleQuantityBathrooms = (quantity) => {
 		setQuantityBathrooms(quantity);
 	}
+	const handleAreaRoom = (quantity) => {
+		setAreaRoom(quantity);
+	}
 	useEffect(() => {
 		typeOfCleaning(typeCleaning);
 		typeOfRoom(typeRoom);
 		quantityOfCleaner(quantityCleaner);
 		quantityOfRooms(quantityRooms);
 		quantityOfBathroom(quantityBathrooms);
+		areaOfRoom(areaRoom);
 	}, [
 		typeCleaning,
 		typeRoom,
 		quantityCleaner,
 		quantityRooms,
 		quantityBathrooms,
+		areaRoom,
 	]);
 	
 	return (
@@ -55,42 +63,7 @@ const Calculator = ({
 			<TypeOfRoom onChange={handleTypeRoom}/>
 			<QuantityRooms onChange={handleQuantityRooms}/>
 			<QuantityBathrooms onChange={handleQuantityBathrooms}/>
-			
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		5. Кількість санвузлів*/}
-			{/*	</h2>*/}
-			{/*	<div className="numberBathRooms">*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms1">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms1"/>*/}
-			{/*			<span>1</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms2">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms2"/>*/}
-			{/*			<span>2</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms3">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms3"/>*/}
-			{/*			<span>3</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms4">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms4"/>*/}
-			{/*			<span>4</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms5">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms5"/>*/}
-			{/*			<span>5</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="radio-text" htmlFor="numberBathRooms6">*/}
-			{/*			<input type="radio" name="numberBathRooms" id="numberBathRooms6"/>*/}
-			{/*			<span>6</span>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="numberBathRoomsInput">*/}
-			{/*			<input type="number" name="numberBathRoomsInput" id="numberBathRoomsInput"*/}
-			{/*			       placeholder="Введіть власноруч, якщо більше"/>*/}
-			{/*		</label>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
+			<TotalAreaRoom onChange={handleAreaRoom}/>
 			{/*<section className="calculator-wrapper">*/}
 			{/*	<h2 className="t-s-bold t-4">*/}
 			{/*		6. Загальний метраж приміщення*/}

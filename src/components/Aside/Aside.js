@@ -5,13 +5,21 @@ const Aside = ({
 	               typeOfCleaning,
 	               quantityOfCleaner,
 	               quantityOfRooms,
-	               quantityOfBathroom
+	               quantityOfBathroom,
+	               areaOfRoom
                }) => {
 	const renderElem = ({content}) => {
 		if ( !content) return;
 		return (
 			<li className="aside-list-item">
 				{content}
+			</li>
+		);
+	}
+	const renderAreaRoom = (content) => {
+		return (
+			<li className="aside-list-item">
+				{content.areaRoom} м2
 			</li>
 		);
 	}
@@ -51,9 +59,7 @@ const Aside = ({
 					{renderElem(typeOfRoom)}
 					{renderQuantityRoom(quantityOfRooms, 'кімнат', 'кімнати')}
 					{renderQuantityRoom(quantityOfBathroom, 'санвузлів', 'санвузла')}
-					<li className="aside-list-item">
-						105 м2
-					</li>
+					{renderAreaRoom(areaOfRoom)}
 				</ul>
 				<h3 className="aside-title t-s-bold t-5">
 					Додаткові послуги:

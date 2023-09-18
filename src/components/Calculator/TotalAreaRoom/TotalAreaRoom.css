@@ -1,0 +1,52 @@
+.calculator-wrapper .numberRooms {
+	align-items: flex-end;
+}
+.MuiSlider-root.MuiSlider-colorPrimary {
+	color: #DCE9C4;
+	height: 19px;
+	border-radius: 20px;
+	flex: 0 1 calc(100% - 338px);
+	padding-bottom: 0;
+}
+.MuiSlider-root .MuiSlider-thumb {
+	box-shadow: none !important;
+	width: 19px;
+	height: 19px;
+}
+.MuiSlider-root .MuiSlider-thumb:hover {
+	box-shadow: none;
+}
+.MuiSlider-root .MuiSlider-thumb:after {
+	width: 19px;
+	height: 19px;
+	border-radius: 20px;
+	background: #83B100;
+}
+.MuiSlider-root .MuiSlider-thumb:before {
+	display: none;
+}
+.MuiSlider-root .MuiSlider-valueLabel {
+	color: #FE308B;
+	font-family: Mulish,sans-serif;
+	font-size: 22px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	background-color: transparent;
+	padding: 0;
+}
+.MuiSlider-root .MuiSlider-valueLabelLabel:after {
+	content: ' м2';
+}
+@media screen and (max-width: 1024px) {
+	.MuiSlider-root.MuiSlider-colorPrimary {
+		flex: 0 1 100%;
+		margin-left: 16px;
+		margin-right: 16px;
+	}
+}
+@media screen and (max-width: 768px) {
+	.MuiSlider-root .MuiSlider-valueLabel {
+		font-size: 16px;
+	}
+}
