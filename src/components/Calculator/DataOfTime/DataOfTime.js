@@ -182,7 +182,6 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 			<div className="calendar-time">
 				<div className="calendar-pick">
 					<LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale='uk'>
-							{/*<DateCalendar onChange={handlerCheckData}/>*/}
 						<DateCalendar onChange={handlerCheckData} />
 					</LocalizationProvider>
 				</div>
