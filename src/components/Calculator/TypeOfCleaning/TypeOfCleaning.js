@@ -57,25 +57,29 @@ const TypeOfCleaning = (props) => {
 		}));
 		setType(updatedType);
 	};
-	
+	const render = (arr) => {
+		return (
+			arr.map((item) => (
+				<label className="radio" htmlFor={item.type} key={item.type}>
+					<input
+						onChange={handleChange}
+						checked={item.select}
+						type="radio"
+						name={item.parameter}
+						id={item.type}
+					/>
+					<span>{item.content}</span>
+				</label>
+			))
+		);
+	}
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				1. Вид прибирання
 			</h2>
 			<div className="type-cleaning">
-				{type.map((item) => (
-					<label className="radio" htmlFor={item.type} key={item.type}>
-						<input
-							onChange={handleChange}
-							checked={item.select}
-							type="radio"
-							name={item.parameter}
-							id={item.type}
-						/>
-						<span>{item.content}</span>
-					</label>
-				))}
+				{render(type)}
 			</div>
 		</section>
 	)

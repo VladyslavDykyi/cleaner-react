@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import InputMask from 'react-input-mask';
 
-const ContactData = () => {
+const ContactData = ({getData}) => {
 	const [userData, setUserData] = useState({
 		userName: '',
 		userTel: '',
 		userEmail: '',
 		userComment: '',
 	});
+	useEffect(() => {
+		getData(userData);
+	}, [userData]);
+	
 	const handlerChange = (event) => {
 		const {value, name} = event.target;
 		setUserData({

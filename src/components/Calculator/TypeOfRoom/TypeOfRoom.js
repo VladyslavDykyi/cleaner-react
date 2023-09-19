@@ -1,12 +1,13 @@
 import React, {useState,useEffect} from "react";
 
 const TypeOfRoom = (props) => {
-	const [type, setType] = useState([{
-		type: 'apartment',
-		select: false,
-		content: 'Квартира',
-		parameter: 'rooms',
-	},
+	const [type, setType] = useState([
+		{
+			type: 'apartment',
+			select: false,
+			content: 'Квартира',
+			parameter: 'rooms',
+		},
 		{
 			type: 'house',
 			select: false,
@@ -44,24 +45,29 @@ const TypeOfRoom = (props) => {
 		}));
 		setType(updatedType);
 	};
+	const render = (arr) => {
+		return (
+			arr.map((item) => (
+				<label className="radio-text" htmlFor={item.type} key={item.type}>
+					<input
+						onChange={handleChange}
+						checked={item.select}
+						type="radio"
+						name={item.parameter}
+						id={item.type}
+					/>
+					<span>{item.content}</span>
+				</label>
+			))
+		);
+	}
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				3. Тип приміщення
 			</h2>
 			<div className="rooms">
-				{type.map((item) => (
-					<label className="radio-text" htmlFor={item.type} key={item.type}>
-						<input
-							onChange={handleChange}
-							checked={item.select}
-							type="radio"
-							name={item.parameter}
-							id={item.type}
-						/>
-						<span>{item.content}</span>
-					</label>
-				))}
+				{render(type)}
 			</div>
 		</section>
 	);

@@ -7,6 +7,8 @@ import QuantityRooms from "./QuantityRooms";
 import QuantityBathrooms from "./QuantityBathrooms";
 import TotalAreaRoom from "./TotalAreaRoom";
 import ContactData from "./ContactData";
+import AddressData from "./AddressData";
+import DataOfTime from "./DataOfTime";
 
 const Calculator = ({
 	                    typeOfCleaning,
@@ -15,14 +17,19 @@ const Calculator = ({
 	                    quantityOfRooms,
 	                    quantityOfBathroom,
 	                    areaOfRoom,
-}) => {
+	                    formOfContact,
+	                    formOfAddress,
+	                    dataInp,
+						timeInp,
+                    }) => {
 	const [typeCleaning, setTypeCleaning] = useState({});
 	const [quantityCleaner, setQuantityCleaner] = useState({});
 	const [typeRoom, setTypeRoom] = useState({});
 	const [quantityRooms, setQuantityRooms] = useState({});
 	const [quantityBathrooms, setQuantityBathrooms] = useState({});
 	const [areaRoom, setAreaRoom] = useState({});
-	
+	const [time, setTime] = useState({});
+	const [data, setData] = useState('');
 	const handleTypeCleaning = (radioData) => {
 		setTypeCleaning(radioData);
 	};
@@ -41,6 +48,12 @@ const Calculator = ({
 	const handleAreaRoom = (quantity) => {
 		setAreaRoom(quantity);
 	}
+	const handlerTime = (time) => {
+		setTime(time);
+	}
+	const handlerData = (data) => {
+		setData(data);
+	}
 	useEffect(() => {
 		typeOfCleaning(typeCleaning);
 		typeOfRoom(typeRoom);
@@ -48,6 +61,8 @@ const Calculator = ({
 		quantityOfRooms(quantityRooms);
 		quantityOfBathroom(quantityBathrooms);
 		areaOfRoom(areaRoom);
+		dataInp(data);
+		timeInp(time);
 	}, [
 		typeCleaning,
 		typeRoom,
@@ -55,6 +70,8 @@ const Calculator = ({
 		quantityRooms,
 		quantityBathrooms,
 		areaRoom,
+		time,
+		data,
 	]);
 	
 	return (
@@ -65,8 +82,10 @@ const Calculator = ({
 			<QuantityRooms onChange={handleQuantityRooms}/>
 			<QuantityBathrooms onChange={handleQuantityBathrooms}/>
 			<TotalAreaRoom onChange={handleAreaRoom}/>
+			<DataOfTime onChangeTime={handlerTime} onChangeData={handlerData}/>
+			<AddressData getData={formOfAddress}/>
+			<ContactData getData={formOfContact}/>
 			
-			<ContactData/>
 			{/*<section className="calculator-wrapper">*/}
 			{/*	<h2 className="t-s-bold t-4">*/}
 			{/*		7. Додаткові послуги*/}
@@ -697,136 +716,8 @@ const Calculator = ({
 			{/*		</div>*/}
 			{/*	</div>*/}
 			{/*</section>*/}
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		10. Дата та час*/}
-			{/*	</h2>*/}
-			{/*	<div className="calendar-time">*/}
-			{/*		<div className="calendar-pick">*/}
-			{/*		*/}
-			{/*		</div>*/}
-			{/*		<div className="time-pick">*/}
-			{/*			<label className="radio-text" htmlFor="time1">*/}
-			{/*				<input type="radio" name="time" id="time1">*/}
-			{/*					<span>9:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time2">*/}
-			{/*				<input type="radio" name="time" id="time2">*/}
-			{/*					<span>9:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time3">*/}
-			{/*				<input type="radio" name="time" id="time3">*/}
-			{/*					<span>10:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time4">*/}
-			{/*				<input type="radio" name="time" id="time4">*/}
-			{/*					<span>10:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time5">*/}
-			{/*				<input type="radio" name="time" id="time5">*/}
-			{/*					<span>11:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time6">*/}
-			{/*				<input type="radio" name="time" id="time6">*/}
-			{/*					<span>11:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time7">*/}
-			{/*				<input type="radio" name="time" id="time7">*/}
-			{/*					<span>12:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time8">*/}
-			{/*				<input type="radio" name="time" id="time8">*/}
-			{/*					<span>12:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time9">*/}
-			{/*				<input type="radio" name="time" id="time9">*/}
-			{/*					<span>13:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time10">*/}
-			{/*				<input type="radio" name="time" id="time10">*/}
-			{/*					<span>13:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time11">*/}
-			{/*				<input type="radio" name="time" id="time11">*/}
-			{/*					<span>14:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time12">*/}
-			{/*				<input type="radio" name="time" id="time12">*/}
-			{/*					<span>14:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time13">*/}
-			{/*				<input type="radio" name="time" id="time13">*/}
-			{/*					<span>15:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time14">*/}
-			{/*				<input type="radio" name="time" id="time14">*/}
-			{/*					<span>15:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time15">*/}
-			{/*				<input type="radio" name="time" id="time15">*/}
-			{/*					<span>16:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time16">*/}
-			{/*				<input type="radio" name="time" id="time16">*/}
-			{/*					<span>16:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time17">*/}
-			{/*				<input type="radio" name="time" id="time17">*/}
-			{/*					<span>17:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time18">*/}
-			{/*				<input type="radio" name="time" id="time18">*/}
-			{/*					<span>17:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time19">*/}
-			{/*				<input type="radio" name="time" id="time19">*/}
-			{/*					<span>18:00</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time20">*/}
-			{/*				<input type="radio" name="time" id="time20">*/}
-			{/*					<span>18:30</span>*/}
-			{/*			</label>*/}
-			{/*			<label className="radio-text" htmlFor="time21">*/}
-			{/*				<input type="radio" name="time" id="time21">*/}
-			{/*					<span>19:00</span>*/}
-			{/*			</label>*/}
-			{/*		</div>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		11. Вкажіть вашу адресу*/}
-			{/*	</h2>*/}
-			{/*	<div className="address">*/}
-			{/*		<label className="input" htmlFor="street">*/}
-			{/*			<input type="text" name="street" id="street" placeholder="Вулиця" required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="apartmentNo">*/}
-			{/*			<input type="tel" name="apartmentNo" id="apartmentNo" placeholder="№ квартири"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="houseNo">*/}
-			{/*			<input type="email" name="houseNo" id="houseNo" placeholder="№ будинку"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="caseNo">*/}
-			{/*			<input type="text" name="caseNo" id="caseNo" placeholder="№ корпусу" required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="entranceNo">*/}
-			{/*			<input type="tel" name="entranceNo" id="entranceNo" placeholder="№ підʼїзду"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="floorNo">*/}
-			{/*			<input type="email" name="floorNo" id="floorNo" placeholder="№ Поверх" required/>*/}
-			{/*		</label>*/}
-			{/*		<label className="input" htmlFor="intercomCode">*/}
-			{/*			<input type="email" name="intercomCode" id="intercomCode"*/}
-			{/*			       placeholder="Код домофона"*/}
-			{/*			       required/>*/}
-			{/*		</label>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
-			
+		
+		
 		</div>
 	);
 }

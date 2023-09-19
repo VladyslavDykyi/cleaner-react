@@ -6,8 +6,24 @@ const Aside = ({
 	               quantityOfCleaner,
 	               quantityOfRooms,
 	               quantityOfBathroom,
-	               areaOfRoom
+	               areaOfRoom,
+	               data,
+	               time,
                }) => {
+	const renderData = (content) => {
+		return (
+			<span>
+				{content}
+			</span>
+		);
+	}
+	const renderTime = (content) => {
+		return (
+			<span>
+				{content.time}
+			</span>
+		);
+	}
 	const renderElem = ({content}) => {
 		if ( !content) return;
 		return (
@@ -44,15 +60,11 @@ const Aside = ({
 				<h3 className="aside-title t-bold t-5">Ви обрали:</h3>
 				<p className="aside-wrapper">
 					<i className="bi bi-calendar"/>
-					<span>
-						18 травня 2023
-					</span>
+					{renderData(data)}
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-clock"/>
-					<span>
-						10:00
-					</span>
+					{renderTime(time)}
 				</p>
 				<ul className="aside-list">
 					{renderElem(typeOfCleaning)}

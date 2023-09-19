@@ -9,7 +9,20 @@ const App = () => {
 	const [dataQuantityRoom, setDataQuantityRoom] = useState({});
 	const [dataQuantityBathroom, setDataQuantityBathroom] = useState({});
 	const [dataAreaRoom, setDataAreaRoom] = useState({});
-	
+	const [formContact, setFormContact] = useState({});
+	const [formAddress, setFormAddress] = useState({});
+	const [data, seData] = useState('');
+	const [time, setTime] = useState({});
+	const objForm = {
+		...formContact,
+		...formAddress,
+	}
+	const handlerData = (data) => {
+		seData(data);
+	}
+	const handlerTime = (time) => {
+		setTime(time);
+	}
 	const handleTypeCleaning = (typeData) => {
 		setTypeDataCleaning(typeData);
 	};
@@ -28,6 +41,12 @@ const App = () => {
 	const handleAreaRoom = (typeData) => {
 		setDataAreaRoom(typeData);
 	};
+	const handleContact = (...data) => {
+		setFormContact(...data)
+	}
+	const handleAddress = (...data) => {
+		setFormAddress(...data)
+	}
 	return (
 		<div className="container-xxl">
 			<section className="works-reviews">
@@ -42,6 +61,10 @@ const App = () => {
 						quantityOfRooms={handleQuantityRoom}
 						quantityOfBathroom={handleQuantityBathroom}
 						areaOfRoom={handleAreaRoom}
+						formOfContact={handleContact}
+						formOfAddress={handleAddress}
+						dataInp={handlerData}
+						timeInp={handlerTime}
 					/>
 					<Aside
 						typeOfCleaning={typeDataCleaning}
@@ -50,6 +73,8 @@ const App = () => {
 						quantityOfRooms={dataQuantityRoom}
 						quantityOfBathroom={dataQuantityBathroom}
 						areaOfRoom={dataAreaRoom}
+						data={data}
+						time={time}
 					/>
 				</div>
 			</section>
