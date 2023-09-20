@@ -22,67 +22,15 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
-	const [typeCleaning, setTypeCleaning] = useState({});
-	const [quantityCleaner, setQuantityCleaner] = useState({});
-	const [typeRoom, setTypeRoom] = useState({});
-	const [quantityRooms, setQuantityRooms] = useState({});
-	const [quantityBathrooms, setQuantityBathrooms] = useState({});
-	const [areaRoom, setAreaRoom] = useState({});
-	const [time, setTime] = useState({});
-	const [data, setData] = useState('');
-	const handleTypeCleaning = (radioData) => {
-		setTypeCleaning(radioData);
-	};
-	const handlerQuantityCleaner = (quantity) => {
-		setQuantityCleaner(quantity);
-	}
-	const handleTypeRoom = (radioData) => {
-		setTypeRoom(radioData);
-	};
-	const handleQuantityRooms = (quantity) => {
-		setQuantityRooms(quantity);
-	}
-	const handleQuantityBathrooms = (quantity) => {
-		setQuantityBathrooms(quantity);
-	}
-	const handleAreaRoom = (quantity) => {
-		setAreaRoom(quantity);
-	}
-	const handlerTime = (time) => {
-		setTime(time);
-	}
-	const handlerData = (data) => {
-		setData(data);
-	}
-	useEffect(() => {
-		typeOfCleaning(typeCleaning);
-		typeOfRoom(typeRoom);
-		quantityOfCleaner(quantityCleaner);
-		quantityOfRooms(quantityRooms);
-		quantityOfBathroom(quantityBathrooms);
-		areaOfRoom(areaRoom);
-		dataInp(data);
-		timeInp(time);
-	}, [
-		typeCleaning,
-		typeRoom,
-		quantityCleaner,
-		quantityRooms,
-		quantityBathrooms,
-		areaRoom,
-		time,
-		data,
-	]);
-	
 	return (
 		<div className="col-md-9 calculator">
-			<TypeOfCleaning onChange={handleTypeCleaning}/>
-			<AddCleaners onClick={handlerQuantityCleaner}/>
-			<TypeOfRoom onChange={handleTypeRoom}/>
-			<QuantityRooms onChange={handleQuantityRooms}/>
-			<QuantityBathrooms onChange={handleQuantityBathrooms}/>
-			<TotalAreaRoom onChange={handleAreaRoom}/>
-			<DataOfTime onChangeTime={handlerTime} onChangeData={handlerData}/>
+			<TypeOfCleaning onChange={typeOfCleaning}/>
+			<AddCleaners onClick={quantityOfCleaner}/>
+			<TypeOfRoom onChange={typeOfRoom}/>
+			<QuantityRooms onChange={quantityOfRooms}/>
+			<QuantityBathrooms onChange={quantityOfBathroom}/>
+			<TotalAreaRoom onChange={areaOfRoom}/>
+			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
 			<AddressData getData={formOfAddress}/>
 			<ContactData getData={formOfContact}/>
 			

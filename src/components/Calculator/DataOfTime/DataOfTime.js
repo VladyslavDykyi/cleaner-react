@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-
-
-
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterLuxon} from '@mui/x-date-pickers/AdapterLuxon';
 import {DateCalendar} from '@mui/x-date-pickers/DateCalendar';
 import {DateTime, Settings} from 'luxon';
+
+import './DataOfTime.css';
 
 Settings.defaultLocale = 'uk';
 
@@ -174,6 +174,65 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 			))
 		);
 	}
+	const theme = createTheme({
+		components: {
+			MuiDateCalendar: {
+				styleOverrides: {
+					root: {
+						width: '100%',
+						height: '100%',
+						maxHeight: '100%',
+					},
+				},
+			},
+			MuiDayCalendar: {
+				styleOverrides: {
+					header: {},
+					weekDayLabel: {
+						width: '64px',
+						height: '64px',
+						fontSize: '16px',
+						color: '#83b100',
+						fontWeight: '700',
+						fontFamily: 'Mulish',
+					},
+					slideTransition: {
+						overflowX: 'visible',
+					},
+				},
+			},
+			MuiPickersDay: {
+				styleOverrides: {
+					root: {
+						width: '64px',
+						height: '64px',
+						fontSize: '16px',
+						color: '#454545',
+						fontWeight: '500',
+						borderRadius: '16px',
+						border: '1px solid #83b100',
+					},
+				},
+			},
+			MuiPickersCalendarHeader: {
+				styleOverrides: {
+					labelContainer: {
+						fontSize: '22px',
+						color: '#454545',
+						fontWeight: '500',
+						cursor: 'auto',
+					},
+				},
+			},
+			MuiSvgIcon: {
+				styleOverrides: {
+					root: {
+						fill: '#83b100',
+					},
+				}
+			}
+		},
+	});
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
@@ -182,7 +241,9 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 			<div className="calendar-time">
 				<div className="calendar-pick">
 					<LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale='uk'>
-						<DateCalendar onChange={handlerCheckData} />
+						<ThemeProvider theme={theme}>
+							<DateCalendar onChange={handlerCheckData} views={['day']}/>
+						</ThemeProvider>
 					</LocalizationProvider>
 				</div>
 				<div className="time-pick">

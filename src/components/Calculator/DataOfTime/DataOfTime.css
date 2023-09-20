@@ -1,0 +1,23 @@
+.calendar-time {
+	align-items: stretch;
+}
+.calendar-pick {
+	align-self: stretch;
+}
+.time-pick {
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+[aria-current="date"] {
+	border-width: 5px !important;
+	border-color: #83b100 !important;
+}
+.Mui-selected {
+	background-color: #83b100 !important;
+}
+@media screen and (max-width: 1024px) {
+	.calendar-pick {
+		height: 500px;
+		flex: none;
+	}
+}
