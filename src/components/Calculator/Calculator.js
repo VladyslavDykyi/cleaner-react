@@ -9,6 +9,7 @@ import TotalAreaRoom from "./TotalAreaRoom";
 import ContactData from "./ContactData";
 import AddressData from "./AddressData";
 import DataOfTime from "./DataOfTime";
+import LaundryServices from "./LaundryServices";
 
 const Calculator = ({
 	                    typeOfCleaning,
@@ -30,6 +31,7 @@ const Calculator = ({
 			<QuantityRooms onChange={quantityOfRooms}/>
 			<QuantityBathrooms onChange={quantityOfBathroom}/>
 			<TotalAreaRoom onChange={areaOfRoom}/>
+			<LaundryServices/>
 			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
 			<AddressData getData={formOfAddress}/>
 			<ContactData getData={formOfContact}/>
@@ -532,138 +534,7 @@ const Calculator = ({
 			{/*		</div>*/}
 			{/*	</div>*/}
 			{/*</section>*/}
-			{/*<section className="calculator-wrapper">*/}
-			{/*	<h2 className="t-s-bold t-4">*/}
-			{/*		9. Послуги з прання білизни*/}
-			{/*	</h2>*/}
-			{/*	<div className="additional-services widthX2">*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="bedLinenTowels" id="bedLinenTowels">*/}
-			{/*				<label className="services" htmlFor="bedLinenTowels">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source srcSet="./img/additional-services/bed-linen-towels.svg"*/}
-			{/*				                 type="image/webp"><img src="./img/additional-services/bed-linen-towels.svg"*/}
-			{/*				                                        alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span className="services-title t-s-bold t-8">Постільна білизна, рушники</span>*/}
-			{/*					<span className="services-text t-bold t-4">75 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input" htmlFor="bedLinenTowelsInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number" name="bedLinenTowelsInput"*/}
-			{/*						       id="bedLinenTowelsInput"*/}
-			{/*						       placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="clothes" id="clothes">*/}
-			{/*				<label className="services" htmlFor="clothes">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source srcSet="./img/additional-services/clothes.svg" type="image/webp"><img*/}
-			{/*					src="./img/additional-services/clothes.svg" alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span className="services-title t-s-bold t-8">Одяг - футболки, сорочки, джинси, реглани, махрові халати</span>*/}
-			{/*					<span className="services-text t-bold t-4">70 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input" htmlFor="clothesInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number" name="clothesInput" id="clothesInput"*/}
-			{/*						       placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="curtainsWithoutIroning"*/}
-			{/*			       id="curtainsWithoutIroning">*/}
-			{/*				<label className="services" htmlFor="curtainsWithoutIroning">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source srcSet="./img/additional-services/curtains-without-ironing.svg"*/}
-			{/*				                 type="image/webp"><img*/}
-			{/*					src="./img/additional-services/curtains-without-ironing.svg" alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span className="services-title t-s-bold t-8">Штори, гардини (без прасування)</span>*/}
-			{/*					<span className="services-text t-bold t-4">150 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input" htmlFor="curtainsWithoutIroningInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number" name="curtainsWithoutIroningInput"*/}
-			{/*						       id="curtainsWithoutIroningInput" placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="blanketBlanketBedspread"*/}
-			{/*			       id="blanketBlanketBedspread">*/}
-			{/*				<label className="services" htmlFor="blanketBlanketBedspread">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source srcSet="./img/additional-services/blanket-blanket-bedspread.svg"*/}
-			{/*				                 type="image/webp"><img*/}
-			{/*					src="./img/additional-services/blanket-blanket-bedspread.svg" alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span className="services-title t-s-bold t-8">Ковдра, плед, покривало</span>*/}
-			{/*					<span className="services-text t-bold t-4">350 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input"*/}
-			{/*					       htmlFor="blanketBlanketBedspreadInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number" name="blanketBlanketBedspreadInput"*/}
-			{/*						       id="blanketBlanketBedspreadInput" placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="blanketBlanketBedspreadNaturalWoolFluff"*/}
-			{/*			       id="blanketBlanketBedspreadNaturalWoolFluff">*/}
-			{/*				<label className="services"*/}
-			{/*				       htmlFor="blanketBlanketBedspreadNaturalWoolFluff">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source*/}
-			{/*					srcSet="./img/additional-services/blanket-blanket-bedspread-natural-wool-fluff.svg"*/}
-			{/*					type="image/webp"><img*/}
-			{/*					src="./img/additional-services/blanket-blanket-bedspread-natural-wool-fluff.svg" alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span*/}
-			{/*						className="services-title t-s-bold t-8">Ковдра, плед, покривало (натур. вовна, пух)</span>*/}
-			{/*					<span className="services-text t-bold t-4">450 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input"*/}
-			{/*					       htmlFor="blanketBlanketBedspreadNaturalWoolFluffInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number"*/}
-			{/*						       name="blanketBlanketBedspreadNaturalWoolFluffInput"*/}
-			{/*						       id="blanketBlanketBedspreadNaturalWoolFluffInput"*/}
-			{/*						       placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*		<div className="additional-services-item">*/}
-			{/*			<input type="checkbox" name="laundryDelivery" id="laundryDelivery">*/}
-			{/*				<label className="services" htmlFor="laundryDelivery">*/}
-			{/*			<span className="services-card">*/}
-			{/*				<picture><source srcSet="./img/additional-services/laundry-delivery.svg"*/}
-			{/*				                 type="image/webp"><img src="./img/additional-services/laundry-delivery.svg"*/}
-			{/*				                                        alt=""></picture>*/}
-			{/*				<span className="services-wrapper">*/}
-			{/*					<span className="services-title t-s-bold t-8">Доставка білизни</span>*/}
-			{/*					<span className="services-text t-bold t-4">250 грн / кг</span>*/}
-			{/*				</span>*/}
-			{/*			</span>*/}
-			{/*					<label className="services-input" htmlFor="laundryDeliveryInput">*/}
-			{/*						<span className="t-8">Вкажіть вагу у кг:</span>*/}
-			{/*						<input type="number" name="laundryDeliveryInput"*/}
-			{/*						       id="laundryDeliveryInput"*/}
-			{/*						       placeholder="5 кг">*/}
-			{/*					</label>*/}
-			{/*				</label>*/}
-			{/*		</div>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
+			
 		
 		
 		</div>
