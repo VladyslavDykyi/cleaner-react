@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, memo, useMemo} from "react";
 
 const QuantityBathrooms = ({onChange}) => {
 	
@@ -7,7 +7,7 @@ const QuantityBathrooms = ({onChange}) => {
 		selectId: '',
 		parameter: 'numberBathRooms',
 	});
-	
+	console.log('eeqweq');
 	useEffect(() => {
 		onChange({
 			'quantityRooms': quantityRooms.selectId
@@ -80,4 +80,4 @@ const QuantityBathrooms = ({onChange}) => {
 		</section>
 	)
 }
-export default QuantityBathrooms;
+export default memo(QuantityBathrooms);

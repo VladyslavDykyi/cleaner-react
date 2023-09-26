@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,memo} from 'react';
 
 const AddressData = ({getData}) => {
 	const [addressData, setAddressData] = useState({
@@ -74,4 +74,4 @@ const AddressData = ({getData}) => {
 		</section>
 	);
 }
-export default AddressData;
+export default memo(AddressData);

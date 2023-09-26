@@ -10,6 +10,7 @@ const Aside = ({
 	               data,
 	               time,
                }) => {
+	console.log(areaOfRoom)
 	const renderData = (content) => {
 		return (
 			<span>

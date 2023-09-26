@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,memo} from 'react';
 import InputMask from 'react-input-mask';
 
 const ContactData = ({getData}) => {
@@ -51,4 +51,4 @@ const ContactData = ({getData}) => {
 		</section>
 	);
 }
-export default ContactData;
+export default memo(ContactData);

@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect,memo} from "react";
 import Slider from '@mui/material/Slider';
 import './TotalAreaRoom.css';
 const TotalAreaRoom = ({onChange}) => {
@@ -67,4 +67,4 @@ const TotalAreaRoom = ({onChange}) => {
 		</section>
 	)
 }
-export default TotalAreaRoom;
+export default memo(TotalAreaRoom);

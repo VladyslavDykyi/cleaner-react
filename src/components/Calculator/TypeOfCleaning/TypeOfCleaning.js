@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 
 const TypeOfCleaning = (props) => {
 	const [type, setType] = useState([
@@ -84,4 +84,4 @@ const TypeOfCleaning = (props) => {
 		</section>
 	)
 }
-export default TypeOfCleaning;
+export default memo(TypeOfCleaning);

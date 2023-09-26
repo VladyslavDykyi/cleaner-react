@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect, memo} from "react";
 
 const TypeOfRoom = (props) => {
 	const [type, setType] = useState([
@@ -72,4 +72,4 @@ const TypeOfRoom = (props) => {
 		</section>
 	);
 }
-export default TypeOfRoom;
+export default memo(TypeOfRoom);

@@ -1,10 +1,9 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, memo} from "react";
 
 const AddCleaners = ({onClick}) => {
 	const [quantityCleaner, setQuantityCleaner] = useState({
 		type: "countCleaner",
 		quantity: 1,
-		content: "Додати клінерів",
 	});
 	
 	useEffect(()=> {
@@ -33,7 +32,7 @@ const AddCleaners = ({onClick}) => {
 			</h2>
 			<div className="counter-wrapper">
 				<p className="t-s-bold">
-					{quantityCleaner.content}
+					Додати клінерів
 				</p>
 				<div className="counter">
 					<button onClick={subtractCountCleaner} className="back" type="button">
@@ -51,4 +50,4 @@ const AddCleaners = ({onClick}) => {
 		</section>
 	)
 }
-export default AddCleaners;
+export default memo(AddCleaners);

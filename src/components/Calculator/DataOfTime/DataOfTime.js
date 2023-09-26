@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,memo} from 'react';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterLuxon} from '@mui/x-date-pickers/AdapterLuxon';
@@ -254,4 +254,4 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 	);
 }
 
-export default DataOfTime;
+export default memo(DataOfTime);

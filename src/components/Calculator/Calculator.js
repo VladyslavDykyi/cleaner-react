@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,memo,useMemo} from 'react';
+
+
 
 import TypeOfCleaning from "./TypeOfCleaning";
 import TypeOfRoom from "./TypeOfRoom";
@@ -23,19 +25,26 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
+	
+	const memoizedCalculator = useMemo(() => {
+		return (
+			<>
+				<TypeOfCleaning onChange={typeOfCleaning}/>
+				<AddCleaners onClick={quantityOfCleaner}/>
+				<TypeOfRoom onChange={typeOfRoom}/>
+				<QuantityRooms onChange={quantityOfRooms} />
+				<QuantityBathrooms onChange={quantityOfBathroom}/>
+				<TotalAreaRoom onChange={areaOfRoom}/>
+				<LaundryServices />
+				<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
+				<AddressData getData={formOfAddress}/>
+				<ContactData getData={formOfContact}/>
+			</>
+		);
+	}, []);
 	return (
 		<div className="col-md-9 calculator">
-			<TypeOfCleaning onChange={typeOfCleaning}/>
-			<AddCleaners onClick={quantityOfCleaner}/>
-			<TypeOfRoom onChange={typeOfRoom}/>
-			<QuantityRooms onChange={quantityOfRooms}/>
-			<QuantityBathrooms onChange={quantityOfBathroom}/>
-			<TotalAreaRoom onChange={areaOfRoom}/>
-			<LaundryServices/>
-			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
-			<AddressData getData={formOfAddress}/>
-			<ContactData getData={formOfContact}/>
-			
+			{memoizedCalculator}
 			{/*<section className="calculator-wrapper">*/}
 			{/*	<h2 className="t-s-bold t-4">*/}
 			{/*		7. Додаткові послуги*/}
@@ -534,9 +543,6 @@ const Calculator = ({
 			{/*		</div>*/}
 			{/*	</div>*/}
 			{/*</section>*/}
-			
-		
-		
 		</div>
 	);
 }

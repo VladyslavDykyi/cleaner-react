@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState,memo,useMemo} from "react";
 
 const QuantityRooms = ({onChange}) => {
 	
@@ -44,21 +44,20 @@ const QuantityRooms = ({onChange}) => {
 	};
 	
 	const renderElem = (obj) => {
-		const elems = [];
-		for (let i = 1; i <= obj.maxQuantityElem; i++) {
-			elems.push(<label className="radio-text" htmlFor={obj.parameter + i} key={obj.parameter + i}>
-				<input type="radio"
-				       name={obj.parameter}
-				       id={obj.parameter + i}
-				       checked={obj.selectId === i}
-				       onChange={handlerChange}
-				/>
-				<span>{i}</span>
-			</label>);
-		}
-		return elems;
+			const elems = [];
+			for (let i = 1; i <= obj.maxQuantityElem; i++) {
+				elems.push(<label className="radio-text" htmlFor={obj.parameter + i} key={obj.parameter + i}>
+					<input type="radio"
+					       name={obj.parameter}
+					       id={obj.parameter + i}
+					       checked={obj.selectId === i}
+					       onChange={handlerChange}
+					/>
+					<span>{i}</span>
+				</label>);
+			}
+			return elems;
 	}
-	
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
@@ -79,5 +78,5 @@ const QuantityRooms = ({onChange}) => {
 			</div>
 		</section>
 	)
-}
-export default QuantityRooms;
+};
+export default memo(QuantityRooms);
