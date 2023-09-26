@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
+import Services from "../../services/services";
+
 import TypeOfCleaning from "./TypeOfCleaning";
 import TypeOfRoom from "./TypeOfRoom";
 import AddCleaners from "./AddCleaners";
@@ -23,6 +25,26 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
+	const servicesLaundry = new Services;
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [data, setData] = useState(null);
+	useEffect(() => {
+		// getData();
+	}, []);
+	const onLoad = (data) => {
+		setData(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = (err)=> {
+		setError(true);
+	}
+	const getData = () => {
+		servicesLaundry.getLaundryServicesAll()
+			.then(onLoad)
+			.catch(onError);
+	}
 	return (
 		<div className="col-md-9 calculator">
 			<TypeOfCleaning onChange={typeOfCleaning}/>
@@ -31,7 +53,7 @@ const Calculator = ({
 			<QuantityRooms onChange={quantityOfRooms}/>
 			<QuantityBathrooms onChange={quantityOfBathroom}/>
 			<TotalAreaRoom onChange={areaOfRoom}/>
-			<LaundryServices/>
+			<LaundryServices data={data} error={error} errorMessage={errorMessage}/>
 			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
 			<AddressData getData={formOfAddress}/>
 			<ContactData getData={formOfContact}/>

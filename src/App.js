@@ -1,8 +1,9 @@
-import React,{useState} from "react";
+import {useState} from "react";
 import Aside from "./components/Aside";
 import Calculator from "./components/Calculator";
 
 const App = () => {
+	console.log('2');
 	const [typeDataCleaning, setTypeDataCleaning] = useState({});
 	const [dataQuantityCleaner, setDataQuantityCleaner] = useState({});
 	const [typeDataRoom, setTypeDataRoom] = useState({});
@@ -17,6 +18,7 @@ const App = () => {
 		...formContact,
 		...formAddress,
 	}
+	// console.log(data);
 	const handlerData = (data) => {
 		seData(data);
 	}
@@ -42,10 +44,10 @@ const App = () => {
 		setDataAreaRoom(typeData);
 	};
 	const handleContact = (...data) => {
-		setFormContact(...data)
+		setFormContact(...data);
 	}
 	const handleAddress = (...data) => {
-		setFormAddress(...data)
+		setFormAddress(...data);
 	}
 	return (
 		<div className="container-xxl">
