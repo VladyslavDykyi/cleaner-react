@@ -1,4 +1,4 @@
-import React, {useEffect, useState,memo,useMemo} from 'react';
+import React, {memo,useMemo} from 'react';
 
 
 
@@ -546,4 +546,4 @@ const Calculator = ({
 		</div>
 	);
 }
-export default Calculator;
+export default memo(Calculator);

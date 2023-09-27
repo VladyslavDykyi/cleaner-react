@@ -1,4 +1,4 @@
-import React, {useEffect, useState,memo,useMemo} from "react";
+import React, {useEffect, useState,memo} from "react";
 
 const QuantityRooms = ({onChange}) => {
 	
