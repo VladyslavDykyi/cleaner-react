@@ -1,4 +1,4 @@
-import React, {useEffect, useState,memo} from "react";
+import React, {useEffect, useState, memo, useCallback, useMemo} from "react";
 
 const QuantityRooms = ({onChange}) => {
 	
@@ -9,19 +9,21 @@ const QuantityRooms = ({onChange}) => {
 	});
 	
 	useEffect(() => {
-		onChange({
-			'quantityRooms': quantityRooms.selectId
-		})
+		(() => {
+			onChange({
+				'quantityRooms': quantityRooms.selectId
+			})
+		})();
 	}, [quantityRooms]);
 	
-	const handlerChange = (event) => {
+	const handlerChange = useCallback((event) => {
 		const selectQuantity = Number(event.target.nextElementSibling.textContent);
 		setQuantityRooms({
 			...quantityRooms,
 			selectId: selectQuantity,
 		});
-	}
-	const handlerChangeInput = (event) => {
+	});
+	const handlerChangeInput = useCallback((event) => {
 		const selectQuantity = Number(event.target.value);
 		
 		setQuantityRooms({
@@ -34,37 +36,40 @@ const QuantityRooms = ({onChange}) => {
 				selectId: '',
 			});
 		}
-	};
+	});
 	
-	const handlerKeyPress = (event) => {
+	const handlerKeyPress = useCallback((event) => {
 		const invalidCharacters = ['e', '+', '-'];
 		if (invalidCharacters.includes(event.key)) {
 			event.preventDefault();
 		}
-	};
-	
-	const renderElem = (obj) => {
-			const elems = [];
-			for (let i = 1; i <= obj.maxQuantityElem; i++) {
-				elems.push(<label className="radio-text" htmlFor={obj.parameter + i} key={obj.parameter + i}>
-					<input type="radio"
-					       name={obj.parameter}
-					       id={obj.parameter + i}
-					       checked={obj.selectId === i}
-					       onChange={handlerChange}
-					/>
-					<span>{i}</span>
-				</label>);
-			}
-			return elems;
+	});
+	const render = (obj) => {
+		const elems = [];
+		for (let i = 1; i <= obj.maxQuantityElem; i++) {
+			elems.push(<label className="radio-text" htmlFor={obj.parameter + i} key={obj.parameter + i}>
+				<input type="radio"
+				       name={obj.parameter}
+				       id={obj.parameter + i}
+				       checked={obj.selectId === i}
+				       onChange={handlerChange}
+				/>
+				<span>{i}</span>
+			</label>);
+		}
+		return elems;
 	}
+	const renderedServices = useMemo(() => {
+		if (quantityRooms === null) return null;
+		return render(quantityRooms);
+	}, [quantityRooms]);
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				4. Кількість кімнат
 			</h2>
 			<div className="numberRooms">
-				{renderElem(quantityRooms)}
+				{renderedServices}
 				<label className="input" htmlFor="numberRoomsInput">
 					<input type="number"
 					       name="numberRoomsInput"

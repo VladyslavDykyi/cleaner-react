@@ -1,6 +1,7 @@
-import React,{useState, useEffect,memo} from "react";
+import React, {useState, useEffect, memo, useCallback} from "react";
 import Slider from '@mui/material/Slider';
 import './TotalAreaRoom.css';
+
 const TotalAreaRoom = ({onChange}) => {
 	const [areaRoom, setAreaRoom] = useState({
 		min: 0,
@@ -8,35 +9,33 @@ const TotalAreaRoom = ({onChange}) => {
 		value: 0,
 	});
 	useEffect(() => {
-		onChange({
-			'areaRoom': areaRoom.value
-		})
+		(() => {
+			onChange({
+				'areaRoom': areaRoom.value
+			})
+		})();
 	}, [areaRoom]);
-	const handleChange = (event, newValue) => {
+	const handleChange = useCallback((event, newValue) => {
 		setAreaRoom({
 			...areaRoom,
 			value: newValue,
 		});
-	};
-	const handlerChangeInput = (event) => {
+	});
+	const handlerChangeInput = useCallback((event) => {
 		const newValue = Number(event.target.value);
-		setAreaRoom({
-			...areaRoom,
-			value: newValue,
-		});
-		if (newValue === areaRoom.min) {
+		if (newValue !== areaRoom.value) {
 			setAreaRoom({
 				...areaRoom,
-				value: 0,
+				value: newValue,
 			});
 		}
-	};
-	const handlerKeyPress = (event) => {
+	}, [areaRoom]);
+	const handlerKeyPress = useCallback((event) => {
 		const invalidCharacters = ['e', '+', '-'];
 		if (invalidCharacters.includes(event.key)) {
 			event.preventDefault();
 		}
-	};
+	});
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">

@@ -1,12 +1,13 @@
-import {useState, useMemo,memo} from "react";
+import {useState, useMemo, memo} from "react";
 import WrapperCalculator from "./components/WrapperCalculator";
 
 const App = () => {
 	const memoizedWrapperCalculator = useMemo(() => {
 		return (
-			<WrapperCalculator />
+			<WrapperCalculator/>
 		);
 	}, []);
+	console.log('2')
 	return (
 		<div className="container-xxl">
 			<section className="works-reviews">

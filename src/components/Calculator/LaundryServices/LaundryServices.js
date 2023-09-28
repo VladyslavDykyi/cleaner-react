@@ -1,10 +1,10 @@
-import {useState,useEffect,memo} from "react";
+import {useState, useEffect, useMemo, useCallback, memo} from "react";
 import Services from "../../../services/services";
 
 const LaundryServices = () => {
 	const servicesLaundry = new Services;
 	
-	const [laundryServices,setLaundryServices] = useState(null);
+	const [laundryServices, setLaundryServices] = useState(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	
@@ -16,7 +16,7 @@ const LaundryServices = () => {
 		setError(false);
 		setErrorMessage('Виникла помилка при завантаженні.');
 	}
-	const onError = ()=> {
+	const onError = () => {
 		setError(true);
 	}
 	const getData = () => {
@@ -24,7 +24,7 @@ const LaundryServices = () => {
 			.then(onLoad)
 			.catch(onError);
 	}
-	const handlerChecked = ( id) => {
+	const handlerChecked = useCallback((id) => {
 		const updatedLaundryServices = [...laundryServices];
 		const serviceIndex = updatedLaundryServices.findIndex(
 			(service) => service.id === id
@@ -36,9 +36,10 @@ const LaundryServices = () => {
 				].select;
 			setLaundryServices(updatedLaundryServices);
 		}
-	}
+	})
+	console.log('4')
 	const render = (arr) => {
-		if(arr === null) return;
+		if (arr === null) return;
 		return (
 			arr.map(item => (
 				<div className="additional-services-item" key={item.id}>
@@ -48,23 +49,29 @@ const LaundryServices = () => {
 					<label className="services" htmlFor={item.name}>
 						<span className="services-card">
 							<picture>
-								<source srcSet={'./img/additional-services/'+item.svg} type="image/webp"/>
-								<img src={'./img/additional-services/'+item.svg} alt=""/>
+								<source srcSet={'./img/additional-services/' + item.svg} type="image/webp"/>
+								<img src={'./img/additional-services/' + item.svg} alt=""/>
 							</picture>
 							<span className="services-wrapper">
 								<span className="services-title t-s-bold t-8">{item.text}</span>
-								<span className="services-text t-bold t-4">{item.price + item.currency} / {item.measurement}</span>
+								<span
+									className="services-text t-bold t-4">{item.price + item.currency} / {item.measurement}</span>
 							</span>
 						</span>
 						<label className="services-input" htmlFor={item.name + 'Input'}>
 							<span className="t-8">Вкажіть вагу у {item.measurement}:</span>
-							<input type="number" name={item.name + 'Input'} id={item.name + 'Input'} placeholder={"5 "+item.measurement}/>
+							<input type="number" name={item.name + 'Input'} id={item.name + 'Input'}
+							       placeholder={"5 " + item.measurement}/>
 						</label>
 					</label>
 				</div>
 			))
 		)
 	}
+	const renderedServices = useMemo(() => {
+		if (laundryServices === null) return null;
+		return render(laundryServices);
+	}, [laundryServices]);
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
@@ -72,9 +79,9 @@ const LaundryServices = () => {
 			</h2>
 			<div className="additional-services widthX2">
 				{error && <p>{errorMessage}</p>}
-				{render(laundryServices)}
+				{renderedServices}
 			</div>
 		</section>
-);
+	);
 }
 export default memo(LaundryServices);

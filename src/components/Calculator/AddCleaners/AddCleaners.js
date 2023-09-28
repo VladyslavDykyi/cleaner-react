@@ -1,4 +1,4 @@
-import React,{useState, useEffect, memo} from "react";
+import React, {useState, useEffect, memo, useCallback} from "react";
 
 const AddCleaners = ({onClick}) => {
 	const [quantityCleaner, setQuantityCleaner] = useState({
@@ -6,25 +6,27 @@ const AddCleaners = ({onClick}) => {
 		quantity: 1,
 	});
 	
-	useEffect(()=> {
-		onClick(quantityCleaner);
-	},[quantityCleaner]);
+	useEffect(() => {
+		(() => {
+			onClick(quantityCleaner);
+		})();
+	}, [quantityCleaner]);
 	
-	const addCountCleaner = () => {
+	const addCountCleaner = useCallback(() => {
 		setQuantityCleaner((prevState) => ({
 			...prevState,
 			quantity: prevState.quantity + 1,
 		}));
-	};
+	});
 	
-	const subtractCountCleaner = () => {
+	const subtractCountCleaner = useCallback(() => {
 		if (quantityCleaner.quantity > 1) {
 			setQuantityCleaner((prevState) => ({
 				...prevState,
 				quantity: prevState.quantity - 1,
 			}));
 		}
-	};
+	});
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
@@ -39,7 +41,8 @@ const AddCleaners = ({onClick}) => {
 						<i className="bi bi-dash-lg"/>
 					</button>
 					<label htmlFor={quantityCleaner.type}>
-						<input type="number" name={quantityCleaner.type} id={quantityCleaner.type} value={quantityCleaner.quantity}
+						<input type="number" name={quantityCleaner.type} id={quantityCleaner.type}
+						       value={quantityCleaner.quantity}
 						       disabled/>
 					</label>
 					<button onClick={addCountCleaner} className="next" type="button">

@@ -1,4 +1,4 @@
-import React from "react";
+import {memo} from "react";
 
 const Aside = ({
 	               typeOfRoom,
@@ -10,7 +10,7 @@ const Aside = ({
 	               data,
 	               time,
                }) => {
-	console.log(areaOfRoom)
+	console.log('3.2');
 	const renderData = (content) => {
 		return (
 			<span>
@@ -152,4 +152,4 @@ Aside.defaultProps = {
 	quantityOfCleaner: 1,
 	quantityOfRooms: null,
 }
-export default Aside;
+export default memo(Aside);

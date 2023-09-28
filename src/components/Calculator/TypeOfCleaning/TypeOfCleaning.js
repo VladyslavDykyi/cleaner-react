@@ -1,4 +1,4 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, useState, memo, useCallback, useMemo} from 'react';
 
 const TypeOfCleaning = (props) => {
 	const [type, setType] = useState([
@@ -41,22 +41,24 @@ const TypeOfCleaning = (props) => {
 	]);
 	
 	useEffect(() => {
-		const updatedType = [...type];
-		for (const item of updatedType) {
-			if (item.select) {
-				props.onChange(item);
+		(() => {
+			const updatedType = [...type];
+			for (const item of updatedType) {
+				if (item.select) {
+					props.onChange(item);
+				}
 			}
-		}
+		})();
 	}, [type]);
 	
-	const handleChange = (event) => {
+	const handleChange = useCallback((event) => {
 		const selectedType = event.target.id;
 		const updatedType = type.map((item) => ({
 			...item,
 			select: item.type === selectedType,
 		}));
 		setType(updatedType);
-	};
+	});
 	const render = (arr) => {
 		return (
 			arr.map((item) => (
@@ -73,13 +75,17 @@ const TypeOfCleaning = (props) => {
 			))
 		);
 	}
+	const renderedServices = useMemo(() => {
+		if (type === null) return null;
+		return render(type);
+	}, [type]);
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				1. Вид прибирання
 			</h2>
 			<div className="type-cleaning">
-				{render(type)}
+				{renderedServices}
 			</div>
 		</section>
 	)

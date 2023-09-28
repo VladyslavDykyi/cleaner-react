@@ -1,4 +1,4 @@
-import {useMemo, useState,memo} from "react";
+import {useMemo, useState, memo} from "react";
 import Calculator from "../Calculator";
 import Aside from "../Aside";
 
@@ -17,6 +17,8 @@ const WrapperCalculator = () => {
 		...formContact,
 		...formAddress,
 	}
+	console.log('3');
+	
 	return (
 		<>
 			<Calculator

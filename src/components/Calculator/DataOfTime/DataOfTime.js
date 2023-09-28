@@ -1,4 +1,4 @@
-import React, {useEffect, useState,memo} from 'react';
+import {useEffect, useState, memo, useMemo, useCallback} from 'react';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterLuxon} from '@mui/x-date-pickers/AdapterLuxon';
@@ -138,32 +138,34 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 			select: false,
 		}
 	]);
-	const [data, setData] = React.useState(DateTime.now().toISODate());
+	const [data, setData] = useState(DateTime.now().toISODate());
 	useEffect(() => {
-		const updatedTime = [...time];
-		for (const item of updatedTime) {
-			if (item.select) {
-				onChangeTime(item);
+		(() => {
+			const updatedTime = [...time];
+			for (const item of updatedTime) {
+				if (item.select) {
+					onChangeTime(item);
+				}
 			}
-		}
-		onChangeData(
-			DateTime.fromISO(data)
-				.toLocaleString({
-						day: 'numeric',
-						month: 'long',
-						year: 'numeric'
-					}
-				));
+			onChangeData(
+				DateTime.fromISO(data)
+					.toLocaleString({
+							day: 'numeric',
+							month: 'long',
+							year: 'numeric'
+						}
+					));
+		})();
 	}, [time, data]);
-	const handlerCheckData = (newValue) => setData(newValue);
-	const handlerCheck = (event) => {
+	const handlerCheckData = useCallback((newValue) => setData(newValue));
+	const handlerCheck = useCallback((event) => {
 		const selectedTime = event.target.nextElementSibling.textContent;
 		const updatedTime = time.map((item) => ({
 			...item,
 			select: item.time === selectedTime,
 		}));
 		setTime(updatedTime);
-	}
+	})
 	const render = (arr) => {
 		return (
 			arr.map(item => (
@@ -174,6 +176,10 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 			))
 		);
 	}
+	const renderedServices = useMemo(() => {
+		if (time === null) return null;
+		return render(time);
+	}, [time]);
 	const theme = createTheme({
 		components: {
 			MuiDateCalendar: {
@@ -247,7 +253,7 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 					</LocalizationProvider>
 				</div>
 				<div className="time-pick">
-					{render(time)}
+					{renderedServices}
 				</div>
 			</div>
 		</section>

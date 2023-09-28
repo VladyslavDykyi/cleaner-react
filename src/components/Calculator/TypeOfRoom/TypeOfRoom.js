@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from "react";
+import React, {useState, useEffect, memo, useCallback, useMemo} from "react";
 
 const TypeOfRoom = (props) => {
 	const [type, setType] = useState([
@@ -29,22 +29,24 @@ const TypeOfRoom = (props) => {
 	]);
 	
 	useEffect(() => {
-		const updatedType = [...type];
-		for (const item of updatedType) {
-			if (item.select) {
-				props.onChange(item);
+		(() => {
+			const updatedType = [...type];
+			for (const item of updatedType) {
+				if (item.select) {
+					props.onChange(item);
+				}
 			}
-		}
+		})();
 	}, [type]);
 	
-	const handleChange = (event) => {
+	const handleChange = useCallback((event) => {
 		const selectedType = event.target.id;
 		const updatedType = type.map((item) => ({
 			...item,
 			select: item.type === selectedType,
 		}));
 		setType(updatedType);
-	};
+	});
 	const render = (arr) => {
 		return (
 			arr.map((item) => (
@@ -61,13 +63,17 @@ const TypeOfRoom = (props) => {
 			))
 		);
 	}
+	const renderedServices = useMemo(() => {
+		if (type === null) return null;
+		return render(type);
+	}, [type]);
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				3. Тип приміщення
 			</h2>
 			<div className="rooms">
-				{render(type)}
+				{renderedServices}
 			</div>
 		</section>
 	);

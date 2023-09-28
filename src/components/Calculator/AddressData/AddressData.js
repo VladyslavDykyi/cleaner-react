@@ -1,4 +1,4 @@
-import React, {useState, useEffect,memo} from 'react';
+import React, {useState, useEffect, memo, useCallback} from 'react';
 
 const AddressData = ({getData}) => {
 	const [addressData, setAddressData] = useState({
@@ -11,17 +11,18 @@ const AddressData = ({getData}) => {
 		intercomCode: '',
 	});
 	useEffect(() => {
-		getData(addressData);
+		(() => {
+			getData(addressData);
+		})();
 	}, [addressData]);
 	
-	const handlerChange = (event) => {
+	const handlerChange = useCallback((event) => {
 		const {value, name} = event.target;
 		setAddressData({
 			...addressData,
 			[name]: value,
 		});
-		
-	}
+	})
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">

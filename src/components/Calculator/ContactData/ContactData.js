@@ -1,4 +1,4 @@
-import React, {useState, useEffect,memo} from 'react';
+import React, {useState, useEffect, memo,useCallback} from 'react';
 import InputMask from 'react-input-mask';
 
 const ContactData = ({getData}) => {
@@ -9,16 +9,18 @@ const ContactData = ({getData}) => {
 		userComment: '',
 	});
 	useEffect(() => {
-		getData(userData);
+		(() => {
+			getData(userData);
+		})();
 	}, [userData]);
 	
-	const handlerChange = (event) => {
+	const handlerChange = useCallback((event) => {
 		const {value, name} = event.target;
 		setUserData({
 			...userData,
 			[name]: value,
 		});
-	}
+	})
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">

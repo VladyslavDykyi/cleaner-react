@@ -25,7 +25,7 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
-	
+	console.log('3.1');
 	const memoizedCalculator = useMemo(() => {
 		return (
 			<>
@@ -42,6 +42,7 @@ const Calculator = ({
 			</>
 		);
 	}, []);
+	
 	return (
 		<div className="col-md-9 calculator">
 			{memoizedCalculator}
