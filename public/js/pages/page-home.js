@@ -1,10 +1,10 @@
 "use strict";
 (function () {
 	const burger = document.querySelector('.burger');
-	burger.addEventListener('click',()=> {
+	burger.addEventListener('click', () => {
 		const header = document.querySelector('.header')
 		header.classList.toggle('active');
-		if (!header.classList.contains('.active')) {
+		if ( !header.classList.contains('.active')) {
 			document.querySelector('body').classList.toggle('lock');
 		}
 	});
@@ -13,14 +13,14 @@
 		// Виконуємо запит до API ipapi.co за допомогою Fetch
 		fetch("https://ipapi.co/json/")
 			.then(function (response) {
-				if (!response.ok) {
+				if ( !response.ok) {
 					throw new Error("Помилка під час запиту до API ipinfo.io");
 				}
 				return response.json();
 			})
 			.then(function (data) {
 				// Вилучаємо інформацію про місто
-
+				
 				const city = data.city;
 				// Вставляємо місто в HTML
 				cityElement.forEach(item => {
@@ -72,11 +72,21 @@
 			},
 		},
 	});
-
+	
 	const list = document.querySelector('.service-packages-list');
-	list.addEventListener('click',e => {
-		if (!e.target.classList.contains('text-wrap')) return
+	list.addEventListener('click', e => {
+		if ( !e.target.classList.contains('text-wrap')) return
 		const item = e.target.closest('.service-packages-list-item').classList.toggle('active');
 		console.log(item);
 	});
+	
+	function f(currentArea, currentPrice, shag) {
+		const obj = {};
+		let last = 0;
+		for (let i = currentArea; i < 45; i++) {
+			obj[i] =  ((currentPrice += shag) / i)-1;
+		}
+		return obj;
+	}
+	const priceOfOneArea = f(25, 1000, 30);
 })();

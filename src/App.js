@@ -1,4 +1,4 @@
-import {useState, useMemo, memo} from "react";
+import { useMemo } from "react";
 import WrapperCalculator from "./components/WrapperCalculator";
 
 const App = () => {
@@ -22,4 +22,4 @@ const App = () => {
 	);
 }
 
-export default memo(App);
+export default App;

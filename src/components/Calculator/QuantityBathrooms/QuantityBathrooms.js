@@ -1,28 +1,47 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from "react";
+import Services from "../../../services/services";
 
 const QuantityBathrooms = ({onChange}) => {
-	
-	const [quantityBathRooms, setQuantityBathRooms] = useState({
-		maxQuantityElem: 6,
-		selectId: '',
-		parameter: 'numberBathRooms',
-	});
+	const servicesQuantityBathRooms = new Services;
+	const [quantityBathRooms, setQuantityBathRooms] = useState(null);
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	useEffect(() => {
 		(() => {
+			if (quantityBathRooms === null) return;
 			onChange({
 				'quantityRooms': quantityBathRooms.selectId
 			})
 		})();
 	}, [quantityBathRooms]);
-	
-	const handlerChange = useCallback((event) => {
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
+	const onLoad = (data) => {
+		setQuantityBathRooms(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = () => {
+		setError(true);
+	}
+	const getData = () => {
+		servicesQuantityBathRooms.getMaxQuantitiesBathrooms()
+			.then(onLoad)
+			.catch(onError);
+	}
+	const handlerChange = (event) => {
+		if (quantityBathRooms === null) return;
 		const selectQuantity = Number(event.target.nextElementSibling.textContent);
 		setQuantityBathRooms({
 			...quantityBathRooms,
 			selectId: selectQuantity,
 		});
-	})
-	const handlerChangeInput = useCallback((event) => {
+	}
+	const handlerChangeInput = (event) => {
+		if (quantityBathRooms === null) return;
 		const selectQuantity = Number(event.target.value);
 		
 		setQuantityBathRooms({
@@ -35,14 +54,14 @@ const QuantityBathrooms = ({onChange}) => {
 				selectId: '',
 			});
 		}
-	});
+	};
 	
-	const handlerKeyPress = useCallback((event) => {
+	const handlerKeyPress = (event) => {
 		const invalidCharacters = ['e', '+', '-'];
 		if (invalidCharacters.includes(event.key)) {
 			event.preventDefault();
 		}
-	});
+	};
 	
 	const render = (obj) => {
 		const elems = [];
@@ -59,8 +78,26 @@ const QuantityBathrooms = ({onChange}) => {
 		}
 		return elems;
 	}
+	const renderInput = () => {
+		return (
+			<label className="input" htmlFor="numberRoomsInput">
+				<input type="number"
+				       name="numberRoomsInput"
+				       id="numberRoomsInput"
+				       placeholder="Введіть власноруч, якщо більше"
+				       value={quantityBathRooms.selectId}
+				       onChange={handlerChangeInput}
+				       onKeyPress={handlerKeyPress}
+				/>
+			</label>
+		)
+	}
+	const renderedServicesInput = useMemo(() => {
+		if (quantityBathRooms === null) return;
+		return renderInput();
+	}, [quantityBathRooms]);
 	const renderedServices = useMemo(() => {
-		if (quantityBathRooms === null) return null;
+		if (quantityBathRooms === null) return;
 		return render(quantityBathRooms);
 	}, [quantityBathRooms]);
 	return (
@@ -69,17 +106,9 @@ const QuantityBathrooms = ({onChange}) => {
 				5. Кількість санвузлів
 			</h2>
 			<div className="numberRooms">
+				{error && <p>{errorMessage}</p>}
 				{renderedServices}
-				<label className="input" htmlFor="numberRoomsInput">
-					<input type="number"
-					       name="numberRoomsInput"
-					       id="numberRoomsInput"
-					       placeholder="Введіть власноруч, якщо більше"
-					       value={quantityBathRooms.selectId}
-					       onChange={handlerChangeInput}
-					       onKeyPress={handlerKeyPress}
-					/>
-				</label>
+				{renderedServicesInput}
 			</div>
 		</section>
 	)

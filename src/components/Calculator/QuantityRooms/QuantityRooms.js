@@ -1,21 +1,37 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from "react";
+import Services from "../../../services/services";
 
 const QuantityRooms = ({onChange}) => {
-	
-	const [quantityRooms, setQuantityRooms] = useState({
-		maxQuantityElem: 6,
-		selectId: '',
-		parameter: 'numberRooms',
-	});
-	
+	const servicesQuantityRooms = new Services;
+	const [quantityRooms, setQuantityRooms] = useState(null);
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	useEffect(() => {
 		(() => {
+			if (quantityRooms === null) return;
 			onChange({
 				'quantityRooms': quantityRooms.selectId
 			})
 		})();
 	}, [quantityRooms]);
-	
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
+	const onLoad = (data) => {
+		setQuantityRooms(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = () => {
+		setError(true);
+	}
+	const getData = () => {
+		servicesQuantityRooms.getMaxQuantitiesRooms()
+			.then(onLoad)
+			.catch(onError);
+	}
 	const handlerChange = useCallback((event) => {
 		const selectQuantity = Number(event.target.nextElementSibling.textContent);
 		setQuantityRooms({
@@ -59,6 +75,24 @@ const QuantityRooms = ({onChange}) => {
 		}
 		return elems;
 	}
+	const renderInput = () => {
+		return (
+			<label className="input" htmlFor="numberRoomsInput">
+				<input type="number"
+				       name="numberRoomsInput"
+				       id="numberRoomsInput"
+				       placeholder="Введіть власноруч, якщо більше"
+				       value={quantityRooms.selectId}
+				       onChange={handlerChangeInput}
+				       onKeyPress={handlerKeyPress}
+				/>
+			</label>
+		)
+	}
+	const renderedServicesInput = useMemo(() => {
+		if (quantityRooms === null) return;
+		return renderInput();
+	}, [quantityRooms]);
 	const renderedServices = useMemo(() => {
 		if (quantityRooms === null) return null;
 		return render(quantityRooms);
@@ -69,17 +103,9 @@ const QuantityRooms = ({onChange}) => {
 				4. Кількість кімнат
 			</h2>
 			<div className="numberRooms">
+				{error && <p>{errorMessage}</p>}
 				{renderedServices}
-				<label className="input" htmlFor="numberRoomsInput">
-					<input type="number"
-					       name="numberRoomsInput"
-					       id="numberRoomsInput"
-					       placeholder="Введіть власноруч, якщо більше"
-					       value={quantityRooms.selectId}
-					       onChange={handlerChangeInput}
-					       onKeyPress={handlerKeyPress}
-					/>
-				</label>
+				{renderedServicesInput}
 			</div>
 		</section>
 	)

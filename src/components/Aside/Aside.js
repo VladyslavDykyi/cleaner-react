@@ -1,4 +1,4 @@
-import {memo} from "react";
+import {useMemo} from "react";
 
 const Aside = ({
 	               typeOfRoom,
@@ -7,10 +7,60 @@ const Aside = ({
 	               quantityOfRooms,
 	               quantityOfBathroom,
 	               areaOfRoom,
+	               additionalOfServices,
+	               orderOfDryCleaning,
+	               laundryOfServices,
 	               data,
 	               time,
+	               contactAndAddress,
                }) => {
 	console.log('3.2');
+	const renderAdditionalServices = (content) => {
+		return (
+			<ul className="aside-list">
+				{content.map(item => (
+					<li className="aside-list-item" key={item.id}>
+						{item.text} {item.guantityKilograms || ''} {item.measurement}
+					</li>
+				))}
+			</ul>
+		);
+	}
+	const renderedServicesAdditionalServices = useMemo(() => {
+		if (additionalOfServices === null) return;
+		return renderAdditionalServices(additionalOfServices);
+	}, [additionalOfServices]);
+	const renderOrderDryCleaning = (content) => {
+		return (
+			<ul className="aside-list">
+				{content.map(item => (
+					<li className="aside-list-item" key={item.id}>
+						{item.text} {item.guantityKilograms || ''} {item.measurement}
+					</li>
+				))}
+			</ul>
+		);
+	}
+	const renderedServicesOrderDryCleaning = useMemo(() => {
+		if (orderOfDryCleaning === null) return;
+		return renderOrderDryCleaning(orderOfDryCleaning);
+	}, [orderOfDryCleaning]);
+	const renderListLaundry = (content) => {
+		if (content === null) return;
+		return (
+			<ul className="aside-list">
+				{content.map(item => (
+					<li className="aside-list-item" key={item.id}>
+						{`${item.text} (${item.guantityKilograms || ''} ${item.measurement})`}
+					</li>
+				))}
+			</ul>
+		);
+	}
+	const renderedServicesListLaundry = useMemo(() => {
+		if (laundryOfServices === null) return;
+		return renderListLaundry(laundryOfServices);
+	}, [laundryOfServices]);
 	const renderData = (content) => {
 		return (
 			<span>
@@ -18,6 +68,10 @@ const Aside = ({
 			</span>
 		);
 	}
+	const renderedServicesData = useMemo(() => {
+		if (data === null) return null;
+		return renderData(data);
+	}, [data]);
 	const renderTime = (content) => {
 		return (
 			<span>
@@ -25,6 +79,10 @@ const Aside = ({
 			</span>
 		);
 	}
+	const renderedServicesTime = useMemo(() => {
+		if (time === null) return null;
+		return renderTime(time);
+	}, [time]);
 	const renderElem = ({content}) => {
 		if ( !content) return;
 		return (
@@ -33,6 +91,14 @@ const Aside = ({
 			</li>
 		);
 	}
+	const renderedServicesElem = useMemo(() => {
+		if (typeOfCleaning === null) return null;
+		if (typeOfRoom === null) return null;
+		return {
+			cleaning: renderElem(typeOfCleaning),
+			room: renderElem(typeOfRoom),
+		};
+	}, [typeOfCleaning, typeOfRoom]);
 	const renderAreaRoom = (content) => {
 		return (
 			<li className="aside-list-item">
@@ -40,14 +106,26 @@ const Aside = ({
 			</li>
 		);
 	}
+	const renderedServicesAreaRoom = useMemo(() => {
+		if (areaOfRoom === null) return null;
+		return renderAreaRoom(areaOfRoom);
+	}, [areaOfRoom]);
 	const renderQuantityRoom = (content, text, texts) => {
 		if ( !content.quantityRooms) return;
 		return (
 			<li className="aside-list-item">
-				{(content.quantityRooms > 5 ? `${content.quantityRooms} ${text}` : `${content.quantityRooms} ${texts}`)}
+				{(content.quantityRooms > 4 ? `${content.quantityRooms} ${text}` : `${content.quantityRooms} ${texts}`)}
 			</li>
 		);
 	}
+	const renderedServicesQuantityRoom = useMemo(() => {
+		if (quantityOfRooms === null) return null;
+		if (quantityOfBathroom === null) return null;
+		return {
+			room: renderQuantityRoom(quantityOfRooms, 'кімнат', 'кімнати'),
+			bathroom: renderQuantityRoom(quantityOfBathroom, 'санвузлів', 'санвузла'),
+		};
+	}, [quantityOfRooms, quantityOfBathroom]);
 	const renderQuantityCleaner = (obj) => {
 		return (
 			<span>
@@ -55,55 +133,41 @@ const Aside = ({
 			</span>
 		)
 	}
+	const renderedServicesQuantityCleaner = useMemo(() => {
+		if (quantityOfCleaner === null) return null;
+		return renderQuantityCleaner(quantityOfCleaner);
+	}, [quantityOfCleaner]);
 	return (
 		<aside className="col-md-3">
 			<div className="aside">
 				<h3 className="aside-title t-bold t-5">Ви обрали:</h3>
 				<p className="aside-wrapper">
 					<i className="bi bi-calendar"/>
-					{renderData(data)}
+					{renderedServicesData}
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-clock"/>
-					{renderTime(time)}
+					{renderedServicesTime}
 				</p>
 				<ul className="aside-list">
-					{renderElem(typeOfCleaning)}
-					{renderElem(typeOfRoom)}
-					{renderQuantityRoom(quantityOfRooms, 'кімнат', 'кімнати')}
-					{renderQuantityRoom(quantityOfBathroom, 'санвузлів', 'санвузла')}
-					{renderAreaRoom(areaOfRoom)}
+					{renderedServicesElem.cleaning}
+					{renderedServicesElem.room}
+					{renderedServicesQuantityRoom.room}
+					{renderedServicesQuantityRoom.bathroom}
+					{renderedServicesAreaRoom}
 				</ul>
 				<h3 className="aside-title t-s-bold t-5">
 					Додаткові послуги:
 				</h3>
-				<ul className="aside-list">
-					<li className="aside-list-item">
-						Гардеробна
-					</li>
-					<li className="aside-list-item">
-						Прибирання в шафі
-					</li>
-				</ul>
+				{renderedServicesAdditionalServices}
 				<h3 className="aside-title t-s-bold t-5">
 					Хімчистка:
 				</h3>
-				<ul className="aside-list">
-					<li className="aside-list-item">
-						Крісло (1)
-					</li>
-					<li className="aside-list-item">
-						Килим (12м2)
-					</li>
-				</ul>
+				{renderedServicesOrderDryCleaning}
 				<h3 className="aside-title t-s-bold t-5">
 					Прання:
 				</h3>
-				<ul className="aside-list">
-					<li className="aside-list-item">
-						Постільна білизна (3 кг)
-					</li>
-				</ul>
+				{renderedServicesListLaundry}
 				<p className="aside-wrapper">
 					<i className="bi bi-clock"/>
 					<span>
@@ -112,7 +176,7 @@ const Aside = ({
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-people"/>
-					{renderQuantityCleaner(quantityOfCleaner)}
+					{renderedServicesQuantityCleaner}
 				</p>
 				<p className="aside-wrapper">
 					<i className="bi bi-arrow-repeat"/>
@@ -123,7 +187,7 @@ const Aside = ({
 				<h3 className="aside-title t-bold t-5">
 					До сплати:
 					<span className="aside-prise t-e-bold t-3">
-						1739 грн
+						 1739 грн
 					</span>
 				</h3>
 				<p className="aside-min-price t-bold t-7">
@@ -151,5 +215,12 @@ Aside.defaultProps = {
 	typeOfRoom: null,
 	quantityOfCleaner: 1,
 	quantityOfRooms: null,
+	areaOfRoom: null,
+	additionalOfServices: null,
+	orderOfDryCleaning: null,
+	laundryOfServices: null,
+	data: '',
+	time: '',
+	contactAndAddress: null,
 }
-export default memo(Aside);
+export default Aside;

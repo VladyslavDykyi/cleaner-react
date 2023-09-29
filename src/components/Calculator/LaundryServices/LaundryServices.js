@@ -1,15 +1,22 @@
-import {useState, useEffect, useMemo, useCallback, memo} from "react";
+import {useState, useEffect, useMemo, memo} from "react";
 import Services from "../../../services/services";
 
-const LaundryServices = () => {
+const LaundryServices = ({onChange}) => {
 	const servicesLaundry = new Services;
-	
 	const [laundryServices, setLaundryServices] = useState(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-	
 	useEffect(() => {
-		getData();
+		(() => {
+			if (laundryServices === null) return;
+			const res = laundryServices.filter((item) => item.select === true);
+			onChange(res);
+		})();
+	}, [laundryServices]);
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
 	}, []);
 	const onLoad = (data) => {
 		setLaundryServices(data);
@@ -24,22 +31,30 @@ const LaundryServices = () => {
 			.then(onLoad)
 			.catch(onError);
 	}
-	const handlerChecked = useCallback((id) => {
+	const handlerChecked = (id) => {
 		const updatedLaundryServices = [...laundryServices];
 		const serviceIndex = updatedLaundryServices.findIndex(
 			(service) => service.id === id
 		);
-		
 		if (serviceIndex !== -1) {
 			updatedLaundryServices[serviceIndex].select = !updatedLaundryServices[
 				serviceIndex
 				].select;
 			setLaundryServices(updatedLaundryServices);
 		}
-	})
-	console.log('4')
+	};
+	const handlerQuantityKilograms = (event) => {
+		const {value, name} = event.target;
+		const updatedLaundryServices = [...laundryServices];
+		const serviceIndex = updatedLaundryServices.findIndex(
+			(service) => service.name === name.replace("Input", "")
+		);
+		if (serviceIndex !== -1) {
+			updatedLaundryServices[serviceIndex].guantityKilograms = Number(value);
+		}
+		setLaundryServices(updatedLaundryServices);
+	};
 	const render = (arr) => {
-		if (arr === null) return;
 		return (
 			arr.map(item => (
 				<div className="additional-services-item" key={item.id}>
@@ -50,7 +65,7 @@ const LaundryServices = () => {
 						<span className="services-card">
 							<picture>
 								<source srcSet={'./img/additional-services/' + item.svg} type="image/webp"/>
-								<img src={'./img/additional-services/' + item.svg} alt=""/>
+								<img src={'./img/additional-services/' + item.svg} alt={item.text}/>
 							</picture>
 							<span className="services-wrapper">
 								<span className="services-title t-s-bold t-8">{item.text}</span>
@@ -60,7 +75,9 @@ const LaundryServices = () => {
 						</span>
 						<label className="services-input" htmlFor={item.name + 'Input'}>
 							<span className="t-8">Вкажіть вагу у {item.measurement}:</span>
-							<input type="number" name={item.name + 'Input'} id={item.name + 'Input'}
+							<input type="number" onChange={handlerQuantityKilograms}
+							       value={item.guantityKilograms || ''} name={item.name + 'Input'}
+							       id={item.name + 'Input'}
 							       placeholder={"5 " + item.measurement}/>
 						</label>
 					</label>

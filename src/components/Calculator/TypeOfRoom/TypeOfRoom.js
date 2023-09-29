@@ -1,35 +1,15 @@
 import React, {useState, useEffect, memo, useCallback, useMemo} from "react";
+import Services from "../../../services/services";
 
 const TypeOfRoom = (props) => {
-	const [type, setType] = useState([
-		{
-			type: 'apartment',
-			select: false,
-			content: 'Квартира',
-			parameter: 'rooms',
-		},
-		{
-			type: 'house',
-			select: false,
-			content: 'Будинок',
-			parameter: 'rooms',
-		},
-		{
-			type: 'apartmentForDailyRent',
-			select: false,
-			content: 'Квартира в оренді подобово',
-			parameter: 'rooms',
-		},
-		{
-			type: 'office',
-			select: false,
-			content: 'Офіс',
-			parameter: 'rooms',
-		},
-	]);
+	const servicesTypeRoom = new Services;
+	const [type, setType] = useState(null);
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	
 	useEffect(() => {
 		(() => {
+			if (type === null) return;
 			const updatedType = [...type];
 			for (const item of updatedType) {
 				if (item.select) {
@@ -38,15 +18,32 @@ const TypeOfRoom = (props) => {
 			}
 		})();
 	}, [type]);
-	
-	const handleChange = useCallback((event) => {
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
+	const onLoad = (data) => {
+		setType(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = () => {
+		setError(true);
+	}
+	const getData = () => {
+		servicesTypeRoom.getRoomTypesAll()
+			.then(onLoad)
+			.catch(onError);
+	}
+	const handleChange = (event) => {
 		const selectedType = event.target.id;
 		const updatedType = type.map((item) => ({
 			...item,
 			select: item.type === selectedType,
 		}));
 		setType(updatedType);
-	});
+	};
 	const render = (arr) => {
 		return (
 			arr.map((item) => (
@@ -73,6 +70,7 @@ const TypeOfRoom = (props) => {
 				3. Тип приміщення
 			</h2>
 			<div className="rooms">
+				{error && <p>{errorMessage}</p>}
 				{renderedServices}
 			</div>
 		</section>

@@ -1,47 +1,15 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from 'react';
+import Services from "../../../services/services";
 
 const TypeOfCleaning = (props) => {
-	const [type, setType] = useState([
-		{
-			type: 'normal',
-			select: false,
-			content: 'Звичайне',
-			parameter: 'type-cleaning',
-		},
-		{
-			type: 'general',
-			select: false,
-			content: 'Генеральне',
-			parameter: 'type-cleaning',
-		},
-		{
-			type: 'afterRepair',
-			select: false,
-			content: 'Після ремонту',
-			parameter: 'type-cleaning',
-		},
-		{
-			type: 'eco',
-			select: false,
-			content: 'ЕСО',
-			parameter: 'type-cleaning',
-		},
-		{
-			type: 'preAfterParty',
-			select: false,
-			content: 'Pre & AfterParty',
-			parameter: 'type-cleaning',
-		},
-		{
-			type: 'dryCleaner',
-			select: false,
-			content: 'Хімчистка',
-			parameter: 'type-cleaning',
-		},
-	]);
+	const servicesTypeCleaning = new Services;
+	const [type, setType] = useState(null);
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	
 	useEffect(() => {
 		(() => {
+			if (type === null) return;
 			const updatedType = [...type];
 			for (const item of updatedType) {
 				if (item.select) {
@@ -50,7 +18,24 @@ const TypeOfCleaning = (props) => {
 			}
 		})();
 	}, [type]);
-	
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
+	const onLoad = (data) => {
+		setType(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = () => {
+		setError(true);
+	}
+	const getData = () => {
+		servicesTypeCleaning.getCleaningTypesAll()
+			.then(onLoad)
+			.catch(onError);
+	}
 	const handleChange = useCallback((event) => {
 		const selectedType = event.target.id;
 		const updatedType = type.map((item) => ({
@@ -85,6 +70,7 @@ const TypeOfCleaning = (props) => {
 				1. Вид прибирання
 			</h2>
 			<div className="type-cleaning">
+				{error && <p>{errorMessage}</p>}
 				{renderedServices}
 			</div>
 		</section>
