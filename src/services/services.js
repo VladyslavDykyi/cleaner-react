@@ -14,6 +14,10 @@ class Services {
 		const res = await this.getResource(`/laundry-services/all`);
 		return res.data;
 	}
+	async getDryCleanSofaCarpets () {
+		const res = await this.getResource(`/dry-clean-sofa-carpets/all`);
+		return res.data;
+	}
 }
 
 export default Services;

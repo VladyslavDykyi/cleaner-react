@@ -9,10 +9,14 @@ const WrapperCalculator = () => {
 	const [dataQuantityRoom, setDataQuantityRoom] = useState({});
 	const [dataQuantityBathroom, setDataQuantityBathroom] = useState({});
 	const [dataAreaRoom, setDataAreaRoom] = useState({});
-	const [formContact, setFormContact] = useState({});
-	const [formAddress, setFormAddress] = useState({});
+	const [dataAdditionalServices, setDataAdditionalServices] = useState(null);
+	const [dataOrderDryCleaning, setOrderDryCleaning] = useState(null);
+	const [dataLandryServices, setDataLandryServices] = useState(null);
 	const [data, seData] = useState('');
 	const [time, setTime] = useState({});
+	const [formContact, setFormContact] = useState({});
+	const [formAddress, setFormAddress] = useState({});
+	
 	const objForm = {
 		...formContact,
 		...formAddress,
@@ -28,6 +32,9 @@ const WrapperCalculator = () => {
 				quantityOfRooms={setDataQuantityRoom}
 				quantityOfBathroom={setDataQuantityBathroom}
 				areaOfRoom={setDataAreaRoom}
+				additionalOfServices={setDataAdditionalServices}
+				orderOfDryCleaning={setOrderDryCleaning}
+				laundryOfServices={setDataLandryServices}
 				formOfContact={setFormContact}
 				formOfAddress={setFormAddress}
 				dataInp={seData}
@@ -40,8 +47,12 @@ const WrapperCalculator = () => {
 				quantityOfRooms={dataQuantityRoom}
 				quantityOfBathroom={dataQuantityBathroom}
 				areaOfRoom={dataAreaRoom}
+				additionalOfServices={dataAdditionalServices}
+				orderOfDryCleaning={dataOrderDryCleaning}
+				laundryOfServices={dataLandryServices}
 				data={data}
 				time={time}
+				contactAndAddress={objForm}
 			/>
 		</>
 	)
