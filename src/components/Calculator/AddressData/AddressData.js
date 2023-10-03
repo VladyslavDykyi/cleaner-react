@@ -26,7 +26,7 @@ const AddressData = ({getData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				11. Вкажіть вашу адресу
+				12. Вкажіть вашу адресу
 			</h2>
 			<div className="address">
 				<label className="input" htmlFor="street">

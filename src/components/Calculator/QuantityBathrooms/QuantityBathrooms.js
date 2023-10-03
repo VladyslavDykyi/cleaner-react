@@ -85,6 +85,7 @@ const QuantityBathrooms = ({onChange}) => {
 				       name="numberRoomsInput"
 				       id="numberRoomsInput"
 				       placeholder="Введіть власноруч, якщо більше"
+				       min='0'
 				       value={quantityBathRooms.selectId}
 				       onChange={handlerChangeInput}
 				       onKeyPress={handlerKeyPress}
@@ -103,7 +104,7 @@ const QuantityBathrooms = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				5. Кількість санвузлів
+				6. Кількість санвузлів
 			</h2>
 			<div className="numberRooms">
 				{error && <p>{errorMessage}</p>}

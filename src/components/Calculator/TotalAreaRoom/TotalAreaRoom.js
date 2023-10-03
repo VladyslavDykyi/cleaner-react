@@ -17,7 +17,6 @@ const TotalAreaRoom = ({onChange}) => {
 			})
 		})();
 	}, [areaRoom]);
-	console.log(areaRoomRender, areaRoom);
 	useEffect(() => {
 		(() => {
 			getData();
@@ -104,7 +103,7 @@ const TotalAreaRoom = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				6. Загальний метраж приміщення
+				7. Загальний метраж приміщення
 			</h2>
 			<div className="numberRooms">
 				{error && <p>{errorMessage}</p>}

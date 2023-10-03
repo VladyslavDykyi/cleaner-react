@@ -67,7 +67,7 @@ const TypeOfRoom = (props) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				3. Тип приміщення
+				4. Тип приміщення
 			</h2>
 			<div className="rooms">
 				{error && <p>{errorMessage}</p>}

@@ -242,7 +242,7 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				10. Дата та час
+				11. Дата та час
 			</h2>
 			<div className="calendar-time">
 				<div className="calendar-pick">

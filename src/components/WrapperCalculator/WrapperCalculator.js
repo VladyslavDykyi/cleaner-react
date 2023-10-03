@@ -21,7 +21,7 @@ const WrapperCalculator = () => {
 		...formContact,
 		...formAddress,
 	}
-	console.log('3');
+
 	
 	return (
 		<>

@@ -107,7 +107,7 @@ const AdditionalServices = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				7. Додаткові послуги
+				8. Додаткові послуги
 			</h2>
 			<div className="additional-services">
 				{error && <p>{errorMessage}</p>}

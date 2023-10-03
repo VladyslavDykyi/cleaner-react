@@ -3,7 +3,7 @@ import React, {useState, useEffect, memo, useCallback} from "react";
 const AddCleaners = ({onClick}) => {
 	const [quantityCleaner, setQuantityCleaner] = useState({
 		type: "countCleaner",
-		quantity: 1,
+		quantity: 0,
 	});
 	
 	useEffect(() => {
@@ -20,7 +20,7 @@ const AddCleaners = ({onClick}) => {
 	});
 	
 	const subtractCountCleaner = useCallback(() => {
-		if (quantityCleaner.quantity > 1) {
+		if (quantityCleaner.quantity > 0) {
 			setQuantityCleaner((prevState) => ({
 				...prevState,
 				quantity: prevState.quantity - 1,
@@ -30,7 +30,7 @@ const AddCleaners = ({onClick}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				2. Режим TURBO
+				3. Режим TURBO
 			</h2>
 			<div className="counter-wrapper">
 				<p className="t-s-bold">

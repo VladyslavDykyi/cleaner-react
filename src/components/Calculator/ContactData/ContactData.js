@@ -24,7 +24,7 @@ const ContactData = ({getData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				12. Вкажіть ваші контактні дані
+				13. Вкажіть ваші контактні дані
 			</h2>
 			<div className="contact-data">
 				<label className="input" htmlFor="userName">

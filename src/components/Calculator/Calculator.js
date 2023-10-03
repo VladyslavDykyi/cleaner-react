@@ -14,6 +14,7 @@ import DataOfTime from "./DataOfTime";
 import LaundryServices from "./LaundryServices";
 import OrderDryCleaning from "./OrderDryCleaning";
 import AdditionalServices from "./AdditionalServices";
+import TypeOfContract from "./TypeOfContract";
 
 const Calculator = ({
 	                    typeOfCleaning,
@@ -30,10 +31,11 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
-	console.log('3.1');
+
 	const memoizedCalculator = useMemo(() => {
 		return (
 			<>
+				<TypeOfContract/>
 				<TypeOfCleaning onChange={typeOfCleaning}/>
 				<AddCleaners onClick={quantityOfCleaner}/>
 				<TypeOfRoom onChange={typeOfRoom}/>

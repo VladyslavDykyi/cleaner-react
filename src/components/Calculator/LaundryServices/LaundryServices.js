@@ -92,7 +92,7 @@ const LaundryServices = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				9. Послуги з прання білизни
+				10. Послуги з прання білизни
 			</h2>
 			<div className="additional-services widthX2">
 				{error && <p>{errorMessage}</p>}

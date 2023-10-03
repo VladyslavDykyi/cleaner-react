@@ -108,7 +108,7 @@ const OrderDryCleaning = ({onChange}) => {
 		<>
 			<section className="calculator-wrapper">
 				<h2 className="t-s-bold t-4">
-					8. Замовити хімчистку меблів та килимів
+					9. Замовити хімчистку меблів та килимів
 				</h2>
 				<h3 className="t-s-bold t-6">
 					Замовити хімчистку одночасно з прибиранням та отримати 30% знижки

@@ -6,7 +6,6 @@ const TypeOfCleaning = (props) => {
 	const [type, setType] = useState(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-	
 	useEffect(() => {
 		(() => {
 			if (type === null) return;
@@ -67,7 +66,7 @@ const TypeOfCleaning = (props) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				1. Вид прибирання
+				2. Вид прибирання
 			</h2>
 			<div className="type-cleaning">
 				{error && <p>{errorMessage}</p>}
