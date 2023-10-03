@@ -42,6 +42,10 @@ class Services {
 		const res = await this.getResource(`/room-types/all`);
 		return res.data;
 	}
+	async getCalculatorSettingsAll() {
+		const res = await this.getResource('/calculator-settings/all');
+		return res;
+	}
 }
 
 export default Services;

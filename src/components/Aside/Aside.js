@@ -1,4 +1,6 @@
-import {useMemo} from "react";
+import {useState, useMemo, useEffect} from "react";
+import Services from "../../services/services";
+import MyCalculator from "./calculatorFunc";
 
 const Aside = ({
 	               typeOfRoom,
@@ -14,7 +16,62 @@ const Aside = ({
 	               time,
 	               contactAndAddress,
                }) => {
-	console.log('3.2');
+	const settingsCalc = new Services;
+	const [settings, setSettings] = useState(null);
+	
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
+	const onLoad = (data) => {
+		setSettings(data);
+	}
+	const onError = () => {
+		throw new Error('Error Api');
+	}
+	const getData = () => {
+		settingsCalc.getCalculatorSettingsAll()
+			.then(onLoad)
+			.catch(onError);
+	}
+	const funcCalc = (
+		areaOfRoom,
+		quantityOfCleaner,
+		settingsObj
+	) => {
+		if (settingsObj === null) return '';
+		const keys = Object.keys(settingsObj)
+			.map(item => Number(item));
+		const calc = new MyCalculator;
+		for (let i = (keys.length-1); i >= 0; i--) {
+			if (keys[i] <= areaOfRoom) {
+				const {
+					defaultPrice,
+					step,
+					timeCleaning,
+					timePrice
+				} = settingsObj[keys[i]];
+				const priceM2 = calc.cleaningDefault2(
+					+defaultPrice,
+					+keys[i],
+					+quantityOfCleaner,
+					800,
+					+step,
+					+areaOfRoom
+				);
+				return priceM2;
+			}
+		}
+		return '';
+	}
+	
+	
+	const cleaningDefault = funcCalc(
+		areaOfRoom.areaRoom,
+		quantityOfCleaner.quantity,
+		settings,
+	);
 	const renderAdditionalServices = (content) => {
 		return (
 			<ul className="aside-list">
@@ -129,7 +186,7 @@ const Aside = ({
 	const renderQuantityCleaner = (obj) => {
 		return (
 			<span>
-				{obj.quantity} працівника
+				{obj.quantity} доп. працівника
 			</span>
 		)
 	}
@@ -137,6 +194,7 @@ const Aside = ({
 		if (quantityOfCleaner === null) return null;
 		return renderQuantityCleaner(quantityOfCleaner);
 	}, [quantityOfCleaner]);
+	
 	return (
 		<aside className="col-md-3">
 			<div className="aside">
@@ -187,11 +245,11 @@ const Aside = ({
 				<h3 className="aside-title t-bold t-5">
 					До сплати:
 					<span className="aside-prise t-e-bold t-3">
-						 1739 грн
+						 {` ${cleaningDefault} грн`}
 					</span>
 				</h3>
 				<p className="aside-min-price t-bold t-7">
-					*МІНІМАЛЬНА сума замовлення 1000 грн
+					{cleaningDefault < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
 				</p>
 				<label className="my-checkbox" htmlFor="checkbox">
 					<input className="visually-hidden" type="checkbox" name="politick" id="checkbox"/>
@@ -213,7 +271,7 @@ const Aside = ({
 Aside.defaultProps = {
 	typeOfCleaning: null,
 	typeOfRoom: null,
-	quantityOfCleaner: 1,
+	quantityOfCleaner: 0,
 	quantityOfRooms: null,
 	areaOfRoom: null,
 	additionalOfServices: null,

@@ -30,7 +30,7 @@ const Calculator = ({
 	                    dataInp,
 						timeInp,
                     }) => {
-	console.log('3.1');
+
 	const memoizedCalculator = useMemo(() => {
 		return (
 			<>

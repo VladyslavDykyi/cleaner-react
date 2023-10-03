@@ -3,7 +3,7 @@ import React, {useState, useEffect, memo, useCallback} from "react";
 const AddCleaners = ({onClick}) => {
 	const [quantityCleaner, setQuantityCleaner] = useState({
 		type: "countCleaner",
-		quantity: 1,
+		quantity: 0,
 	});
 	
 	useEffect(() => {
@@ -20,7 +20,7 @@ const AddCleaners = ({onClick}) => {
 	});
 	
 	const subtractCountCleaner = useCallback(() => {
-		if (quantityCleaner.quantity > 1) {
+		if (quantityCleaner.quantity > 0) {
 			setQuantityCleaner((prevState) => ({
 				...prevState,
 				quantity: prevState.quantity - 1,

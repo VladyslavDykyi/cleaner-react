@@ -7,7 +7,7 @@ const App = () => {
 			<WrapperCalculator/>
 		);
 	}, []);
-	console.log('2')
+
 	return (
 		<div className="container-xxl">
 			<section className="works-reviews">

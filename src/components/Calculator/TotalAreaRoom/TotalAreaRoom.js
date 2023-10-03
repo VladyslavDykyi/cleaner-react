@@ -17,7 +17,6 @@ const TotalAreaRoom = ({onChange}) => {
 			})
 		})();
 	}, [areaRoom]);
-	console.log(areaRoomRender, areaRoom);
 	useEffect(() => {
 		(() => {
 			getData();

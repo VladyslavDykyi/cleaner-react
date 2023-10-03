@@ -5,7 +5,6 @@ import App from './App';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-console.log('1')
 root.render(
 <>
     <App />
