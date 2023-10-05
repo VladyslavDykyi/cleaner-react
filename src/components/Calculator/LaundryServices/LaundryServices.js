@@ -1,7 +1,7 @@
 import {useState, useEffect, useMemo, memo} from "react";
 import Services from "../../../services/services";
 
-const LaundryServices = ({onChange}) => {
+const LaundryServices = ({onChange,numeration}) => {
 	const servicesLaundry = new Services;
 	const [laundryServices, setLaundryServices] = useState(null);
 	const [error, setError] = useState(false);
@@ -50,7 +50,7 @@ const LaundryServices = ({onChange}) => {
 			(service) => service.name === name.replace("Input", "")
 		);
 		if (serviceIndex !== -1) {
-			updatedLaundryServices[serviceIndex].guantityKilograms = Number(value);
+			updatedLaundryServices[serviceIndex].quantityKilograms = Number(value);
 		}
 		setLaundryServices(updatedLaundryServices);
 	};
@@ -76,7 +76,7 @@ const LaundryServices = ({onChange}) => {
 						<label className="services-input" htmlFor={item.name + 'Input'}>
 							<span className="t-8">Вкажіть вагу у {item.measurement}:</span>
 							<input type="number" onChange={handlerQuantityKilograms}
-							       value={item.guantityKilograms || ''} name={item.name + 'Input'}
+							       value={item.quantityKilograms || ''} name={item.name + 'Input'}
 							       id={item.name + 'Input'}
 							       placeholder={"5 " + item.measurement}/>
 						</label>
@@ -92,7 +92,7 @@ const LaundryServices = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				10. Послуги з прання білизни
+				{numeration}. Послуги з прання білизни
 			</h2>
 			<div className="additional-services widthX2">
 				{error && <p>{errorMessage}</p>}

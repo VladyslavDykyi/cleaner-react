@@ -1,6 +1,4 @@
-import {useMemo} from 'react';
-
-
+import {useEffect, useMemo, useState} from 'react';
 
 import TypeOfCleaning from "./TypeOfCleaning";
 import TypeOfRoom from "./TypeOfRoom";
@@ -17,6 +15,7 @@ import AdditionalServices from "./AdditionalServices";
 import TypeOfContract from "./TypeOfContract";
 
 const Calculator = ({
+	                    typeOfContract,
 	                    typeOfCleaning,
 	                    typeOfRoom,
 	                    quantityOfCleaner,
@@ -29,29 +28,40 @@ const Calculator = ({
 	                    formOfContact,
 	                    formOfAddress,
 	                    dataInp,
-						timeInp,
+	                    timeInp,
+	                    numeration,
+	                    typeOfContractResetRoom
                     }) => {
-
+	const [typeContract, setTypeContract] = useState({});
+	useEffect(() => {
+		typeOfContract(typeContract);
+	}, [typeContract]);
 	const memoizedCalculator = useMemo(() => {
-		return (
-			<>
-				<TypeOfContract/>
-				<TypeOfCleaning onChange={typeOfCleaning}/>
-				<AddCleaners onClick={quantityOfCleaner}/>
-				<TypeOfRoom onChange={typeOfRoom}/>
-				<QuantityRooms onChange={quantityOfRooms} />
-				<QuantityBathrooms onChange={quantityOfBathroom}/>
-				<TotalAreaRoom onChange={areaOfRoom}/>
-				<AdditionalServices onChange={additionalOfServices}/>
-				<OrderDryCleaning onChange={orderOfDryCleaning}/>
-				<LaundryServices onChange={laundryOfServices}/>
-				<DataOfTime onChangeTime={timeInp} onChangeData={dataInp}/>
-				<AddressData getData={formOfAddress}/>
-				<ContactData getData={formOfContact}/>
-			</>
-		);
-	}, []);
-	
+		return (typeContract.type === 'dryCleaning') ? <>
+			<TypeOfContract onChange={setTypeContract} onChange2={typeOfContractResetRoom} numeration={numeration.one}/>
+			<AdditionalServices onChange={additionalOfServices} numeration={numeration.two}/>
+			<OrderDryCleaning onChange={orderOfDryCleaning} numeration={numeration.three}/>
+			<LaundryServices onChange={laundryOfServices} numeration={numeration.four}/>
+			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp} numeration={numeration.five}/>
+			<AddressData getData={formOfAddress} numeration={numeration.six}/>
+			<ContactData getData={formOfContact} numeration={numeration.seven}/>
+		</> : <>
+			<TypeOfContract onChange={setTypeContract} onChange2={typeOfContractResetRoom} numeration={numeration.one}/>
+			<TypeOfCleaning onChange={typeOfCleaning} numeration={numeration.two}/>
+			<AddCleaners onClick={quantityOfCleaner} numeration={numeration.three}/>
+			<TypeOfRoom onChange={typeOfRoom} numeration={numeration.four}/>
+			<QuantityRooms onChange={quantityOfRooms} numeration={numeration.five}/>
+			<QuantityBathrooms onChange={quantityOfBathroom} numeration={numeration.six}/>
+			<TotalAreaRoom onChange={areaOfRoom} numeration={numeration.seven}/>
+			<AdditionalServices onChange={additionalOfServices} numeration={numeration.eight}/>
+			<OrderDryCleaning onChange={orderOfDryCleaning} numeration={numeration.nine}/>
+			<LaundryServices onChange={laundryOfServices} numeration={numeration.ten}/>
+			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp} numeration={numeration.eleven}/>
+			<AddressData getData={formOfAddress} numeration={numeration.twelve}/>
+			<ContactData getData={formOfContact} numeration={numeration.thirteen}/>
+		</>;
+		
+	}, [typeContract]);
 	return (
 		<div className="col-md-9 calculator">
 			{memoizedCalculator}

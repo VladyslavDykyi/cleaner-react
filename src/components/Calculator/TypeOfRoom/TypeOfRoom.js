@@ -1,7 +1,7 @@
 import React, {useState, useEffect, memo, useCallback, useMemo} from "react";
 import Services from "../../../services/services";
 
-const TypeOfRoom = (props) => {
+const TypeOfRoom = ({onChange,numeration}) => {
 	const servicesTypeRoom = new Services;
 	const [type, setType] = useState(null);
 	const [error, setError] = useState(false);
@@ -13,7 +13,7 @@ const TypeOfRoom = (props) => {
 			const updatedType = [...type];
 			for (const item of updatedType) {
 				if (item.select) {
-					props.onChange(item);
+					onChange(item);
 				}
 			}
 		})();
@@ -67,7 +67,7 @@ const TypeOfRoom = (props) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				4. Тип приміщення
+				{numeration}. Тип приміщення
 			</h2>
 			<div className="rooms">
 				{error && <p>{errorMessage}</p>}

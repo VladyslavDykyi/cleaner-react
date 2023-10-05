@@ -2,7 +2,7 @@ import cn from "classnames";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import Services from "../../../services/services";
 
-const AdditionalServices = ({onChange}) => {
+const AdditionalServices = ({onChange,numeration}) => {
 	const servicesAdditionalServices = new Services;
 	const [additionalServices, setAdditionalServices] = useState(null);
 	const [error, setError] = useState(false);
@@ -61,7 +61,7 @@ const AdditionalServices = ({onChange}) => {
 			(service) => service.name === name.replace("Input", "")
 		);
 		if (serviceIndex !== -1) {
-			updatedLaundryServices[serviceIndex].guantityKilograms = Number(value);
+			updatedLaundryServices[serviceIndex].quantityKilograms = Number(value);
 		}
 		setAdditionalServices(updatedLaundryServices);
 	};
@@ -91,7 +91,7 @@ const AdditionalServices = ({onChange}) => {
 							<label className="services-input" htmlFor={item.name + "Input"}>
 								<span className="t-8">Вкажіть площу у {item.measurement}:</span>
 								<input type="number" name={item.name + "Input"} id={item.name + "Input"}
-								       onChange={handlerQuantityKilograms} value={item.guantityKilograms || ''}
+								       onChange={handlerQuantityKilograms} value={item.quantityKilograms || ''}
 								       placeholder={"34 " + item.measurement}/>
 							</label>
 						}
@@ -107,7 +107,7 @@ const AdditionalServices = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				8. Додаткові послуги
+				{numeration}. Додаткові послуги
 			</h2>
 			<div className="additional-services">
 				{error && <p>{errorMessage}</p>}

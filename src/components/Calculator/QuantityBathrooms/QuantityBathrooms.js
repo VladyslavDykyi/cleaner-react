@@ -1,7 +1,7 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from "react";
 import Services from "../../../services/services";
 
-const QuantityBathrooms = ({onChange}) => {
+const QuantityBathrooms = ({onChange,numeration}) => {
 	const servicesQuantityBathRooms = new Services;
 	const [quantityBathRooms, setQuantityBathRooms] = useState(null);
 	const [error, setError] = useState(false);
@@ -104,7 +104,7 @@ const QuantityBathrooms = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				6. Кількість санвузлів
+				{numeration}. Кількість санвузлів
 			</h2>
 			<div className="numberRooms">
 				{error && <p>{errorMessage}</p>}

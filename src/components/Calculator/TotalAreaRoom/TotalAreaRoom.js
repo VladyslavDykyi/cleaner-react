@@ -3,7 +3,7 @@ import Slider from '@mui/material/Slider';
 import './TotalAreaRoom.css';
 import Services from "../../../services/services";
 
-const TotalAreaRoom = ({onChange}) => {
+const TotalAreaRoom = ({onChange,numeration}) => {
 	const servicesAreaRoom = new Services;
 	const [areaRoom, setAreaRoom] = useState(null);
 	const [areaRoomRender, setAreaRoomRender] = useState(null);
@@ -103,7 +103,7 @@ const TotalAreaRoom = ({onChange}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				7. Загальний метраж приміщення
+				{numeration}. Загальний метраж приміщення
 			</h2>
 			<div className="numberRooms">
 				{error && <p>{errorMessage}</p>}

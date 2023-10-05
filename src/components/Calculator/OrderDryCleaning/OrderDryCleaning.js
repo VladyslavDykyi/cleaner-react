@@ -2,7 +2,7 @@ import {useMemo, useState, memo, useEffect} from "react";
 import cn from 'classnames';
 import Services from "../../../services/services";
 
-const OrderDryCleaning = ({onChange}) => {
+const OrderDryCleaning = ({onChange,numeration}) => {
 	const servicesDryCleanSofaCarpets = new Services;
 	const [orderDryCleaning, setOrderDryCleaning] = useState(null);
 	const [error, setError] = useState(false);
@@ -61,7 +61,7 @@ const OrderDryCleaning = ({onChange}) => {
 			(service) => service.name === name.replace("Input", "")
 		);
 		if (serviceIndex !== -1) {
-			updatedLaundryServices[serviceIndex].guantityKilograms = Number(value);
+			updatedLaundryServices[serviceIndex].quantityKilograms = Number(value);
 		}
 		setOrderDryCleaning(updatedLaundryServices);
 	};
@@ -91,7 +91,7 @@ const OrderDryCleaning = ({onChange}) => {
 							<label className="services-input" htmlFor={item.name + "Input"}>
 								<span className="t-8">Вкажіть площу у {item.measurement}:</span>
 								<input type="number" name={item.name + "Input"} id={item.name + "Input"}
-								       onChange={handlerQuantityKilograms} value={item.guantityKilograms || ''}
+								       onChange={handlerQuantityKilograms} value={item.quantityKilograms || ''}
 								       placeholder={"34 " + item.measurement}/>
 							</label>
 						}
@@ -108,7 +108,7 @@ const OrderDryCleaning = ({onChange}) => {
 		<>
 			<section className="calculator-wrapper">
 				<h2 className="t-s-bold t-4">
-					9. Замовити хімчистку меблів та килимів
+					{numeration}. Замовити хімчистку меблів та килимів
 				</h2>
 				<h3 className="t-s-bold t-6">
 					Замовити хімчистку одночасно з прибиранням та отримати 30% знижки

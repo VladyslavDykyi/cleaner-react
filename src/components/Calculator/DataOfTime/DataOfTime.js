@@ -9,7 +9,7 @@ import './DataOfTime.css';
 
 Settings.defaultLocale = 'uk';
 
-const DataOfTime = ({onChangeTime, onChangeData}) => {
+const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 	const [time, setTime] = useState([
 		{
 			id: 1,
@@ -242,7 +242,7 @@ const DataOfTime = ({onChangeTime, onChangeData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				11. Дата та час
+				{numeration}. Дата та час
 			</h2>
 			<div className="calendar-time">
 				<div className="calendar-pick">

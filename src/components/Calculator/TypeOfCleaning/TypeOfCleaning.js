@@ -1,7 +1,7 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from 'react';
 import Services from "../../../services/services";
 
-const TypeOfCleaning = (props) => {
+const TypeOfCleaning = ({onChange,numeration}) => {
 	const servicesTypeCleaning = new Services;
 	const [type, setType] = useState(null);
 	const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ const TypeOfCleaning = (props) => {
 			const updatedType = [...type];
 			for (const item of updatedType) {
 				if (item.select) {
-					props.onChange(item);
+					onChange(item);
 				}
 			}
 		})();
@@ -66,7 +66,7 @@ const TypeOfCleaning = (props) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				2. Вид прибирання
+				{numeration}. Вид прибирання
 			</h2>
 			<div className="type-cleaning">
 				{error && <p>{errorMessage}</p>}

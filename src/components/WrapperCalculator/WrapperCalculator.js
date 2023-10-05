@@ -17,15 +17,54 @@ const WrapperCalculator = () => {
 	const [formContact, setFormContact] = useState({});
 	const [formAddress, setFormAddress] = useState({});
 	
+	const [typeContract, setTypeContract] = useState({});
 	const objForm = {
 		...formContact,
 		...formAddress,
 	}
-
 	
+	const render = (typeContract.type === 'dryCleaning') ? <Aside
+		typeOfContract={typeContract}
+		additionalOfServices={dataAdditionalServices}
+		orderOfDryCleaning={dataOrderDryCleaning}
+		laundryOfServices={dataLandryServices}
+		data={data}
+		time={time}
+		contactAndAddress={objForm}
+	/> : <Aside
+		typeOfCleaning={typeDataCleaning}
+		typeOfRoom={typeDataRoom}
+		quantityOfCleaner={dataQuantityCleaner}
+		quantityOfRooms={dataQuantityRoom}
+		quantityOfBathroom={dataQuantityBathroom}
+		areaOfRoom={dataAreaRoom}
+		additionalOfServices={dataAdditionalServices}
+		orderOfDryCleaning={dataOrderDryCleaning}
+		laundryOfServices={dataLandryServices}
+		data={data}
+		time={time}
+		contactAndAddress={objForm}
+	/>;
 	return (
 		<>
 			<Calculator
+				numeration={{
+						one: 1,
+						two: 2,
+						three: 3,
+						four: 4,
+						five: 5,
+						six: 6,
+						seven: 7,
+						eight: 8,
+						nine: 9,
+						ten: 10,
+						eleven: 11,
+						twelve: 12,
+						thirteen: 13,
+					}}
+				typeOfContract={setTypeContract}
+				typeOfContractResetRoom={setDataQuantityRoom}
 				typeOfCleaning={setTypeDataCleaning}
 				typeOfRoom={setTypeDataRoom}
 				quantityOfCleaner={setDataQuantityCleaner}
@@ -40,20 +79,7 @@ const WrapperCalculator = () => {
 				dataInp={seData}
 				timeInp={setTime}
 			/>
-			<Aside
-				typeOfCleaning={typeDataCleaning}
-				typeOfRoom={typeDataRoom}
-				quantityOfCleaner={dataQuantityCleaner}
-				quantityOfRooms={dataQuantityRoom}
-				quantityOfBathroom={dataQuantityBathroom}
-				areaOfRoom={dataAreaRoom}
-				additionalOfServices={dataAdditionalServices}
-				orderOfDryCleaning={dataOrderDryCleaning}
-				laundryOfServices={dataLandryServices}
-				data={data}
-				time={time}
-				contactAndAddress={objForm}
-			/>
+			{render}
 		</>
 	)
 }

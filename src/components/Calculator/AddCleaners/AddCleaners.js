@@ -1,6 +1,6 @@
 import React, {useState, useEffect, memo, useCallback} from "react";
 
-const AddCleaners = ({onClick}) => {
+const AddCleaners = ({onClick,numeration}) => {
 	const [quantityCleaner, setQuantityCleaner] = useState({
 		type: "countCleaner",
 		quantity: 0,
@@ -30,7 +30,7 @@ const AddCleaners = ({onClick}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				3. Режим TURBO
+				{numeration}. Режим TURBO
 			</h2>
 			<div className="counter-wrapper">
 				<p className="t-s-bold">

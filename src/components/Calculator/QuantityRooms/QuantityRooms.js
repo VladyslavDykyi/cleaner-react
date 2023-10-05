@@ -1,60 +1,9 @@
 import React, {useEffect, useState, memo, useCallback, useMemo} from "react";
 import Services from "../../../services/services";
 
-const QuantityRooms = ({onChange}) => {
-	// const servicesQuantityRooms = new Services;
-	const obj = [
-		{
-			id:1,
-			type: "room1",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 25,
-		},
-		{
-			id:2,
-			type: "room2",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 45,
-		},
-		{
-			id:3,
-			type: "room3",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 70,
-		},
-		{
-			id:4,
-			type: "room4",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 90,
-		},
-		{
-			id:5,
-			type: "room5",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 110,
-		},
-		{
-			id:6,
-			type: "room6",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 130,
-		},
-		{
-			id:7,
-			type: "room7",
-			name:"numberRooms",
-			select: false,
-			minAreaM2: 150,
-		},
-	];
-	const [quantityRooms, setQuantityRooms] = useState(obj);
+const QuantityRooms = ({onChange,numeration}) => {
+	const servicesQuantityRooms = new Services;
+	const [quantityRooms, setQuantityRooms] = useState(null);
 	const [finalValue,setFinalValue] = useState(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
@@ -64,25 +13,25 @@ const QuantityRooms = ({onChange}) => {
 			onChange(finalValue);
 		})();
 	}, [finalValue]);
-	// useEffect(() => {
-	// 	(() => {
-	// 		getData();
-	// 	})();
-	// }, []);
+	useEffect(() => {
+		(() => {
+			getData();
+		})();
+	}, []);
 	
-	// const onLoad = (data) => {
-	// 	setQuantityRooms(data);
-	// 	setError(false);
-	// 	setErrorMessage('Виникла помилка при завантаженні.');
-	// }
-	// const onError = () => {
-	// 	setError(true);
-	// }
-	// const getData = () => {
-	// 	servicesQuantityRooms.getMaxQuantitiesRooms()
-	// 		.then(onLoad)
-	// 		.catch(onError);
-	// }
+	const onLoad = (data) => {
+		setQuantityRooms(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
+	const onError = () => {
+		setError(true);
+	}
+	const getData = () => {
+		servicesQuantityRooms.getMaxQuantitiesRooms()
+			.then(onLoad)
+			.catch(onError);
+	}
 	const handlerChange = (event) => {
 		const selectedType = event.target.id;
 		const updatedType = quantityRooms.map((item) => ({
@@ -142,17 +91,17 @@ const QuantityRooms = ({onChange}) => {
 		)
 	}
 	const renderedServicesInput = useMemo(() => {
-		if (quantityRooms === null) return;
+		if (quantityRooms === null) return '';
 		return renderInput();
 	}, [quantityRooms]);
 	const renderedServices = useMemo(() => {
-		if (quantityRooms === null) return null;
+		if (quantityRooms === null) return '';
 		return render(quantityRooms);
 	}, [quantityRooms]);
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				5. Кількість кімнат
+				{numeration}. Кількість кімнат
 			</h2>
 			<div className="numberRooms">
 				{error && <p>{errorMessage}</p>}

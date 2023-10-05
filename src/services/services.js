@@ -47,5 +47,4 @@ class Services {
 		return res;
 	}
 }
-
 export default Services;

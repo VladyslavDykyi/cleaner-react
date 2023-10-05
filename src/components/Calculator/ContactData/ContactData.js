@@ -1,7 +1,7 @@
 import React, {useState, useEffect, memo,useCallback} from 'react';
 import InputMask from 'react-input-mask';
 
-const ContactData = ({getData}) => {
+const ContactData = ({getData,numeration}) => {
 	const [userData, setUserData] = useState({
 		userName: '',
 		userTel: '',
@@ -24,7 +24,7 @@ const ContactData = ({getData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				13. Вкажіть ваші контактні дані
+				{numeration}. Вкажіть ваші контактні дані
 			</h2>
 			<div className="contact-data">
 				<label className="input" htmlFor="userName">

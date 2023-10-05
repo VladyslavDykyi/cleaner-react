@@ -1,6 +1,6 @@
 import React, {useState, useEffect, memo, useCallback} from 'react';
 
-const AddressData = ({getData}) => {
+const AddressData = ({getData,numeration}) => {
 	const [addressData, setAddressData] = useState({
 		street: '',
 		apartmentNo: '',
@@ -26,7 +26,7 @@ const AddressData = ({getData}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				12. Вкажіть вашу адресу
+				{numeration}. Вкажіть вашу адресу
 			</h2>
 			<div className="address">
 				<label className="input" htmlFor="street">
