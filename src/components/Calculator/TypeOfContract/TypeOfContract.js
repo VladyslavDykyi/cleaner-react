@@ -12,7 +12,7 @@ const TypeOfContract = ({onChange,numeration,onChange2}) => {
 			id: 2,
 			select: false,
 			type: 'dryCleaning',
-			text: 'Хімчистка',
+			text: 'Хімчистка та додаткові послуги',
 		},
 	]);
 	useEffect(() => {

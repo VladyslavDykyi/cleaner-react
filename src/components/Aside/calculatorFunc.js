@@ -1,56 +1,30 @@
 export default class MyCalculator {
 	constructor () {
 	}
-	
-	cleaningDefault2 (
-		priceDefault,
-		startM2,
-		numberCleaners,
-		salaryAdditionalCleaner,
-		step,
-		currentM2,
-		dataDopAdditional,
-		discountAdditional
-	) { // розрахунок дефолтної ціни
-		const priceAreaM2 = this.priceAreaM2(
-			priceDefault,
-			step,
-			startM2,
-			currentM2);
-		const sumCleaners = this.priceDopCleaners(salaryAdditionalCleaner, numberCleaners);
-		if ( !!dataDopAdditional.length) return priceAreaM2 +
-			this.sumPriceAdditional(dataDopAdditional,discountAdditional) +
-			sumCleaners;
-		return priceAreaM2 + sumCleaners;
-	}
-	sumPriceAdditional(data, subtractPercentage = false) { // розрахунок ціни доп послуг
+	sumPriceAdditional(data, subtractPercentage = false) {// Ціна Додаткових послуг, Хімчистки, Прання
+		if (data === null) return 0;
 		return data.reduce((accumulator, { price, quantityKilograms }) => {
 			const itemPrice = +price * (!isNaN(+quantityKilograms) ? +quantityKilograms : 1);
-			
-			// Если subtractPercentage равен true, вычитаем процент
+			console.log(data);
 			if (subtractPercentage) {
-				const percentageToSubtract = 10; // Здесь задайте нужный процент
-				const percentageValue = (percentageToSubtract / 100) * itemPrice;
+				const percentageValue = (subtractPercentage / 100) * itemPrice;
 				accumulator += itemPrice - percentageValue;
 			} else {
 				accumulator += itemPrice;
 			}
-			
 			return accumulator;
 		}, 0);
 	}
-	priceAreaM2 (priceDefault, step, startM2, currentM2) {// Цена на базовую услугу
-		return priceDefault + (step * (currentM2 - startM2));
+	priceTimeServices (defaultValue, step, current, start) {// Ціна на базовую послугу
+		return defaultValue + (step * (current - start));
 	}
-	
-	priceDopCleaners (salaryAdditionalCleaner, numberCleaners) {
+	priceDopCleaners (salaryAdditionalCleaner, numberCleaners) { // Ціна на додаткових Прибиральників
 		return salaryAdditionalCleaner * numberCleaners;
 	}
-	
-	priceM2 = (currentM2, currentPrice) => { //Стоимость за метр, грн
+	priceM2 = (currentM2, currentPrice) => { // Ціна за метр 2, грн
 		return (currentPrice / currentM2);
 	}
-	discountAreaM2 = (priceAreaM2Default, currentArea) => {
+	discountAreaM2 = (priceAreaM2Default, currentArea) => { // Знижка за метр 2, грн
 		return ((priceAreaM2Default / currentArea) - 1) * 100;
 	}
 }

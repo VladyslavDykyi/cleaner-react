@@ -19,7 +19,12 @@ const Aside = ({
                }) => {
 	const settingsCalc = new Services;
 	const [settings, setSettings] = useState(null);
-	const [price, setPrice] = useState('');
+	const [priceTime, setPriceTime] = useState({
+		price: '',
+		timeWorkMin: 0,
+	});
+	const [processingPersonalData, setProcessingPersonalData] = useState(false);
+	const handlerChange = () => setProcessingPersonalData((prevValue) => !prevValue);
 	useEffect(() => {
 		(() => {
 			getData();
@@ -27,18 +32,21 @@ const Aside = ({
 	}, []);
 	useEffect(() => {
 		(() => {
-			setPrice(
-				(typeOfContract.type === 'dryCleaning') ?
-					funcCalcAdditionalDry(
-						additionalOfServices
-					) : funcCalc(
-						areaOfRoom.areaRoom,
-						quantityOfCleaner.quantity,
-						settings,
-						quantityOfRooms,
-						additionalOfServices
-					)
-			);
+			setPriceTime((typeOfContract.type === 'dryCleaning') ?
+				funcCalcAdditionalDry(
+					additionalOfServices,
+					orderOfDryCleaning,
+					laundryOfServices,
+				) :
+				funcCalc(
+					areaOfRoom.areaRoom,
+					quantityOfCleaner.quantity,
+					settings,
+					quantityOfRooms,
+					additionalOfServices,
+					orderOfDryCleaning,
+					laundryOfServices,
+				));
 		})();
 	}, [
 		areaOfRoom,
@@ -47,6 +55,8 @@ const Aside = ({
 		settings,
 		additionalOfServices,
 		typeOfContract,
+		orderOfDryCleaning,
+		laundryOfServices
 	]);
 	const onLoad = (data) => {
 		setSettings(data);
@@ -59,55 +69,103 @@ const Aside = ({
 			.then(onLoad)
 			.catch(onError);
 	}
-	const funcCalcAdditionalDry = (additionalOfServices) => {
-		if ( !additionalOfServices.length) return '';
+	const funcCalcAdditionalDry = (
+		additionalOfServices,
+		orderOfDryCleaning,
+		laundryOfServices,
+	) => {
 		const calc = new MyCalculator;
-		return calc.sumPriceAdditional(additionalOfServices);
+		let res = 0;
+		
+		if (additionalOfServices.length) res += calc.sumPriceAdditional(additionalOfServices);
+		if (orderOfDryCleaning.length) res += calc.sumPriceAdditional(orderOfDryCleaning);
+		if (laundryOfServices.length) res += calc.sumPriceAdditional(laundryOfServices);
+		return {
+			price: res,
+			timeWorkMin: 0,
+		};
 	}
 	const funcCalc = (
 		areaOfRoom,
 		quantityOfCleaner,
 		settingsObj,
 		quantityRooms,
-		additionalOfServices
+		additionalOfServices,
+		orderOfDryCleaning,
+		laundryOfServices,
 	) => {
 		if (settingsObj === null) return '';
-		const {priceTime, discountAdditional} = settingsObj;
+		const {
+			priceTime,
+			discountAdditional,
+			discountDryOfCleaning,
+			discountWash,
+			salaryAdditionalCleaner
+		} = settingsObj;
 		const keys = Object.keys(priceTime)
 			.map(item => Number(item))
 			.reverse();
 		const calc = new MyCalculator;
+		let res = 0; // остаточна ціна
+		let resTime = 0; // остаточний час праці
 		for (let i = 0; i < keys.length; i++) {
 			const {
 				defaultPrice,
 				step,
 				timeCleaning,
-				timePrice
+				timePrice,
 			} = priceTime[keys[i]];
 			if (+quantityRooms.minAreaM2 > areaOfRoom &&
-				keys[i] === +quantityRooms.minAreaM2) {
-				if ( !additionalOfServices.length && quantityOfCleaner === 0) {
-					return +defaultPrice;
+				+keys[i] === +quantityRooms.minAreaM2) {
+				if ( !laundryOfServices.length &&
+					!orderOfDryCleaning.length &&
+					!additionalOfServices.length &&
+					quantityOfCleaner === 0) {
+					return {
+						price: +defaultPrice,// Додаем мінімальну цену м2 в залежності від кількості кімнат
+						timeWorkMin: +timeCleaning,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
+					};
 				}
-				return +defaultPrice +
-					calc.sumPriceAdditional(additionalOfServices,discountAdditional) +
-					calc.priceDopCleaners(800, quantityOfCleaner);
+				res += +defaultPrice; // Добавляем мінімальну цену м2 в залежності від кількості кімнат
+				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Добавляем цену доп. услуг
+				res += calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Добавляем цену химчистки
+				res += calc.sumPriceAdditional(laundryOfServices, discountWash); // Добавляем цену прання
+				res += calc.priceDopCleaners(salaryAdditionalCleaner, quantityOfCleaner); // Добавляем цену доп. уборщиков
+				return {
+					price: res,
+					timeWorkMin: resTime,
+				};
 			}
-			if (keys[i] <= areaOfRoom) {
-				return calc.cleaningDefault2(
-					+defaultPrice,
-					keys[i],
-					quantityOfCleaner,
-					800,
-					+step,
-					+areaOfRoom,
-					additionalOfServices,
-					discountAdditional
-				);
+			if (+keys[i] <= areaOfRoom) {
+				resTime += calc.priceTimeServices(+timeCleaning , +timePrice, +areaOfRoom, +keys[i]);// Додаем час вираховуючись на м2
+				res += calc.priceDopCleaners(salaryAdditionalCleaner, quantityOfCleaner); // Додаем ціну дод. прибиральників
+				res += calc.priceTimeServices(+defaultPrice, +step, +areaOfRoom, +keys[i]); // Додаем ціну вираховуючись на м2
+				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Додаем ціну дод. послуг
+				res += calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Додаем ціну химчистки
+				res += calc.sumPriceAdditional(laundryOfServices, discountWash); // Додаем ціну прання
+				return {
+					price: res,
+					timeWorkMin: resTime,
+				};
 			}
 		}
-		return '';
+		return {
+			price: "",
+			timeWorkMin: "",
+		};
 	}
+	const  minutesToHoursAndMinutes = (minutes) => {
+		if (typeof minutes === 'string' || isNaN(minutes)) return `≈ 00 год 00 хв`;
+		const hours = Math.floor(minutes / 60);
+		const remainingMinutes = minutes % 60;
+		const formattedHours = String(hours).padStart(2, '0');
+		const formattedMinutes = String(remainingMinutes).padStart(2, '0');
+		return `≈ ${formattedHours} год ${formattedMinutes} хв`;
+	}
+	const renderedServicesMinutesToHoursAndMinutes = useMemo(() => {
+		if (priceTime === null) return;
+		return minutesToHoursAndMinutes(priceTime.timeWorkMin);
+	}, [priceTime]);
 	const renderAdditionalServices = (content) => {
 		return (
 			<ul className="aside-list">
@@ -264,7 +322,7 @@ const Aside = ({
 			<p className="aside-wrapper">
 				<i className="bi bi-clock"/>
 				<span>
-					≈ 4 год 30 хв
+					{renderedServicesMinutesToHoursAndMinutes}
 				</span>
 			</p>
 			<p className="aside-wrapper">
@@ -276,14 +334,20 @@ const Aside = ({
 			<h3 className="aside-title t-bold t-5">
 				До сплати:
 				<span className="aside-prise t-e-bold t-3">
-					 {` ${price} грн`}
+					 {` ${priceTime.price} грн`}
 				</span>
 			</h3>
 			<p className="aside-min-price t-bold t-7">
-				{price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
-				<input className="visually-hidden" type="checkbox" name="politick" id="checkbox"/>
+				<input className="visually-hidden"
+				       type="checkbox"
+				       name="politick"
+				       id="checkbox"
+				       checked={processingPersonalData}
+				       onChange={handlerChange}
+				/>
 				<span className="t-8">
 					Я приймаю
 					<a href="#">Політику</a>
@@ -292,7 +356,7 @@ const Aside = ({
 					даним сайтом та послугами
 				</span>
 			</label>
-			<button className="btn btn-pink" type="button">
+			<button className="btn btn-pink" type="button" disabled={priceTime.price < 1000 || !processingPersonalData}>
 				Замовити Чистоту
 			</button>
 		</div>
@@ -329,7 +393,7 @@ const Aside = ({
 			<p className="aside-wrapper">
 				<i className="bi bi-clock"/>
 				<span>
-					≈ 4 год 30 хв
+					{renderedServicesMinutesToHoursAndMinutes}
 				</span>
 			</p>
 			<p className="aside-wrapper">
@@ -345,14 +409,20 @@ const Aside = ({
 			<h3 className="aside-title t-bold t-5">
 				До сплати:
 				<span className="aside-prise t-e-bold t-3">
-					 {` ${price} грн`}
+					 {` ${priceTime.price} грн`}
 				</span>
 			</h3>
 			<p className="aside-min-price t-bold t-7">
-				{price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{priceTime.price< 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
-				<input className="visually-hidden" type="checkbox" name="politick" id="checkbox"/>
+				<input className="visually-hidden"
+				       type="checkbox"
+				       name="politick"
+				       id="checkbox"
+				       checked={processingPersonalData}
+				       onChange={handlerChange}
+				/>
 				<span className="t-8">
 					Я приймаю
 					<a href="#">Політику</a>
@@ -361,7 +431,7 @@ const Aside = ({
 					даним сайтом та послугами
 				</span>
 			</label>
-			<button className="btn btn-pink" type="button">
+			<button className="btn btn-pink" type="button" disabled={priceTime.price < 1000 || !processingPersonalData}>
 				Замовити Чистоту
 			</button>
 		</div>
@@ -378,7 +448,7 @@ Aside.defaultProps = {
 	typeOfRoom: '',
 	quantityOfCleaner: 0,
 	quantityOfRooms: '',
-	quantityOfBathroom: null,
+	quantityOfBathroom: 0,
 	areaOfRoom: 0,
 	additionalOfServices: null,
 	orderOfDryCleaning: null,
