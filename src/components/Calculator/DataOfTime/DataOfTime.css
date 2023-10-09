@@ -17,7 +17,6 @@
 }
 @media screen and (max-width: 1024px) {
 	.calendar-pick {
-		height: 500px;
 		flex: none;
 	}
 }

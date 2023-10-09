@@ -5,7 +5,6 @@ export default class MyCalculator {
 		if (data === null) return 0;
 		return data.reduce((accumulator, { price, quantityKilograms }) => {
 			const itemPrice = +price * (!isNaN(+quantityKilograms) ? +quantityKilograms : 1);
-			console.log(data);
 			if (subtractPercentage) {
 				const percentageValue = (subtractPercentage / 100) * itemPrice;
 				accumulator += itemPrice - percentageValue;
@@ -14,6 +13,17 @@ export default class MyCalculator {
 			}
 			return accumulator;
 		}, 0);
+	}
+	sumTimeAdditional (data) {
+		if (data === null) return 0;
+		return data.reduce((accumulator, {timeCleaning, quantityKilograms}) => {
+			const itemTime = +timeCleaning * (!isNaN(+quantityKilograms) ? +quantityKilograms : 1);
+			accumulator += itemTime;
+			return accumulator;
+		},0);
+	}
+	finalTimeServices (timeM2,timeAdditional,timeOnWork) {
+	
 	}
 	priceTimeServices (defaultValue, step, current, start) {// Ціна на базовую послугу
 		return defaultValue + (step * (current - start));

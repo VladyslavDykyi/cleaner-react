@@ -204,6 +204,7 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 					},
 					slideTransition: {
 						overflowX: 'visible',
+						minHeight: '450px',
 					},
 				},
 			},

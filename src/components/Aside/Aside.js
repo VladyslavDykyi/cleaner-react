@@ -76,13 +76,22 @@ const Aside = ({
 	) => {
 		const calc = new MyCalculator;
 		let res = 0;
-		
-		if (additionalOfServices.length) res += calc.sumPriceAdditional(additionalOfServices);
-		if (orderOfDryCleaning.length) res += calc.sumPriceAdditional(orderOfDryCleaning);
-		if (laundryOfServices.length) res += calc.sumPriceAdditional(laundryOfServices);
+		let resTime = 0;
+		if (additionalOfServices.length) {
+			res += calc.sumPriceAdditional(additionalOfServices);
+			resTime += calc.sumTimeAdditional(additionalOfServices); // Добавляем час доп. услуг
+		}
+		if (orderOfDryCleaning.length) {
+			res += calc.sumPriceAdditional(orderOfDryCleaning);
+			resTime += calc.sumTimeAdditional(orderOfDryCleaning); // Добавляем час химчистки
+		}
+		if (laundryOfServices.length) {
+			res += calc.sumPriceAdditional(laundryOfServices);
+			resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
+		}
 		return {
 			price: res,
-			timeWorkMin: 0,
+			timeWorkMin: resTime,
 		};
 	}
 	const funcCalc = (
@@ -126,6 +135,10 @@ const Aside = ({
 						timeWorkMin: +timeCleaning,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
 					};
 				}
+				resTime += +timeCleaning; // Добавляем мінімальний час м2 в залежності від кількості кімнат
+				resTime += calc.sumTimeAdditional(additionalOfServices, ); // Добавляем час доп. услуг
+				resTime += calc.sumTimeAdditional(orderOfDryCleaning, ); // Добавляем час химчистки
+				resTime += calc.sumTimeAdditional(laundryOfServices, ); // Добавляем час прання
 				res += +defaultPrice; // Добавляем мінімальну цену м2 в залежності від кількості кімнат
 				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Добавляем цену доп. услуг
 				res += calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Добавляем цену химчистки
@@ -137,7 +150,10 @@ const Aside = ({
 				};
 			}
 			if (+keys[i] <= areaOfRoom) {
-				resTime += calc.priceTimeServices(+timeCleaning , +timePrice, +areaOfRoom, +keys[i]);// Додаем час вираховуючись на м2
+				resTime += calc.priceTimeServices(+timeCleaning, +timePrice, +areaOfRoom, +keys[i]);// Додаем час вираховуючись на м2
+				resTime += calc.sumTimeAdditional(additionalOfServices); // Добавляем час доп. услуг
+				resTime += calc.sumTimeAdditional(orderOfDryCleaning); // Добавляем час химчистки
+				resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
 				res += calc.priceDopCleaners(salaryAdditionalCleaner, quantityOfCleaner); // Додаем ціну дод. прибиральників
 				res += calc.priceTimeServices(+defaultPrice, +step, +areaOfRoom, +keys[i]); // Додаем ціну вираховуючись на м2
 				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Додаем ціну дод. послуг
@@ -154,18 +170,29 @@ const Aside = ({
 			timeWorkMin: "",
 		};
 	}
-	const  minutesToHoursAndMinutes = (minutes) => {
-		if (typeof minutes === 'string' || isNaN(minutes)) return `≈ 00 год 00 хв`;
-		const hours = Math.floor(minutes / 60);
-		const remainingMinutes = minutes % 60;
+	const minutesToHoursAndMinutes = (minutes, timeWorkOneCleaner, quantityOfCleaner = 0) => {
+		if (typeof minutes === 'string' ||
+			minutes === 0 ||
+			isNaN(minutes) ||
+			timeWorkOneCleaner === null) return `≈ 00 год 00 хв`;
+		const dopTimeFull = minutes / 60;
+		const quantityCleaner = Math.ceil(dopTimeFull / timeWorkOneCleaner);
+		const min = (typeOfContract.type === 'dryCleaning') ?
+			minutes / quantityCleaner :
+			minutes / (quantityCleaner + quantityOfCleaner) ;
+		const hours = Math.floor(min / 60);
+		const remainingMinutes = min % 60;
 		const formattedHours = String(hours).padStart(2, '0');
-		const formattedMinutes = String(remainingMinutes).padStart(2, '0');
+		const formattedMinutes = String(Math.round(remainingMinutes)).padStart(2, '0');
 		return `≈ ${formattedHours} год ${formattedMinutes} хв`;
+		
 	}
 	const renderedServicesMinutesToHoursAndMinutes = useMemo(() => {
-		if (priceTime === null) return;
-		return minutesToHoursAndMinutes(priceTime.timeWorkMin);
-	}, [priceTime]);
+		if (priceTime === null || settings === null) return;
+		return minutesToHoursAndMinutes(priceTime.timeWorkMin,
+			settings.timeWorkOneCleaner,
+			quantityOfCleaner.quantity);
+	}, [priceTime, quantityOfCleaner, settings]);
 	const renderAdditionalServices = (content) => {
 		return (
 			<ul className="aside-list">
@@ -413,7 +440,7 @@ const Aside = ({
 				</span>
 			</h3>
 			<p className="aside-min-price t-bold t-7">
-				{priceTime.price< 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
 				<input className="visually-hidden"

@@ -78,8 +78,8 @@ const AdditionalServices = ({onChange,numeration}) => {
 					<label className="services" htmlFor={item.name} onClick={handlerClick}>
 						<span className="services-card">
 							<picture>
-								<source srcSet={'./img/additional-services/' + item.svg} type="image/webp"/>
-								<img src={'./img/additional-services/' + item.svg} alt={item.text}/>
+								<source srcSet={item.svg} type="image/webp"/>
+								<img src={item.svg} alt={item.text}/>
 							</picture>
 							<span className="services-wrapper">
 								<span className="services-title t-s-bold t-8">{item.text} {item.measurement}</span>
