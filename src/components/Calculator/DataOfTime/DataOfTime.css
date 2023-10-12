@@ -14,6 +14,7 @@
 }
 .Mui-selected {
 	background-color: #83b100 !important;
+	color: white !important;
 }
 @media screen and (max-width: 1024px) {
 	.calendar-pick {

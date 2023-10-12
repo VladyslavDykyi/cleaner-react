@@ -1,7 +1,8 @@
-import React, {useState, useEffect, memo,useCallback} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import InputMask from 'react-input-mask';
+import './ContactData.css';
 
-const ContactData = ({getData,numeration}) => {
+const ContactData = ({getData,numeration,validInput}) => {
 	const [userData, setUserData] = useState({
 		userName: '',
 		userTel: '',
@@ -13,32 +14,31 @@ const ContactData = ({getData,numeration}) => {
 			getData(userData);
 		})();
 	}, [userData]);
-	
-	const handlerChange = useCallback((event) => {
+	const handlerChange = (event) => {
 		const {value, name} = event.target;
 		setUserData({
 			...userData,
 			[name]: value,
 		});
-	})
+	};
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
 				{numeration}. Вкажіть ваші контактні дані
 			</h2>
 			<div className="contact-data">
-				<label className="input" htmlFor="userName">
+				<label className={`input ${validInput.nameValid ? 'inValid' : ''}`} htmlFor="userName">
 					<input type="text" name="userName" id="userName" placeholder="Ваше імʼя"
 					       value={userData.userName} onChange={handlerChange} required/>
 				</label>
-				<label className="input" htmlFor="userTel">
+				<label className={`input ${validInput.telValid ? 'inValid' : ''}`} htmlFor="userTel">
 					<InputMask type='tel' name="userTel" id="userTel" mask="+38(099)-999-99-99"
 					           value={userData.userTel} onChange={handlerChange} placeholder="+38(0__)-___-__-__"
 					           required/>
 				</label>
 				<label className="input" htmlFor="userEmail">
 					<input type="text" name="userEmail" id="userEmail" placeholder="Email"
-					       value={userData.userEmail} onChange={handlerChange} required/>
+					       value={userData.userEmail} onChange={handlerChange} />
 				</label>
 				<label className="textarea" htmlFor="userComment">
 					<textarea name="userComment" id="userComment" cols="30" rows="10" placeholder="Коментар (опціонно)"

@@ -1,9 +1,10 @@
 export default class MyCalculator {
 	constructor () {
 	}
-	sumPriceAdditional(data, subtractPercentage = false) {// Ціна Додаткових послуг, Хімчистки, Прання
+	
+	sumPriceAdditional (data, subtractPercentage = false) {// Ціна Додаткових послуг, Хімчистки, Прання
 		if (data === null) return 0;
-		return data.reduce((accumulator, { price, quantityKilograms }) => {
+		return data.reduce((accumulator, {price, quantityKilograms}) => {
 			const itemPrice = +price * (!isNaN(+quantityKilograms) ? +quantityKilograms : 1);
 			if (subtractPercentage) {
 				const percentageValue = (subtractPercentage / 100) * itemPrice;
@@ -14,23 +15,39 @@ export default class MyCalculator {
 			return accumulator;
 		}, 0);
 	}
+	
 	sumTimeAdditional (data) {
 		if (data === null) return 0;
 		return data.reduce((accumulator, {timeCleaning, quantityKilograms}) => {
 			const itemTime = +timeCleaning * (!isNaN(+quantityKilograms) ? +quantityKilograms : 1);
 			accumulator += itemTime;
 			return accumulator;
-		},0);
+		}, 0);
 	}
-	finalTimeServices (timeM2,timeAdditional,timeOnWork) {
+	
+	finalTimeServices (timeM2, timeAdditional, timeOnWork) {
 	
 	}
-	priceTimeServices (defaultValue, step, current, start) {// Ціна на базовую послугу
-		return defaultValue + (step * (current - start));
+	
+	priceTimeServices (
+		defaultValue,
+		step,
+		current,
+		start,
+		coefficientClean = 1,
+		coefficientRoom = 1
+	) {// Ціна на базовую послугу
+		return (defaultValue + (step * (current - start))) * (coefficientClean * coefficientRoom);
 	}
+	
+	priceTimeServicesNew (defaultValue, step, current, start, coefficient) {// Ціна на базовую послугу
+		return (defaultValue + (step * (current - start))) * coefficient;
+	}
+	
 	priceDopCleaners (salaryAdditionalCleaner, numberCleaners) { // Ціна на додаткових Прибиральників
 		return salaryAdditionalCleaner * numberCleaners;
 	}
+	
 	priceM2 = (currentM2, currentPrice) => { // Ціна за метр 2, грн
 		return (currentPrice / currentM2);
 	}

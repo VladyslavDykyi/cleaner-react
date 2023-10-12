@@ -170,7 +170,12 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 		return (
 			arr.map(item => (
 				<label className="radio-text" htmlFor={item.name + item.id} key={item.id}>
-					<input type="radio" onChange={handlerCheck} name={item.name} id={item.name + item.id}/>
+					<input type="radio"
+					       onChange={handlerCheck}
+					       name={item.name}
+					       id={item.name + item.id}
+					       checked={item.select}
+					/>
 					<span>{item.time}</span>
 				</label>
 			))
@@ -193,7 +198,6 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 			},
 			MuiDayCalendar: {
 				styleOverrides: {
-					header: {},
 					weekDayLabel: {
 						width: '64px',
 						height: '64px',
@@ -249,7 +253,11 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 				<div className="calendar-pick">
 					<LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale='uk'>
 						<ThemeProvider theme={theme}>
-							<DateCalendar onChange={handlerCheckData} views={['day']}/>
+							<DateCalendar
+								onChange={handlerCheckData}
+								views={['day']}
+								disablePast
+							/>
 						</ThemeProvider>
 					</LocalizationProvider>
 				</div>

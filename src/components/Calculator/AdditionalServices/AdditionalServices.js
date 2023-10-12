@@ -69,7 +69,8 @@ const AdditionalServices = ({onChange,numeration}) => {
 		if (data === null) return;
 		return (
 			data.map(item => (
-				<div className={cn('additional-services-item', {'active': item.measurement !== null && item.select})}
+				<div className={cn('additional-services-item',
+					{'active': item.measurement !== null && item.select})}
 				     key={item.id}>
 					<input type="checkbox" name={item.name} id={item.name}
 					       onChange={() => handlerChecked(item.id)}

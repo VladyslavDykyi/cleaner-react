@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect} from "react";
+import {useState, useMemo, useEffect, useCallback} from "react";
 import Services from "../../services/services";
 import MyCalculator from "./calculatorFunc";
 
@@ -16,14 +16,17 @@ const Aside = ({
 	               data,
 	               time,
 	               contactAndAddress,
+	               setValidInput,
                }) => {
 	const settingsCalc = new Services;
 	const [settings, setSettings] = useState(null);
+	const [timeWork, setTimeWork] = useState('');
 	const [priceTime, setPriceTime] = useState({
 		price: '',
 		timeWorkMin: 0,
 	});
 	const [processingPersonalData, setProcessingPersonalData] = useState(false);
+	const [validData, setValidData] = useState({});
 	const handlerChange = () => setProcessingPersonalData((prevValue) => !prevValue);
 	useEffect(() => {
 		(() => {
@@ -32,21 +35,83 @@ const Aside = ({
 	}, []);
 	useEffect(() => {
 		(() => {
-			setPriceTime((typeOfContract.type === 'dryCleaning') ?
-				funcCalcAdditionalDry(
-					additionalOfServices,
-					orderOfDryCleaning,
-					laundryOfServices,
-				) :
-				funcCalc(
-					areaOfRoom.areaRoom,
-					quantityOfCleaner.quantity,
-					settings,
-					quantityOfRooms,
-					additionalOfServices,
-					orderOfDryCleaning,
-					laundryOfServices,
-				));
+			if (typeOfContract.type === 'dryCleaning') {
+				setPriceTime(
+					funcCalcAdditionalDry(
+						additionalOfServices,
+						orderOfDryCleaning,
+						laundryOfServices,
+					)
+				)
+			} else {
+				switch (typeOfCleaning.type) {
+					case 'afterRepair':
+						setPriceTime(funcCalc(
+							areaOfRoom.areaRoom,
+							quantityOfCleaner.quantity,
+							settings,
+							quantityOfRooms,
+							additionalOfServices,
+							orderOfDryCleaning,
+							laundryOfServices,
+							typeOfCleaning.type,
+							typeOfRoom.type,
+						));
+						break;
+					case 'eco':
+						setPriceTime(funcCalc(
+							areaOfRoom.areaRoom,
+							quantityOfCleaner.quantity,
+							settings,
+							quantityOfRooms,
+							additionalOfServices,
+							orderOfDryCleaning,
+							laundryOfServices,
+							typeOfCleaning.type,
+							typeOfRoom.type,
+						));
+						break;
+					case 'general':
+						setPriceTime(funcCalc(
+							areaOfRoom.areaRoom,
+							quantityOfCleaner.quantity,
+							settings,
+							quantityOfRooms,
+							additionalOfServices,
+							orderOfDryCleaning,
+							laundryOfServices,
+							typeOfCleaning.type,
+							typeOfRoom.type,
+						));
+						break;
+					case 'normal':
+						setPriceTime(funcCalc(
+							areaOfRoom.areaRoom,
+							quantityOfCleaner.quantity,
+							settings,
+							quantityOfRooms,
+							additionalOfServices,
+							orderOfDryCleaning,
+							laundryOfServices,
+							typeOfCleaning.type,
+							typeOfRoom.type,
+						));
+						break;
+					case 'preAfterParty':
+						setPriceTime(funcCalc(
+							areaOfRoom.areaRoom,
+							quantityOfCleaner.quantity,
+							settings,
+							quantityOfRooms,
+							additionalOfServices,
+							orderOfDryCleaning,
+							laundryOfServices,
+							typeOfCleaning.type,
+							typeOfRoom.type,
+						));
+						break;
+				}
+			}
 		})();
 	}, [
 		areaOfRoom,
@@ -56,7 +121,9 @@ const Aside = ({
 		additionalOfServices,
 		typeOfContract,
 		orderOfDryCleaning,
-		laundryOfServices
+		laundryOfServices,
+		typeOfCleaning,
+		typeOfRoom,
 	]);
 	const onLoad = (data) => {
 		setSettings(data);
@@ -90,7 +157,7 @@ const Aside = ({
 			resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
 		}
 		return {
-			price: res,
+			price: Math.floor(res),
 			timeWorkMin: resTime,
 		};
 	}
@@ -102,6 +169,8 @@ const Aside = ({
 		additionalOfServices,
 		orderOfDryCleaning,
 		laundryOfServices,
+		typeOfCleaning,
+		typeOfRoom,
 	) => {
 		if (settingsObj === null) return '';
 		const {
@@ -131,21 +200,21 @@ const Aside = ({
 					!additionalOfServices.length &&
 					quantityOfCleaner === 0) {
 					return {
-						price: +defaultPrice,// Додаем мінімальну цену м2 в залежності від кількості кімнат
+						price: Math.floor(+defaultPrice),// Додаем мінімальну цену м2 в залежності від кількості кімнат
 						timeWorkMin: +timeCleaning,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
 					};
 				}
 				resTime += +timeCleaning; // Добавляем мінімальний час м2 в залежності від кількості кімнат
-				resTime += calc.sumTimeAdditional(additionalOfServices, ); // Добавляем час доп. услуг
-				resTime += calc.sumTimeAdditional(orderOfDryCleaning, ); // Добавляем час химчистки
-				resTime += calc.sumTimeAdditional(laundryOfServices, ); // Добавляем час прання
+				resTime += calc.sumTimeAdditional(additionalOfServices,); // Добавляем час доп. услуг
+				resTime += calc.sumTimeAdditional(orderOfDryCleaning,); // Добавляем час химчистки
+				resTime += calc.sumTimeAdditional(laundryOfServices,); // Добавляем час прання
 				res += +defaultPrice; // Добавляем мінімальну цену м2 в залежності від кількості кімнат
 				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Добавляем цену доп. услуг
 				res += calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Добавляем цену химчистки
 				res += calc.sumPriceAdditional(laundryOfServices, discountWash); // Добавляем цену прання
 				res += calc.priceDopCleaners(salaryAdditionalCleaner, quantityOfCleaner); // Добавляем цену доп. уборщиков
 				return {
-					price: res,
+					price: Math.floor(res),
 					timeWorkMin: resTime,
 				};
 			}
@@ -155,12 +224,19 @@ const Aside = ({
 				resTime += calc.sumTimeAdditional(orderOfDryCleaning); // Добавляем час химчистки
 				resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
 				res += calc.priceDopCleaners(salaryAdditionalCleaner, quantityOfCleaner); // Додаем ціну дод. прибиральників
-				res += calc.priceTimeServices(+defaultPrice, +step, +areaOfRoom, +keys[i]); // Додаем ціну вираховуючись на м2
+				res += calc.priceTimeServices(
+					+defaultPrice,
+					+step,
+					+areaOfRoom,
+					+keys[i],
+					priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean,
+					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room,
+				); // Додаем ціну вираховуючись на м2
 				res += calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Додаем ціну дод. послуг
 				res += calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Додаем ціну химчистки
 				res += calc.sumPriceAdditional(laundryOfServices, discountWash); // Додаем ціну прання
 				return {
-					price: res,
+					price: Math.floor(res),
 					timeWorkMin: resTime,
 				};
 			}
@@ -179,13 +255,13 @@ const Aside = ({
 		const quantityCleaner = Math.ceil(dopTimeFull / timeWorkOneCleaner);
 		const min = (typeOfContract.type === 'dryCleaning') ?
 			minutes / quantityCleaner :
-			minutes / (quantityCleaner + quantityOfCleaner) ;
+			minutes / (quantityCleaner + quantityOfCleaner);
 		const hours = Math.floor(min / 60);
 		const remainingMinutes = min % 60;
 		const formattedHours = String(hours).padStart(2, '0');
 		const formattedMinutes = String(Math.round(remainingMinutes)).padStart(2, '0');
+		setTimeWork(`≈ ${formattedHours} год ${formattedMinutes} хв`);
 		return `≈ ${formattedHours} год ${formattedMinutes} хв`;
-		
 	}
 	const renderedServicesMinutesToHoursAndMinutes = useMemo(() => {
 		if (priceTime === null || settings === null) return;
@@ -198,7 +274,7 @@ const Aside = ({
 			<ul className="aside-list">
 				{content.map(item => (
 					<li className="aside-list-item" key={item.id}>
-						{item.text} {item.guantityKilograms || ''} {item.measurement}
+						{item.text} {item.quantityKilograms || ''} {item.measurement}
 					</li>
 				))}
 			</ul>
@@ -213,7 +289,7 @@ const Aside = ({
 			<ul className="aside-list">
 				{content.map(item => (
 					<li className="aside-list-item" key={item.id}>
-						{item.text} {item.guantityKilograms || ''} {item.measurement}
+						{item.text} {item.quantityKilograms || ''} {item.measurement}
 					</li>
 				))}
 			</ul>
@@ -229,7 +305,7 @@ const Aside = ({
 			<ul className="aside-list">
 				{content.map(item => (
 					<li className="aside-list-item" key={item.id}>
-						{`${item.text} (${item.guantityKilograms || ''} ${item.measurement})`}
+						{`${item.text} (${item.quantityKilograms || ''} ${item.measurement})`}
 					</li>
 				))}
 			</ul>
@@ -323,6 +399,85 @@ const Aside = ({
 		if (quantityOfCleaner === null) return null;
 		return renderQuantityCleaner(quantityOfCleaner);
 	}, [quantityOfCleaner]);
+	const handlerValid = (
+		data,
+	) => {
+		if (data.userTel === '' || data.userName === '') {
+			setValidData({
+				userTel: data.userTel === '' ? 'Заповніть поле телефону' : '',
+				userName: data.userName === '' ? 'Заповніть поле Імені' : '',
+			});
+			(() => {
+				setValidInput({
+					telValid: data.userTel === '',
+					nameValid: data.userName === '',
+				});
+			})();
+		} else {
+			setValidData({
+				userTel: '',
+				userName: '',
+			});
+			(() => {
+				setValidInput({
+					telValid: false,
+					nameValid: false,
+				});
+			})();
+		}
+	};
+	const handlerSubmit = (
+		dataTypeOfRoom,
+		dataTypeOfCleaning,
+		dataQuantityOfCleaner,
+		dataQuantityOfRooms,
+		dataQuantityOfBathroom,
+		dataAreaOfRoom,
+		dataAdditionalOfServices,
+		dataOrderOfDryCleaning,
+		dataLaundryOfServices,
+		dataDate,
+		dataTime,
+		priceTime,
+		timeWork,
+	) => {
+		const dataExecution = {
+			timeContract: dataTime.time,
+			dataContract: dataDate,
+			landryServicesContract: dataLaundryOfServices,
+			orderDryCleaningContract: dataOrderOfDryCleaning,
+			additionalOfServicesContract: dataAdditionalOfServices,
+			areaOfRoomContract: dataAreaOfRoom.areaRoom,
+			quantityBathroomContract: dataQuantityOfBathroom.quantityRooms,
+			quantityRoomsContract: {
+				quantityRooms: dataQuantityOfRooms.id,
+				area: dataQuantityOfRooms.minAreaM2,
+			},
+			quantityCleanerContract: dataQuantityOfCleaner.quantity,
+			typeCleaningContract: dataTypeOfCleaning.type,
+			typeRoomContract: dataTypeOfRoom.type,
+			executionTimeContract: {
+				min: priceTime.timeWorkMin,
+				content: timeWork,
+			},
+			executionPriceContract: priceTime.price,
+		} // У цьому об'єкті дані для відсилання на сервер
+	}
+	handlerSubmit(
+		typeOfRoom,
+		typeOfCleaning,
+		quantityOfCleaner,
+		quantityOfRooms,
+		quantityOfBathroom,
+		areaOfRoom,
+		additionalOfServices,
+		orderOfDryCleaning,
+		laundryOfServices,
+		data,
+		time,
+		priceTime,
+		timeWork,
+	);
 	const typeAside = (typeOfContract.type === 'dryCleaning') ? (<aside className="col-md-3">
 		<div className="aside">
 			<h3 className="aside-title t-bold t-5">Ви обрали:</h3>
@@ -366,6 +521,7 @@ const Aside = ({
 			</h3>
 			<p className="aside-min-price t-bold t-7">
 				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+			
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
 				<input className="visually-hidden"
@@ -383,7 +539,8 @@ const Aside = ({
 					даним сайтом та послугами
 				</span>
 			</label>
-			<button className="btn btn-pink" type="button" disabled={priceTime.price < 1000 || !processingPersonalData}>
+			<button className="btn btn-pink" onClick={() => handlerValid(contactAndAddress)} type="button"
+			        disabled={priceTime.price < 1000 || !processingPersonalData}>
 				Замовити Чистоту
 			</button>
 		</div>
@@ -441,6 +598,8 @@ const Aside = ({
 			</h3>
 			<p className="aside-min-price t-bold t-7">
 				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{validData.userTel}<br/>
+				{validData.userName}
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
 				<input className="visually-hidden"
@@ -458,7 +617,10 @@ const Aside = ({
 					даним сайтом та послугами
 				</span>
 			</label>
-			<button className="btn btn-pink" type="button" disabled={priceTime.price < 1000 || !processingPersonalData}>
+			<button className="btn btn-pink"
+			        onClick={() => handlerValid(contactAndAddress)}
+			        type="button"
+			        disabled={priceTime.price < 1000 || !processingPersonalData}>
 				Замовити Чистоту
 			</button>
 		</div>
@@ -485,3 +647,5 @@ Aside.defaultProps = {
 	contactAndAddress: null,
 }
 export default Aside;
+
+// console.log(obj['25']['general']['office']['room']);

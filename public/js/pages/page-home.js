@@ -8,32 +8,54 @@
 			document.querySelector('body').classList.toggle('lock');
 		}
 	});
-	document.addEventListener("DOMContentLoaded", function () {
-		const cityElement = document.querySelectorAll(".visitor-city");
-		// Виконуємо запит до API ipapi.co за допомогою Fetch
-		fetch("https://ipapi.co/json/")
-			.then(function (response) {
-				if ( !response.ok) {
-					throw new Error("Помилка під час запиту до API ipinfo.io");
-				}
-				return response.json();
-			})
-			.then(function (data) {
-				// Вилучаємо інформацію про місто
-				
-				const city = data.city;
-				// Вставляємо місто в HTML
-				cityElement.forEach(item => {
-					item.textContent = city;
-				});
-			})
-			.catch(function (error) {
-				console.error(error);
-				cityElement.forEach(item => {
-					item.textContent = "EROR";
-				});
-			});
-	});
+	// document.addEventListener("DOMContentLoaded", function () {
+	// 	(() => {
+	// 		const cityElement = document.querySelectorAll(".visitor-city");
+	// 		const KEY_GEO = 'GEO_KEY';
+	//
+	// 		const handleLocationSuccess = (position) => {
+	// 			const latitude = position.coords.latitude;
+	// 			const longitude = position.coords.longitude;
+	// 			fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=d7fafb7e5aaa4f8db82d5df7a2299b7c&language=uk`)
+	// 				.then(response => response.json())
+	// 				.then(data => {
+	// 					const city = data.results[0].components.city;
+	// 					const jsonData = JSON.stringify(data);
+	// 					localStorage.setItem(KEY_GEO, jsonData);
+	// 					cityElement.forEach(item => {
+	// 						item.textContent = city;
+	// 					});
+	// 				})
+	// 				.catch(error => console.error(error));
+	// 		};
+	//
+	// 		const handleLocationError = () => {
+	// 			cityElement.forEach(item => {
+	// 				item.textContent = "EROR";
+	// 			});
+	// 		};
+	//
+	// 		try {
+	// 			const storedData = localStorage.getItem(KEY_GEO);
+	// 			if (storedData) {
+	// 				const data = JSON.parse(storedData);
+	// 				const city = data.results[0].components.city;
+	// 				cityElement.forEach(item => {
+	// 					item.textContent = city;
+	// 				});
+	// 			} else {
+	// 				if ("geolocation" in navigator) {
+	// 					navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError);
+	// 				} else {
+	// 					handleLocationError();
+	// 				}
+	// 			}
+	// 		} catch (error) {
+	// 			console.error(`Помилка при отриманні даних з сервера: ${error}`);
+	// 		}
+	// 	})();
+	// });
+	
 	const swiper = new Swiper(".mySwiper1", {
 		slidesPerView: 1,
 		centeredSlidesBounds: true,

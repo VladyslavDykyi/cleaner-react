@@ -1,12 +1,14 @@
 class Services {
 	_apiBase = 'http://clean.webgenerator.com.ua/api/v1';
-	
+	_city = null;
+	constructor (city) {
+		this._city = city;
+	}
 	async getResource (url, key) {
 		try {
 			const storedData = sessionStorage.getItem(key);
 			if (storedData) {
 				const data = JSON.parse(storedData);
-				// console.log(`Данные из sessionStorage (ключ "${key}"):`, data);
 				return data;
 			} else {
 				const res = await fetch(`${this._apiBase}${url}`);
@@ -20,7 +22,6 @@ class Services {
 				const jsonData = JSON.stringify(data);
 				sessionStorage.setItem(key, jsonData);
 				
-				// console.log(`Данные сохранены в sessionStorage (ключ "${key}").`);
 				return data;
 			}
 		} catch (error) {
@@ -58,6 +59,10 @@ class Services {
 	}
 	async getRoomTypesAll() {
 		const res = await this.getResource(`/room-types/all`,"ROOM_TYPES_ALL");
+		return res.data;
+	}
+	async getCitiesAll() {
+		const res = await this.getResource(`/cities/all`,"CITIES_ALL");
 		return res.data;
 	}
 	async getCalculatorSettingsAll() {

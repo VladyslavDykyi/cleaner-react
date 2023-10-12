@@ -30,7 +30,8 @@ const Calculator = ({
 	                    dataInp,
 	                    timeInp,
 	                    numeration,
-	                    typeOfContractResetRoom
+	                    typeOfContractResetRoom,
+	                    validInput,
                     }) => {
 	const [typeContract, setTypeContract] = useState({});
 	useEffect(() => {
@@ -43,8 +44,8 @@ const Calculator = ({
 			<OrderDryCleaning onChange={orderOfDryCleaning} numeration={numeration.three}/>
 			<LaundryServices onChange={laundryOfServices} numeration={numeration.four}/>
 			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp} numeration={numeration.five}/>
-			<AddressData getData={formOfAddress} numeration={numeration.six}/>
-			<ContactData getData={formOfContact} numeration={numeration.seven}/>
+			<AddressData getInfo={formOfAddress} numeration={numeration.six}/>
+			<ContactData getData={formOfContact} numeration={numeration.seven} validInput={validInput}/>
 		</> : <>
 			<TypeOfContract onChange={setTypeContract} onChange2={typeOfContractResetRoom} numeration={numeration.one}/>
 			<TypeOfCleaning onChange={typeOfCleaning} numeration={numeration.two}/>
@@ -57,11 +58,11 @@ const Calculator = ({
 			<OrderDryCleaning onChange={orderOfDryCleaning} numeration={numeration.nine}/>
 			<LaundryServices onChange={laundryOfServices} numeration={numeration.ten}/>
 			<DataOfTime onChangeTime={timeInp} onChangeData={dataInp} numeration={numeration.eleven}/>
-			<AddressData getData={formOfAddress} numeration={numeration.twelve}/>
-			<ContactData getData={formOfContact} numeration={numeration.thirteen}/>
+			<AddressData getInfo={formOfAddress} numeration={numeration.twelve}/>
+			<ContactData getData={formOfContact} numeration={numeration.thirteen} validInput={validInput}/>
 		</>;
 		
-	}, [typeContract]);
+	}, [typeContract,validInput]);
 	return (
 		<div className="col-md-9 calculator">
 			{memoizedCalculator}

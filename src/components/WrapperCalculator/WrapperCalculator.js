@@ -16,7 +16,10 @@ const WrapperCalculator = () => {
 	const [time, setTime] = useState({});
 	const [formContact, setFormContact] = useState({});
 	const [formAddress, setFormAddress] = useState({});
-	
+	const [validInput, setValidInput] = useState({
+		nameValid: false,
+		telValid: false
+	});
 	const [typeContract, setTypeContract] = useState({});
 	const objForm = {
 		...formContact,
@@ -31,6 +34,7 @@ const WrapperCalculator = () => {
 		data={data}
 		time={time}
 		contactAndAddress={objForm}
+		setValidInput={setValidInput}
 	/> : <Aside
 		typeOfCleaning={typeDataCleaning}
 		typeOfRoom={typeDataRoom}
@@ -44,6 +48,7 @@ const WrapperCalculator = () => {
 		data={data}
 		time={time}
 		contactAndAddress={objForm}
+		setValidInput={setValidInput}
 	/>;
 	return (
 		<>
@@ -78,6 +83,7 @@ const WrapperCalculator = () => {
 				formOfAddress={setFormAddress}
 				dataInp={seData}
 				timeInp={setTime}
+				validInput={validInput}
 			/>
 			{render}
 		</>
