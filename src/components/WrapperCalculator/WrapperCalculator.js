@@ -2,7 +2,7 @@ import {useState} from "react";
 import Calculator from "../Calculator";
 import Aside from "../Aside";
 
-const WrapperCalculator = () => {
+const WrapperCalculator = ({modal}) => {
 	const [typeDataCleaning, setTypeDataCleaning] = useState({});
 	const [dataQuantityCleaner, setDataQuantityCleaner] = useState({});
 	const [typeDataRoom, setTypeDataRoom] = useState({});
@@ -49,6 +49,7 @@ const WrapperCalculator = () => {
 		time={time}
 		contactAndAddress={objForm}
 		setValidInput={setValidInput}
+		modalBtn={modal}
 	/>;
 	return (
 		<>

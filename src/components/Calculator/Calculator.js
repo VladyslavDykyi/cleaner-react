@@ -64,7 +64,7 @@ const Calculator = ({
 		
 	}, [typeContract,validInput]);
 	return (
-		<div className="col-md-9 calculator">
+		<div className="calculator">
 			{memoizedCalculator}
 		</div>
 	);

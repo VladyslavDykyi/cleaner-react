@@ -10,7 +10,9 @@ const QuantityBathrooms = ({onChange,numeration}) => {
 		(() => {
 			if (quantityBathRooms === null) return;
 			onChange({
-				'quantityRooms': quantityBathRooms.selectId
+				'quantityRooms': quantityBathRooms.selectId,
+				'price':quantityBathRooms.price,
+				'timeWork': quantityBathRooms.timeWork,
 			})
 		})();
 	}, [quantityBathRooms]);

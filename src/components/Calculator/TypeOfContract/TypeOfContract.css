@@ -1,3 +1,27 @@
 .grid-g22 {
 	grid-gap: 22px;
 }
+@media screen and (max-width: 1200px) {
+	.calculator-wrapper .contract.type-cleaning>label {
+		flex: 0 1 calc(45% - 12px);
+	}
+}
+@media screen and (max-width: 768px) {
+	.calculator-wrapper .contract.type-cleaning>label {
+		flex: 0 1 calc(50% - 12px);
+	}
+	.grid-g22 {
+		grid-gap: 0;
+	}
+}
+@media screen and (max-width: 576px) {
+	.radio-text>span {
+		-webkit-border-radius: 10px;
+		border-radius: 10px;
+		height: 58px;
+	}
+}
+
+.contract .radio-text span {
+	max-width: 230px;
+}

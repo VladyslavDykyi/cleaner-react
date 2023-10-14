@@ -60,7 +60,7 @@ const TypeOfContract = ({onChange,numeration,onChange2}) => {
 			<h2 className="t-s-bold t-4">
 				{numeration}. Тип замовлення
 			</h2>
-			<div className="type-cleaning justify-content-start grid-g22">
+			<div className="type-cleaning justify-content-start grid-g22 contract">
 				{renderedServices}
 			</div>
 		</section>

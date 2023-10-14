@@ -73,13 +73,16 @@ const LaundryServices = ({onChange,numeration}) => {
 									className="services-text t-bold t-4">{item.price + item.currency} / {item.measurement}</span>
 							</span>
 						</span>
-						<label className="services-input" htmlFor={item.name + 'Input'}>
-							<span className="t-8">Вкажіть вагу у {item.measurement}:</span>
-							<input type="number" onChange={handlerQuantityKilograms}
-							       value={item.quantityKilograms || ''} name={item.name + 'Input'}
-							       id={item.name + 'Input'}
-							       placeholder={"5 " + item.measurement}/>
-						</label>
+						{
+							item.measurement &&
+							<label className="services-input" htmlFor={item.name + 'Input'}>
+								<span className="t-8">Вкажіть вагу у {item.measurement}:</span>
+								<input type="number" onChange={handlerQuantityKilograms}
+								       value={item.quantityKilograms || ''} name={item.name + 'Input'}
+								       id={item.name + 'Input'}
+								       placeholder={"5 " + item.measurement}/>
+							</label>
+						}
 					</label>
 				</div>
 			))

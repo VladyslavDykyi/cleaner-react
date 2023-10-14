@@ -105,7 +105,7 @@ const TotalAreaRoom = ({onChange,numeration}) => {
 			<h2 className="t-s-bold t-4">
 				{numeration}. Загальний метраж приміщення
 			</h2>
-			<div className="numberRooms">
+			<div className="numberRooms area">
 				{error && <p>{errorMessage}</p>}
 				{renderedServices}
 			</div>

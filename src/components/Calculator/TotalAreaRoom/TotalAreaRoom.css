@@ -1,6 +1,9 @@
 .calculator-wrapper .numberRooms {
 	align-items: flex-end;
 }
+.calculator-wrapper .numberRooms.area {
+	padding-left: 30px;
+}
 .MuiSlider-root.MuiSlider-colorPrimary {
 	color: #DCE9C4;
 	height: 19px;

@@ -25,33 +25,63 @@ export default class MyCalculator {
 		}, 0);
 	}
 	
-	finalTimeServices (timeM2, timeAdditional, timeOnWork) {
-	
-	}
-	
 	priceTimeServices (
 		defaultValue,
 		step,
 		current,
 		start,
-		coefficientClean = 1,
-		coefficientRoom = 1
+		coefficientClean,
+		coefficientRoom
 	) {// Ціна на базовую послугу
-		return (defaultValue + (step * (current - start))) * (coefficientClean * coefficientRoom);
+		return (defaultValue * (coefficientClean * coefficientRoom) + (step * (current - start)));
 	}
 	
-	priceTimeServicesNew (defaultValue, step, current, start, coefficient) {// Ціна на базовую послугу
-		return (defaultValue + (step * (current - start))) * coefficient;
+	priceBathroom (price, quantityRooms) {
+		if (quantityRooms === '') return 0;
+		return price * Number(quantityRooms);
+	}
+	
+	timeBathroom (time, quantityRooms) {
+		if (quantityRooms === '') return 0;
+		return time * Number(quantityRooms);
 	}
 	
 	priceDopCleaners (salaryAdditionalCleaner, numberCleaners) { // Ціна на додаткових Прибиральників
 		return salaryAdditionalCleaner * numberCleaners;
 	}
-	
-	priceM2 = (currentM2, currentPrice) => { // Ціна за метр 2, грн
-		return (currentPrice / currentM2);
+	priceDefaultM2 (defaultValue, step, current, start) {// Ціна на базовую послугу
+		return defaultValue + (step * (current - start));
 	}
-	discountAreaM2 = (priceAreaM2Default, currentArea) => { // Знижка за метр 2, грн
-		return ((priceAreaM2Default / currentArea) - 1) * 100;
+	salaryCleaner (
+		defaultValue,
+		coefficientClean,
+		coefficientRoom,
+		cleanerInterestRate,
+		priceAdditional,
+		priceDryCleaning,
+		numberCleaners,
+		salaryCleanerOnHands,
+		numberDopCleaners,
+		max,
+	) {
+		const res = (((defaultValue * (coefficientClean * coefficientRoom)) * (cleanerInterestRate / 100)) + (priceAdditional + priceDryCleaning)  + (numberDopCleaners * salaryCleanerOnHands)) / (numberDopCleaners + numberCleaners);
+		
+		return res < max ? res : max;
+	}
+	salaryDopCleaner (
+		priceDop,
+		numberCleaners,
+		salaryCleanerOnHands,
+		numberDopCleaners,
+		max,
+	) {
+		console.log(priceDop,
+			numberCleaners,
+			salaryCleanerOnHands,
+			numberDopCleaners,
+			max,'111111111111111111111')
+		const res = (priceDop  + (numberDopCleaners * salaryCleanerOnHands)) / (numberDopCleaners + numberCleaners);
+		
+		return res < max ? res : max;
 	}
 }

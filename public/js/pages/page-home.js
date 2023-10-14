@@ -1,61 +1,13 @@
 "use strict";
 (function () {
 	const burger = document.querySelector('.burger');
-	burger.addEventListener('click', () => {
+	burger.addEventListener('click',()=> {
 		const header = document.querySelector('.header')
 		header.classList.toggle('active');
-		if ( !header.classList.contains('.active')) {
+		if (!header.classList.contains('.active')) {
 			document.querySelector('body').classList.toggle('lock');
 		}
 	});
-	// document.addEventListener("DOMContentLoaded", function () {
-	// 	(() => {
-	// 		const cityElement = document.querySelectorAll(".visitor-city");
-	// 		const KEY_GEO = 'GEO_KEY';
-	//
-	// 		const handleLocationSuccess = (position) => {
-	// 			const latitude = position.coords.latitude;
-	// 			const longitude = position.coords.longitude;
-	// 			fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=d7fafb7e5aaa4f8db82d5df7a2299b7c&language=uk`)
-	// 				.then(response => response.json())
-	// 				.then(data => {
-	// 					const city = data.results[0].components.city;
-	// 					const jsonData = JSON.stringify(data);
-	// 					localStorage.setItem(KEY_GEO, jsonData);
-	// 					cityElement.forEach(item => {
-	// 						item.textContent = city;
-	// 					});
-	// 				})
-	// 				.catch(error => console.error(error));
-	// 		};
-	//
-	// 		const handleLocationError = () => {
-	// 			cityElement.forEach(item => {
-	// 				item.textContent = "EROR";
-	// 			});
-	// 		};
-	//
-	// 		try {
-	// 			const storedData = localStorage.getItem(KEY_GEO);
-	// 			if (storedData) {
-	// 				const data = JSON.parse(storedData);
-	// 				const city = data.results[0].components.city;
-	// 				cityElement.forEach(item => {
-	// 					item.textContent = city;
-	// 				});
-	// 			} else {
-	// 				if ("geolocation" in navigator) {
-	// 					navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError);
-	// 				} else {
-	// 					handleLocationError();
-	// 				}
-	// 			}
-	// 		} catch (error) {
-	// 			console.error(`Помилка при отриманні даних з сервера: ${error}`);
-	// 		}
-	// 	})();
-	// });
-	
 	const swiper = new Swiper(".mySwiper1", {
 		slidesPerView: 1,
 		centeredSlidesBounds: true,
@@ -94,11 +46,33 @@
 			},
 		},
 	});
-	
+
 	const list = document.querySelector('.service-packages-list');
-	list.addEventListener('click', e => {
-		if ( !e.target.classList.contains('text-wrap')) return
+	list.addEventListener('click',e => {
+		if (!e.target.classList.contains('text-wrap')) return
 		const item = e.target.closest('.service-packages-list-item').classList.toggle('active');
-		console.log(item);
 	});
+	const btnCalculator = document.querySelector('#calculBtn');
+	btnCalculator.addEventListener('click',(event) => {
+		const calculator = document.querySelector('#root');
+		calculator.classList.toggle('active');
+	});
+	const links = document.querySelectorAll('a[href^="#"]');
+
+	for (const link of links) {
+		link.addEventListener('click', function (e) {
+			e.preventDefault();
+			const targetId = this.getAttribute('href').substring(1); // Извлекаем id целевого элемента
+			const targetElement = document.getElementById(targetId);
+			const headerHeight = document.querySelector('header').offsetHeight; // Высота хедера
+
+			if (targetElement) {
+				const targetOffset = targetElement.offsetTop - headerHeight;
+				window.scrollTo({
+					top: targetOffset,
+					behavior: 'smooth' // Добавить плавную прокрутку (по желанию)
+				});
+			}
+		});
+	}
 })();
