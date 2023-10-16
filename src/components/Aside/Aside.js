@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect, useCallback} from "react";
+import {useState, useMemo, useEffect} from "react";
 import Services from "../../services/services";
 import MyCalculator from "./calculatorFunc";
 
@@ -17,7 +17,6 @@ const Aside = ({
 	               time,
 	               contactAndAddress,
 	               setValidInput,
-	               modalBtn,
                }) => {
 	
 	const settingsCalc = new Services;
@@ -29,6 +28,7 @@ const Aside = ({
 		timeWorkMin: 0,
 		salaryCleaner: 0,
 	});
+	// console.log(settings)
 	const [processingPersonalData, setProcessingPersonalData] = useState(false);
 	const [validData, setValidData] = useState({});
 	const handlerChange = () => setProcessingPersonalData((prevValue) => !prevValue);
@@ -155,7 +155,6 @@ const Aside = ({
 		settings,
 	) => {
 		const {salaryСleanerOnHands, salaryСleanerMax, cleanerAditionalInterestRate} = settings;
-		console.log(settings)
 		const calc = new MyCalculator;
 		let res = 0;
 		let resTime = 0;
@@ -186,7 +185,6 @@ const Aside = ({
 			res += calc.sumPriceAdditional(laundryOfServices);
 			resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
 		}
-		
 		return {
 			price: Math.floor(res),
 			timeWorkMin: resTime,
@@ -221,7 +219,6 @@ const Aside = ({
 			.map(item => Number(item))
 			.reverse();
 		const calc = new MyCalculator;
-		let res = 0; // остаточна ціна
 		let resTime = 0; // остаточний час праці
 		for (let i = 0; i < keys.length; i++) {
 			const {
@@ -252,8 +249,10 @@ const Aside = ({
 						quantityOfBathroom.price,
 						quantityOfBathroom.quantityRooms
 					);
+					const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
+						priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
 					return {
-						price: Math.ceil(+defaultPrice + resultPriceBathroom),// Додаем мінімальну цену м2 в залежності від кількості кімнат
+						price: Math.ceil((+defaultPrice * coefficient) + resultPriceBathroom),// Додаем мінімальну цену м2 в залежності від кількості кімнат
 						timeWorkMin: +timeCleaning,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
 						salaryCleaner: salaryCleaners,
 					};
@@ -262,7 +261,9 @@ const Aside = ({
 				resTime += calc.sumTimeAdditional(additionalOfServices,); // Добавляем час доп. услуг
 				resTime += calc.sumTimeAdditional(orderOfDryCleaning,); // Добавляем час химчистки
 				resTime += calc.sumTimeAdditional(laundryOfServices,); // Добавляем час прання
-				const resultPriceAreaM2 = +defaultPrice; // Добавляем мінімальну цену м2 в залежності від кількості кімнат
+				const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
+					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
+				const resultPriceAreaM2 = (+defaultPrice * coefficient); // Добавляем мінімальну цену м2 в залежності від кількості кімнат
 				const resultAdditionalOfServices = calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Добавляем цену доп. услуг
 				const resultOrderOfDryCleaning= calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Добавляем цену химчистки
 				const resultLaundryOfServices= calc.sumPriceAdditional(laundryOfServices, discountWash); // Добавляем цену прання
@@ -290,14 +291,14 @@ const Aside = ({
 				};
 			}
 			if (+keys[i] <= areaOfRoom) {
-				resTime += calc.priceTimeServices(
+				resTime += calc.timeServices(
 					+timeCleaning,
 					+timePrice,
 					+areaOfRoom,
 					+keys[i],
 					priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean,
-					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room,
-				); // Додаем час вираховуючись на м2
+					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room, // Додаем час вираховуючись на м2
+				)
 				resTime += calc.sumTimeAdditional(additionalOfServices); // Добавляем час доп. услуг
 				resTime += calc.sumTimeAdditional(orderOfDryCleaning); // Добавляем час химчистки
 				resTime += calc.sumTimeAdditional(laundryOfServices); // Добавляем час прання
@@ -514,6 +515,7 @@ const Aside = ({
 		priceTime,
 		timeWork,
 		contactAndAddress,
+		numberCleaner,
 	) => {
 		const dataExecution = {
 			timeContract: dataTime.time,
@@ -536,6 +538,8 @@ const Aside = ({
 			},
 			executionPriceContract: priceTime.price,
 			contactAddressContract: contactAndAddress,
+			numberCleanerContract: numberCleaner,
+			salaryCleanerContract: priceTime.salaryCleaner,
 		} // У цьому об'єкті дані для відсилання на сервер
 		return dataExecution
 	};
@@ -563,12 +567,13 @@ const Aside = ({
 				});
 			})();
 			const backendUrl = 'http://clean.webgenerator.com.ua/api/v1/order'; // Замените на реальный URL вашего бекенда
-			
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 			// Определите параметры запроса, включая метод (POST) и тело запроса (JSON-представление объекта)
 			const requestOptions = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					'X-CSRF-Token': csrfToken,
 				},
 				body: JSON.stringify(handlerSubmit(
 					typeOfRoom,
@@ -585,6 +590,7 @@ const Aside = ({
 					priceTime,
 					timeWork,
 					contactAndAddress,
+					numberCleaner
 				)),
 			};
 			// Выполните запрос с использованием fetch
@@ -598,39 +604,39 @@ const Aside = ({
 				.then((data) => {
 					// Обработайте ответ от бекенда
 					console.log('Ответ от бекенда:', data);
+					(()=> {
+						const wrapper = document.createElement('div');
+						wrapper.classList.add('modal-backdrop','fade','show');
+						const body = document.querySelector('body');
+						body.append(wrapper)
+						const modal = document.querySelector('#exampleModal');
+						modal.classList.add('show');
+						modal.style.display = 'block';
+						modal.addEventListener('click', (event) => {
+							// Проверяем, был ли клик внутри элемента #exampleModal
+							if (event.target === modal) {
+								modal.style.display = 'none';
+								modal.classList.remove('show');
+								const wrappers = document.querySelector('.modal-backdrop.fade.show');
+								if (wrappers) {
+									wrappers.remove();
+								}
+							}
+						});
+						const btnModal = document.querySelector('.btn-close');
+						btnModal.addEventListener('click', () => {
+							modal.style.display = 'none';
+							modal.classList.remove('show');
+							const wrappers = document.querySelector('.modal-backdrop.fade.show');
+							if (wrappers) {
+								wrappers.remove();
+							}
+						});
+					})();
 				})
 				.catch((error) => {
 					console.error('Произошла ошибка:', error);
 				});
-			(()=> {
-				const wrapper = document.createElement('div');
-				wrapper.classList.add('modal-backdrop','fade','show');
-				const body = document.querySelector('body');
-				body.append(wrapper)
-				const modal = document.querySelector('#exampleModal');
-				modal.classList.add('show');
-				modal.style.display = 'block';
-				modal.addEventListener('click', (event) => {
-					// Проверяем, был ли клик внутри элемента #exampleModal
-					if (event.target === modal) {
-						modal.style.display = 'none';
-						modal.classList.remove('show');
-						const wrappers = document.querySelector('.modal-backdrop.fade.show');
-						if (wrappers) {
-							wrappers.remove();
-						}
-					}
-				});
-				const btnModal = document.querySelector('.btn-close');
-				btnModal.addEventListener('click', () => {
-					modal.style.display = 'none';
-					modal.classList.remove('show');
-					const wrappers = document.querySelector('.modal-backdrop.fade.show');
-					if (wrappers) {
-						wrappers.remove();
-					}
-				});
-			})();
 		}
 	};
 	
@@ -739,6 +745,10 @@ const Aside = ({
 			<p className="aside-wrapper">
 				<i className="bi bi-people"/>
 				{renderedServicesQuantityCleaner}
+			</p>
+			<p className="aside-wrapper">
+				<i className="bi bi-people"/>
+				{numberCleaner} прибиральника
 			</p>
 			<p className="aside-wrapper">
 				<i className="bi bi-arrow-repeat"/>

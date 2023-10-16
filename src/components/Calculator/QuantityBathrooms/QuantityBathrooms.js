@@ -82,10 +82,10 @@ const QuantityBathrooms = ({onChange,numeration}) => {
 	}
 	const renderInput = () => {
 		return (
-			<label className="input" htmlFor="numberRoomsInput">
+			<label className="input" htmlFor="numberBathoomsInput">
 				<input type="number"
-				       name="numberRoomsInput"
-				       id="numberRoomsInput"
+				       name="numberBathoomsInput"
+				       id="numberBathoomsInput"
 				       placeholder="Введіть власноруч, якщо більше"
 				       min='0'
 				       value={quantityBathRooms.selectId}

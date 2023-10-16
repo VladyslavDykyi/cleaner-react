@@ -35,15 +35,24 @@ export default class MyCalculator {
 	) {// Ціна на базовую послугу
 		return (defaultValue * (coefficientClean * coefficientRoom) + (step * (current - start)));
 	}
-	
+	timeServices (
+		defaultValue,
+		step,
+		current,
+		start,
+		coefficientClean,
+		coefficientRoom
+	) {// Ціна на базовую послугу
+		return ((defaultValue + (step * (current - start))) * (coefficientClean * coefficientRoom));
+	}
 	priceBathroom (price, quantityRooms) {
 		if (quantityRooms === '') return 0;
-		return price * Number(quantityRooms);
+		return price * (quantityRooms - 1);
 	}
 	
 	timeBathroom (time, quantityRooms) {
 		if (quantityRooms === '') return 0;
-		return time * Number(quantityRooms);
+		return time * (quantityRooms- 1);
 	}
 	
 	priceDopCleaners (salaryAdditionalCleaner, numberCleaners) { // Ціна на додаткових Прибиральників
@@ -75,11 +84,6 @@ export default class MyCalculator {
 		numberDopCleaners,
 		max,
 	) {
-		console.log(priceDop,
-			numberCleaners,
-			salaryCleanerOnHands,
-			numberDopCleaners,
-			max,'111111111111111111111')
 		const res = (priceDop  + (numberDopCleaners * salaryCleanerOnHands)) / (numberDopCleaners + numberCleaners);
 		
 		return res < max ? res : max;

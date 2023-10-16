@@ -18,7 +18,6 @@ const QuantityRooms = ({onChange,numeration}) => {
 			getData();
 		})();
 	}, []);
-	
 	const onLoad = (data) => {
 		setQuantityRooms(data);
 		setError(false);
@@ -34,70 +33,73 @@ const QuantityRooms = ({onChange,numeration}) => {
 	}
 	const handlerChange = (event) => {
 		const selectedType = event.target.id;
-		const updatedType = quantityRooms.map((item) => ({
+		const updatedQuantityRooms = quantityRooms.map((item) => ({
 			...item,
 			select: item.type === selectedType,
 		}));
-		const a = updatedType.filter(item => item.select=== true);
-		setFinalValue(a[0]);
-		setQuantityRooms(updatedType);
+		
+		setQuantityRooms(updatedQuantityRooms);
+		// Передайте выбранное значение в родительский компонент
+		const selectedRoom = updatedQuantityRooms.find((item) => item.select);
+		setFinalValue(selectedRoom)
 	};
 	const handlerChangeInput = (event) => {
 		const selectQuantity = Number(event.target.value);
-		const newRoom = {
-			id: selectQuantity,
-			type: `room${selectQuantity}`,
-			name: "numberRooms",
-			select: true,
-			quantityRooms: selectQuantity,
-			minAreaM2: quantityRooms.at(-1).minAreaM2,
-		};
-		setFinalValue   (newRoom);
-	};
-	
-	const handlerKeyPress = (event) => {
-		const invalidCharacters = ['e', '+', '-'];
-		if (invalidCharacters.includes(event.key)) {
-			event.preventDefault();
+		if(!isNaN(selectQuantity) && selectQuantity ) {
+			const updatedQuantityRooms = quantityRooms.map((item) => ({
+				...item,
+				select: item.id === selectQuantity,
+			}));
+			setFinalValue({
+				"id": selectQuantity,
+				"type": `room${selectQuantity}`,
+				"select": true,
+				minAreaM2: quantityRooms.find((item) => item.id === selectQuantity)
+					? quantityRooms.find((item) => item.id === selectQuantity).minAreaM2
+					: quantityRooms.at(-1).minAreaM2,
+			})
+			setQuantityRooms(updatedQuantityRooms);
 		}
 	};
 	const render = (quantityRooms) => {
-		return (
-			quantityRooms.map(item => (
-				<label className="radio-text" htmlFor={item.type} key={item.type}>
-					<input type="radio"
-					       name={item.name}
-					       id={item.type}
-					       checked={item.select}
-					       onChange={handlerChange}
-					/>
-					<span>{item.id}</span>
-				</label>
-			)));
-	}
+		return quantityRooms.map((item) => (
+			<label className="radio-text" htmlFor={item.type} key={item.type}>
+				<input
+					type="radio"
+					name={item.name}
+					id={item.type}
+					checked={item.select}
+					onChange={handlerChange}
+				/>
+				<span>{item.id}</span>
+			</label>
+		));
+	};
 	const renderInput = () => {
 		return (
 			<label className="input" htmlFor="numberRoomsInput">
-				<input type="number"
-				       name="numberRoomsInput"
-				       id="numberRoomsInput"
-				       min='0'
-				       placeholder="Введіть власноруч, якщо більше"
-				       value={quantityRooms.selectId}
-				       onChange={handlerChangeInput}
-				       onKeyPress={handlerKeyPress}
+				<input
+					type="number"
+					name="numberRoomsInput"
+					id="numberoomsInput"
+					placeholder="Введіть власноруч, якщо більше"
+					value={finalValue ? finalValue.id : ''}
+					onChange={handlerChangeInput}
 				/>
 			</label>
-		)
-	}
+		);
+	};
+	
 	const renderedServicesInput = useMemo(() => {
-		if (quantityRooms === null) return '';
+		if (quantityRooms === null) return;
 		return renderInput();
 	}, [quantityRooms]);
+	
 	const renderedServices = useMemo(() => {
-		if (quantityRooms === null) return '';
+		if (quantityRooms === null) return;
 		return render(quantityRooms);
 	}, [quantityRooms]);
+	
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
@@ -109,6 +111,7 @@ const QuantityRooms = ({onChange,numeration}) => {
 				{renderedServicesInput}
 			</div>
 		</section>
-	)
+	);
 };
-export default memo(QuantityRooms);
+
+export default QuantityRooms;
