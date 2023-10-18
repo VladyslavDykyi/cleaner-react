@@ -1,0 +1,20 @@
+#orderDryList .additional-services-item:nth-child(n + 7){
+	display: none;
+}
+#orderDryList.active .additional-services-item:nth-child(n + 7){
+	display: block;
+}
+#orderDryList + .d-flex.justify-content-center svg {
+	transform: rotate(180deg);
+}
+#orderDryList.active + .d-flex.justify-content-center svg {
+	transform: rotate(0);
+}
+@media screen and (max-width: 580px) {
+	#orderDryList .additional-services-item:nth-child(n + 5){
+		display: none;
+	}
+	#orderDryList.active .additional-services-item:nth-child(n + 5){
+		display: block;
+	}
+}

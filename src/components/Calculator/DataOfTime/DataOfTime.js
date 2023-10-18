@@ -202,7 +202,7 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 						width: '64px',
 						height: '64px',
 						fontSize: '16px',
-						color: '#83b100',
+						color: '#597b00',
 						fontWeight: '700',
 						fontFamily: 'Mulish',
 					},
@@ -221,7 +221,7 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 						color: '#454545',
 						fontWeight: '500',
 						borderRadius: '16px',
-						border: '1px solid #83b100',
+						border: '1px solid #597b00',
 					},
 				},
 			},
@@ -238,7 +238,7 @@ const DataOfTime = ({onChangeTime, onChangeData,numeration}) => {
 			MuiSvgIcon: {
 				styleOverrides: {
 					root: {
-						fill: '#83b100',
+						fill: '#597b00',
 					},
 				}
 			}

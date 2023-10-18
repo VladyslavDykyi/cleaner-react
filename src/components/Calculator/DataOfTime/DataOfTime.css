@@ -10,10 +10,10 @@
 }
 [aria-current="date"] {
 	border-width: 5px !important;
-	border-color: #83b100 !important;
+	border-color: #597b00 !important;
 }
 .Mui-selected {
-	background-color: #83b100 !important;
+	background-color: #597b00 !important;
 	color: white !important;
 }
 @media screen and (max-width: 1024px) {

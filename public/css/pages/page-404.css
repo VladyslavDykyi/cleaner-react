@@ -4,7 +4,7 @@ body {
   font-weight: 500;
   line-height: normal;
   color: #454545;
-  background-color: #FEFEFE;
+  background-color: #F7F7F7;
 }
 
 body.lock {
@@ -36,7 +36,7 @@ li::marker {
 }
 
 .btn-pink {
-  background-color: #FF7AB5;
+  background-color: #597B00;
   color: #FEFEFE;
   --bs-btn-font-size: 18px;
   --bs-btn-font-weight: 500;
@@ -44,12 +44,12 @@ li::marker {
 }
 
 .btn-pink:hover {
-  background-color: #ff9dc9;
+  background-color: #79a012;
   color: #FEFEFE;
 }
 
 .btn-pink:active {
-  --bs-btn-active-bg: #fdb7d6;
+  --bs-btn-active-bg: #79a012;
   --bs-btn-active-color: #FEFEFE;
   --bs-btn-active-border-color: transparent;
 }
@@ -59,8 +59,27 @@ li::marker {
   --bs-btn-padding-y: 1.25rem;
 }
 
+.btn-orange {
+  background-color: #E98D04;
+  color: #FEFEFE;
+  --bs-btn-font-size: 18px;
+  --bs-btn-font-weight: 500;
+  --bs-btn-line-height: normal;
+}
+
+.btn-orange:hover {
+  background-color: #e69c2c;
+  color: #FEFEFE;
+}
+
+.btn-orange:active {
+  --bs-btn-active-bg: #e69c2c;
+  --bs-btn-active-color: #FEFEFE;
+  --bs-btn-active-border-color: transparent;
+}
+
 .btn-pinkBig {
-  background-color: #FE308B;
+  background-color: #E98D04;
   color: #FEFEFE;
   --bs-btn-font-size: 22px;
   --bs-btn-font-weight: 700;
@@ -68,12 +87,12 @@ li::marker {
 }
 
 .btn-pinkBig:hover {
-  background-color: #ff59a2;
+  background-color: #e69c2c;
   color: #FEFEFE;
 }
 
 .btn-pinkBig:active {
-  --bs-btn-active-bg: #ff59a2;
+  --bs-btn-active-bg: #e69c2c;
   --bs-btn-active-color: #FEFEFE;
   --bs-btn-active-border-color: transparent;
 }
@@ -85,7 +104,7 @@ li::marker {
 }
 
 :root {
-  --swiper-theme-color: #83B100;
+  --swiper-theme-color: #28674F;
 }
 
 .social {
@@ -97,11 +116,11 @@ li::marker {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #FF7AB5;
+  background-color: #597B00;
   -webkit-border-radius: 14px;
           border-radius: 14px;
   padding: 20px 8px;
-  color: #FEFEFE;
+  color: #FFFEF9;
   width: 420px;
   margin-right: 16px;
 }
@@ -123,7 +142,7 @@ li::marker {
   display: block;
   -webkit-border-radius: 50%;
           border-radius: 50%;
-  color: #FEFEFE;
+  color: #FFFEF9;
   margin-right: 8px;
 }
 
@@ -155,7 +174,7 @@ li::marker {
   width: 24px;
   height: 24px;
   display: block;
-  border: 2px solid #83B100;
+  border: 2px solid #597B00;
   -webkit-border-radius: 3px;
           border-radius: 3px;
   cursor: pointer;
@@ -187,10 +206,14 @@ li::marker {
   background: transparent url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'%3e%3cpath d='M6.37658 6.37658C6.87868 5.87447 7.69275 5.87447 8.19485 6.37658L15 13.1817L21.8051 6.37658C22.3073 5.87447 23.1213 5.87447 23.6234 6.37658C24.1255 6.87868 24.1255 7.69275 23.6234 8.19485L16.8183 15L23.6234 21.8051C24.1255 22.3073 24.1255 23.1213 23.6234 23.6234C23.1213 24.1255 22.3073 24.1255 21.8051 23.6234L15 16.8183L8.19485 23.6234C7.69275 24.1255 6.87868 24.1255 6.37658 23.6234C5.87447 23.1213 5.87447 22.3073 6.37658 21.8051L13.1817 15L6.37658 8.19485C5.87447 7.69275 5.87447 6.87868 6.37658 6.37658Z' fill='%23FEFEFE'/%3e%3c/svg%3e") center/1em auto no-repeat;
   background-size: 30px 30px;
   z-index: 100;
+  top: 20px;
+  right: 20px;
+  position: absolute;
 }
 
 .modal-header {
   border-bottom-color: transparent;
+  height: 0;
 }
 
 .modal-body {
@@ -218,14 +241,15 @@ li::marker {
 
 .img-girl-modal {
   position: absolute;
-  bottom: -51px;
-  right: 110px;
-  width: 50%;
+  bottom: 0;
+  right: 30px;
+  width: 100%;
+  max-width: 451px;
   height: auto;
 }
 
-.title-modal {
-  text-align: center;
+.text-title {
+  margin-top: 20px;
 }
 
 .modal-footer {
@@ -234,7 +258,29 @@ li::marker {
 }
 
 .modal-content {
-  --bs-modal-bg: #92C303;
+  --bs-modal-bg: #597B00;
+  margin: 0 auto;
+}
+
+.left-modal {
+  padding-left: 66px;
+}
+
+.left-modal .form {
+  margin-top: 40px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.left-modal .form > * {
+  margin-bottom: 16px;
 }
 
 .header {
@@ -295,8 +341,8 @@ li::marker {
 }
 
 .header-bg {
-  background-color: #FEFEFE;
-  padding: 14px 0 13px;
+  background-color: #F7F7F7;
+  padding: 4px 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -309,27 +355,14 @@ li::marker {
 }
 
 .header-logo img {
-  width: 144px;
+  width: 67px;
   height: auto;
 }
 
 .header-mob {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  grid-gap: 26px;
   width: -webkit-calc(100% - 170px);
   width: calc(100% - 170px);
-  max-width: 370px;
+  max-width: 624px;
 }
 
 .header-list {
@@ -347,7 +380,7 @@ li::marker {
           justify-content: space-between;
   list-style-type: none;
   width: 100%;
-  grid-gap: 6px;
+  grid-gap: 10px;
   padding-left: 0;
   margin-bottom: 0;
 }
@@ -363,21 +396,26 @@ li::marker {
   text-decoration: none;
   color: #454545;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: normal;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  grid-gap: 7px;
+  grid-gap: 8px;
   -webkit-border-radius: 2px;
           border-radius: 2px;
+  white-space: nowrap;
 }
 
 .header-list-item > a:hover {
@@ -452,7 +490,7 @@ li::marker {
 }
 
 .footer-list-item .pink {
-  color: #FE308B;
+  color: #597B00;
 }
 
 .footer-bottom {
@@ -529,14 +567,9 @@ li::marker {
     margin-right: 12px;
   }
 
-  .header-logo img {
-    width: 114px;
-  }
-
   .header-mob {
     width: -webkit-calc(100% - 126px);
     width: calc(100% - 126px);
-    grid-gap: 12px;
   }
 }
 
@@ -545,14 +578,13 @@ li::marker {
     width: 100%;
     max-width: 376px;
     margin: 0 auto;
-    padding: 8px 10px;
+    padding: 8px 6px;
   }
 
   .header {
     -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
             flex-wrap: wrap;
-    grid-gap: 20px;
     padding-right: 0;
   }
 
@@ -583,13 +615,7 @@ li::marker {
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
-  }
-
-  .header .wrapper-social {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 100%;
-        -ms-flex: 0 1 100%;
-            flex: 0 1 100%;
+    margin-top: 20px;
   }
 
   .header-list {
@@ -629,14 +655,33 @@ li::marker {
     min-height: 300px;
   }
 
+  .modal-body > div {
+    margin: 0;
+  }
+
   .img-girl-modal {
-    right: 0;
+    display: none;
+  }
+
+  .modal-content {
+    max-width: 90%;
+  }
+
+  .left-modal {
+    width: 100%;
+    padding: 0 12px;
+    margin-right: 0;
+    margin-left: 0;
   }
 }
 
 @media screen and (max-width: 768px) {
   body {
     font-size: 14px;
+  }
+
+  .header-logo img {
+    width: 31px;
   }
 
   .footer-top {
@@ -707,6 +752,32 @@ li::marker {
   .modal-body {
     min-height: 200px;
   }
+
+  .modal-content {
+    max-width: 100%;
+  }
+
+  .right-modal {
+    display: none;
+  }
+
+  .header .wrapper-social {
+    -webkit-box-ordinal-group: 4;
+    -webkit-order: 3;
+        -ms-flex-order: 3;
+            order: 3;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 1 100%;
+        -ms-flex: 0 1 100%;
+            flex: 0 1 100%;
+  }
+
+  .header-mob {
+    -webkit-box-ordinal-group: 5;
+    -webkit-order: 4;
+        -ms-flex-order: 4;
+            order: 4;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -714,12 +785,9 @@ li::marker {
     min-height: 150px;
   }
 
-  .img-girl-modal {
-    display: none;
-  }
-
-  .left-modal {
-    width: 100%;
+  .header .burger svg {
+    width: 24px;
+    height: 24px;
   }
 }
 

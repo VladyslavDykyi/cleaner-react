@@ -23,13 +23,13 @@
 	width: 19px;
 	height: 19px;
 	border-radius: 20px;
-	background: #83B100;
+	background: #597b00;
 }
 .MuiSlider-root .MuiSlider-thumb:before {
 	display: none;
 }
 .MuiSlider-root .MuiSlider-valueLabel {
-	color: #FE308B;
+	color: #E98D04;
 	font-family: Mulish,sans-serif;
 	font-size: 22px;
 	font-style: normal;

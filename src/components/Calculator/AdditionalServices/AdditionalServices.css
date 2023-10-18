@@ -1,0 +1,23 @@
+#additionalList .additional-services-item:nth-child(n + 7){
+	display: none;
+}
+#additionalList.active .additional-services-item:nth-child(n + 7){
+	display: block;
+}
+#additionalList + .d-flex.justify-content-center svg {
+	transform: rotate(180deg);
+}
+#additionalList.active + .d-flex.justify-content-center svg {
+	transform: rotate(0);
+}
+.orangesText {
+	color: #E98D04;
+}
+@media screen and (max-width: 580px) {
+	#additionalList .additional-services-item:nth-child(n + 5){
+		display: none;
+	}
+	#additionalList.active .additional-services-item:nth-child(n + 5){
+		display: block;
+	}
+}
