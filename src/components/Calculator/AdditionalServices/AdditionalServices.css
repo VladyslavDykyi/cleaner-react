@@ -13,11 +13,30 @@
 .orangesText {
 	color: #E98D04;
 }
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 1180px) {
 	#additionalList .additional-services-item:nth-child(n + 5){
 		display: none;
 	}
 	#additionalList.active .additional-services-item:nth-child(n + 5){
 		display: block;
 	}
+}
+@media screen and (max-width: 1024px) {
+	#additionalList .additional-services-item:nth-child(n + 4){
+		display: none;
+	}
+	#additionalList.active .additional-services-item:nth-child(n + 4){
+		display: block;
+	}
+}
+@media screen and (max-width: 580px) {
+	#additionalList .additional-services-item:nth-child(n + 3){
+		display: none;
+	}
+	#additionalList.active .additional-services-item:nth-child(n + 3){
+		display: block;
+	}
+}
+.additional-services-item {
+	word-break: break-word;
 }

@@ -1,0 +1,44 @@
+#laundryServices .additional-services-item:nth-child(n + 4){
+	display: none;
+}
+#laundryServices.active .additional-services-item:nth-child(n + 4){
+	display: block;
+}
+#laundryServices + .d-flex.justify-content-center svg {
+	transform: rotate(180deg);
+}
+#laundryServices.active + .d-flex.justify-content-center svg {
+	transform: rotate(0);
+}
+@media screen and (max-width: 1180px) {
+	#laundryServices .additional-services-item:nth-child(n + 3){
+		display: none;
+	}
+	#laundryServices.active .additional-services-item:nth-child(n + 3){
+		display: block;
+	}
+}
+@media screen and (max-width: 1024px) {
+	#laundryServices .additional-services-item:nth-child(n + 4){
+		display: none;
+	}
+	#laundryServices.active .additional-services-item:nth-child(n + 4){
+		display: block;
+	}
+}
+@media screen and (max-width: 768px) {
+	.calculator-wrapper .additional-services.widthX2>.additional-services-item {
+		flex: 0 1 calc(50% - 8px);
+	}
+}
+@media screen and (max-width: 580px) {
+	#laundryServices .additional-services-item:nth-child(n + 2){
+		display: none;
+	}
+	#laundryServices.active .additional-services-item:nth-child(n + 2){
+		display: block;
+	}
+	.calculator-wrapper .additional-services.widthX2>.additional-services-item {
+		flex: 0 1 100%;
+	}
+}

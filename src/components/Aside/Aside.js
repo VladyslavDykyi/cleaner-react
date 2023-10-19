@@ -683,7 +683,8 @@ const Aside = ({
 			</h3>
 			<p className="aside-min-price t-bold t-7">
 				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
-			
+				{validData.userTel }<br/>
+				{validData.userName }
 			</p>
 			<label className="my-checkbox" htmlFor="checkbox">
 				<input className="visually-hidden"
@@ -694,10 +695,10 @@ const Aside = ({
 				       onChange={handlerChange}
 				/>
 				<span className="t-8">
-					Я приймаю
-					<a href="#">Політику</a>
+						Я приймаю
+					<a href="./dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="#">Умови використання</a>
+					<a href="./dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>
@@ -777,9 +778,9 @@ const Aside = ({
 				/>
 				<span className="t-8">
 					Я приймаю
-					<a href="#">Політику</a>
+					<a href="./dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="#">Умови використання</a>
+					<a href="./dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>

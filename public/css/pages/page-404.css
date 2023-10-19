@@ -27,6 +27,15 @@ input[type='number']::-webkit-inner-spin-button {
   display: block;
 }
 
+#root.active + #rootBtn {
+  display: block;
+  margin-bottom: 50px;
+}
+
+#root + #rootBtn {
+  display: none;
+}
+
 .btn {
   --bs-btn-border-radius: 10px;
 }
@@ -665,6 +674,7 @@ li::marker {
 
   .modal-content {
     max-width: 90%;
+    text-align: center;
   }
 
   .left-modal {

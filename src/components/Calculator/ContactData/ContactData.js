@@ -28,12 +28,12 @@ const ContactData = ({getData,numeration,validInput}) => {
 			</h2>
 			<div className="contact-data">
 				<label className={`input ${validInput.nameValid ? 'inValid' : ''}`} htmlFor="userName">
-					<input type="text" name="userName" id="userName" placeholder="Ваше імʼя"
+					<input type="text" name="userName" id="userName" placeholder="Ваше імʼя  *"
 					       value={userData.userName} onChange={handlerChange} required/>
 				</label>
 				<label className={`input ${validInput.telValid ? 'inValid' : ''}`} htmlFor="userTel">
 					<InputMask type='tel' name="userTel" id="userTel" mask="+38(099)-999-99-99"
-					           value={userData.userTel} onChange={handlerChange} placeholder="+38(0__)-___-__-__"
+					           value={userData.userTel} onChange={handlerChange} placeholder="+38(0__)-___-__-__  *"
 					           required/>
 				</label>
 				<label className="input" htmlFor="userEmail">

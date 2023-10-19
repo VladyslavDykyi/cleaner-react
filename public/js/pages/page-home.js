@@ -1,13 +1,5 @@
 "use strict";
 (function () {
-	const burger = document.querySelector('.burger');
-	burger.addEventListener('click',()=> {
-		const header = document.querySelector('.header')
-		header.classList.toggle('active');
-		if (!header.classList.contains('.active')) {
-			document.querySelector('body').classList.toggle('lock');
-		}
-	});
 	const swiper = new Swiper(".mySwiper1", {
 		slidesPerView: 1,
 		centeredSlidesBounds: true,
@@ -56,6 +48,25 @@
 	btnCalculator.addEventListener('click',(event) => {
 		const calculator = document.querySelector('#root');
 		calculator.classList.toggle('active');
+		const headerHeight = document.querySelector('.header-bg').offsetHeight;
+		const targetOffset = calculator.offsetTop - headerHeight;
+		window.scrollTo({
+			top: targetOffset,
+			behavior: 'smooth', // Добавить плавную прокрутку (по желанию)
+		});
+	});
+	const btnCloseCalculator = document.querySelector('#closeCalculator');
+	btnCloseCalculator.addEventListener('click',(event) => {
+		const calculator = document.querySelector('#root');
+		calculator.classList.remove('active');
+	});
+	const burger = document.querySelector('.burger');
+	burger.addEventListener('click',()=> {
+		const header = document.querySelector('.header')
+		header.classList.toggle('active');
+		if (!header.classList.contains('.active')) {
+			document.querySelector('body').classList.toggle('lock');
+		}
 	});
 	document.addEventListener('DOMContentLoaded', function () {
 		const links = document.querySelectorAll('a[href^="#"]');
@@ -65,9 +76,20 @@
 				e.preventDefault();
 				const targetId = this.getAttribute('href').substring(1); // Извлекаем id целевого элемента
 				const targetElement = document.getElementById(targetId);
-				const headerHeight = document.querySelector('header').offsetHeight; // Высота хедера
-				console.log(targetElement.offsetTop,'1111111111');
+				const headerHeight = document.querySelector('.header-bg').offsetHeight; // Высота хедера
+
 				if (targetElement) {
+					if(window.innerWidth < 1024 && targetId === 'servicePackages') {
+						burger.click();
+						setTimeout(()=>{
+							const headerHeight = document.querySelector('.header-bg').offsetHeight;
+							const targetOffset = targetElement.offsetTop - headerHeight;
+							window.scrollTo({
+								top: targetOffset,
+								behavior: 'smooth', // Добавить плавную прокрутку (по желанию)
+							});
+						},100);
+					}
 					if(targetElement.id === 'root') targetElement.classList.add('active');
 					const targetOffset = targetElement.offsetTop - headerHeight;
 					window.scrollTo({
@@ -87,8 +109,7 @@
 				// Використовуємо метод scrollIntoView для прокручування до цільового елемента
 				if(!e.target.classList.contains('btn-pinkBig')) return
 				if (!targetElement.classList.contains('active')) targetElement.classList.add('active');
-				const headerHeight = document.querySelector('header').offsetHeight;
-				console.log(targetElement.offsetTop)
+				const headerHeight = document.querySelector('.header-bg').offsetHeight;
 				window.scrollTo({
 					top: targetElement.offsetTop - headerHeight,
 					behavior: 'smooth',
