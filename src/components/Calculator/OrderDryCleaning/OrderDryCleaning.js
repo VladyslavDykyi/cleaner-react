@@ -8,6 +8,7 @@ const OrderDryCleaning = ({onChange,numeration}) => {
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const [expanded, setExpanded] = useState(false);
+	const [discount, setDiscount] = useState('');
 	useEffect(() => {
 		(() => {
 			if (orderDryCleaning === null) return;
@@ -25,10 +26,18 @@ const OrderDryCleaning = ({onChange,numeration}) => {
 		setError(false);
 		setErrorMessage('Виникла помилка при завантаженні.');
 	}
+	const onLoad2 = (data) => {
+		setDiscount(data);
+		setError(false);
+		setErrorMessage('Виникла помилка при завантаженні.');
+	}
 	const onError = () => {
 		setError(true);
 	}
 	const getData = () => {
+		servicesDryCleanSofaCarpets.getCalculatorSettingsAll()
+		.then(onLoad2)
+		.catch(onError);
 		servicesDryCleanSofaCarpets.getDryCleanSofaCarpetsAll()
 			.then(onLoad)
 			.catch(onError);
@@ -118,7 +127,7 @@ const OrderDryCleaning = ({onChange,numeration}) => {
 					{numeration}. Замовити хімчистку меблів та килимів
 				</h2>
 				<h3 className="t-s-bold t-6">
-					Замовити хімчистку одночасно з прибиранням та отримати 30% знижки
+					Замовити хімчистку одночасно з прибиранням та отримати {discount.discountDryOfCleaning || ''}% знижки
 				</h3>
 				<div className={additionalServicesClasses} id='orderDryList'>
 					{error && <p>{errorMessage}</p>}

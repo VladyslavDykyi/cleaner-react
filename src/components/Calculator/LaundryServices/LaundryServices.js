@@ -104,7 +104,7 @@ const LaundryServices = ({onChange,numeration}) => {
 	return (
 		<section className="calculator-wrapper">
 			<h2 className="t-s-bold t-4">
-				{numeration}. Послуги з прання білизни
+				{numeration}. Прання та інше
 			</h2>
 			<div className={additionalServicesClasses} id='laundryServices'>
 				{error && <p>{errorMessage}</p>}
