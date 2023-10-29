@@ -28,9 +28,9 @@ const Aside = ({
 		timeWorkMin: 0,
 		salaryCleaner: 0,
 	});
-	// console.log(settings)
 	const [processingPersonalData, setProcessingPersonalData] = useState(false);
 	const [validData, setValidData] = useState({});
+	const [validMessage, setValidMessage] = useState('');
 	const handlerChange = () => setProcessingPersonalData((prevValue) => !prevValue);
 	useEffect(() => {
 		(() => {
@@ -154,7 +154,7 @@ const Aside = ({
 		laundryOfServices,
 		settings,
 	) => {
-		const {salaryСleanerOnHands, salaryСleanerMax, cleanerAditionalInterestRate} = settings;
+		const {salaryCleanerOnHands, salaryCleanerMax, cleanerAditionalInterestRate} = settings;
 		const calc = new MyCalculator;
 		let res = 0;
 		let resTime = 0;
@@ -165,9 +165,9 @@ const Aside = ({
 			salaryCleaners += calc.salaryDopCleaner(
 				calc.sumPriceAdditional(additionalOfServices, cleanerAditionalInterestRate),
 				numberCleaner,
-				salaryСleanerOnHands,
+				salaryCleanerOnHands,
 				quantityOfCleaner,
-				salaryСleanerMax,
+				salaryCleanerMax,
 			);
 		}
 		if (orderOfDryCleaning.length) {
@@ -176,9 +176,9 @@ const Aside = ({
 			salaryCleaners += calc.salaryDopCleaner(
 				calc.sumPriceAdditional(orderOfDryCleaning, cleanerAditionalInterestRate),
 				numberCleaner,
-				salaryСleanerOnHands,
+				salaryCleanerOnHands,
 				quantityOfCleaner,
-				salaryСleanerMax,
+				salaryCleanerMax,
 			);
 		}
 		if (laundryOfServices.length) {
@@ -210,10 +210,10 @@ const Aside = ({
 			discountDryOfCleaning,
 			discountWash,
 			salaryAdditionalCleaner,
-			salaryСleanerMax,
+			salaryCleanerMax,
 			cleanerInterestRate,
 			cleanerAditionalInterestRate,
-			salaryСleanerOnHands,
+			salaryCleanerOnHands,
 		} = settingsObj;
 		const keys = Object.keys(priceTime)
 			.map(item => Number(item))
@@ -241,9 +241,9 @@ const Aside = ({
 						calc.sumPriceAdditional(additionalOfServices, cleanerAditionalInterestRate),
 						calc.sumPriceAdditional(orderOfDryCleaning, cleanerAditionalInterestRate),
 						numberCleaner,
-						salaryСleanerOnHands,
+						salaryCleanerOnHands,
 						quantityOfCleaner,
-						salaryСleanerMax,
+						salaryCleanerMax,
 					);
 					const resultPriceBathroom = calc.priceBathroom(
 						quantityOfBathroom.price,
@@ -280,9 +280,9 @@ const Aside = ({
 					calc.sumPriceAdditional(additionalOfServices, cleanerAditionalInterestRate),
 					calc.sumPriceAdditional(orderOfDryCleaning, cleanerAditionalInterestRate),
 					numberCleaner,
-					salaryСleanerOnHands,
+					salaryCleanerOnHands,
 					quantityOfCleaner,
-					salaryСleanerMax,
+					salaryCleanerMax,
 				);
 				return {
 					price: Math.ceil(resultPriceAreaM2 + resultPriceBathroom + resultAdditionalOfServices + resultOrderOfDryCleaning + resultLaundryOfServices + resultPriceDopCleaners),
@@ -329,9 +329,9 @@ const Aside = ({
 					calc.sumPriceAdditional(additionalOfServices, cleanerAditionalInterestRate),
 					calc.sumPriceAdditional(orderOfDryCleaning, cleanerAditionalInterestRate),
 					numberCleaner,
-					salaryСleanerOnHands,
+					salaryCleanerOnHands,
 					quantityOfCleaner,
-					salaryСleanerMax,
+					salaryCleanerMax,
 				);
 				return {
 					price: Math.ceil(resultPriceDopCleaners + resultPriceAreaM2 + resultAdditionalOfServices + resultOrderOfDryCleaning + resultLaundryOfServices + resultPriceBathroom),
@@ -566,6 +566,33 @@ const Aside = ({
 					nameValid: false,
 				});
 			})();
+			const wrapper = document.createElement('div');
+			wrapper.classList.add('modal-backdrop','fade','show');
+			const body = document.querySelector('body');
+			body.append(wrapper)
+			const modal = document.querySelector('#exampleModal');
+			modal.classList.add('show');
+			modal.style.display = 'block';
+			modal.addEventListener('click', (event) => {
+				// Проверяем, был ли клик внутри элемента #exampleModal
+				if (event.target === modal) {
+					modal.style.display = 'none';
+					modal.classList.remove('show');
+					const wrappers = document.querySelector('.modal-backdrop.fade.show');
+					if (wrappers) {
+						wrappers.remove();
+					}
+				}
+			});
+			const btnModal = document.querySelector('.btn-close');
+			btnModal.addEventListener('click', () => {
+				modal.style.display = 'none';
+				modal.classList.remove('show');
+				const wrappers = document.querySelector('.modal-backdrop.fade.show');
+				if (wrappers) {
+					wrappers.remove();
+				}
+			});
 			const backendUrl = 'http://clean.webgenerator.com.ua/api/v1/order'; // Замените на реальный URL вашего бекенда
 			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 			// Определите параметры запроса, включая метод (POST) и тело запроса (JSON-представление объекта)
@@ -602,44 +629,37 @@ const Aside = ({
 					return response.json();
 				})
 				.then((data) => {
-					// Обработайте ответ от бекенда
-					console.log('Ответ от бекенда:', data);
-					(()=> {
-						const wrapper = document.createElement('div');
-						wrapper.classList.add('modal-backdrop','fade','show');
-						const body = document.querySelector('body');
-						body.append(wrapper)
-						const modal = document.querySelector('#exampleModal');
-						modal.classList.add('show');
-						modal.style.display = 'block';
-						modal.addEventListener('click', (event) => {
-							// Проверяем, был ли клик внутри элемента #exampleModal
-							if (event.target === modal) {
-								modal.style.display = 'none';
-								modal.classList.remove('show');
-								const wrappers = document.querySelector('.modal-backdrop.fade.show');
-								if (wrappers) {
-									wrappers.remove();
-								}
-							}
-						});
-						const btnModal = document.querySelector('.btn-close');
-						btnModal.addEventListener('click', () => {
-							modal.style.display = 'none';
-							modal.classList.remove('show');
-							const wrappers = document.querySelector('.modal-backdrop.fade.show');
-							if (wrappers) {
-								wrappers.remove();
-							}
-						});
-					})();
 				})
 				.catch((error) => {
 					console.error('Произошла ошибка:', error);
 				});
 		}
 	};
-	
+	const validPrice = () => {
+		if (settings && settings.minimumOrderValue !== null) {
+			const message = priceTime.price < settings.minimumOrderValue
+				? `*МІНІМАЛЬНА сума замовлення ${settings.minimumOrderValue} грн`
+				: '';
+			setValidMessage(message); // Устанавливаем сообщение в состояние
+		} else {
+			setValidMessage('');
+		}
+	};
+	useEffect(() => {
+		validPrice(); // Запуск функции при изменении settings
+	}, [settings,priceTime.price]);
+	const [disableBtn,setDisableBtn] = useState(true);
+	const disableBtnValid = () => {
+		if (settings && settings.minimumOrderValue !== null) {
+			const message = priceTime.price < settings.minimumOrderValue || !processingPersonalData;
+			setDisableBtn(message);
+		} else {
+			setDisableBtn(true);
+		}
+	}
+	useEffect(() => {
+		disableBtnValid(); // Запуск функции при изменении settings
+	}, [settings,processingPersonalData,priceTime.price]);
 	const typeAside = (typeOfContract.type === 'dryCleaning') ? (<aside className="aside-bg">
 		<div className="aside">
 			<h3 className="aside-title t-bold t-5">Ви обрали:</h3>
@@ -678,11 +698,11 @@ const Aside = ({
 			<h3 className="aside-title t-bold t-5">
 				До сплати:
 				<span className="aside-prise t-e-bold t-3">
-					 {` ${priceTime.price} грн`}
+					 {` ${priceTime.price || 0} грн`}
 				</span>
 			</h3>
 			<p className="aside-min-price t-bold t-7">
-				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{validMessage}
 				{validData.userTel }<br/>
 				{validData.userName }
 			</p>
@@ -696,14 +716,17 @@ const Aside = ({
 				/>
 				<span className="t-8">
 						Я приймаю
-					<a href="./dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
+					<a href="http://clean.webgenerator.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="./dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
+					<a href="http://clean.webgenerator.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>
-			<button className="btn btn-pink" onClick={() => handlerValid(contactAndAddress)} type="button"
-			        disabled={priceTime.price < 1000 || !processingPersonalData}>
+			<button className="btn btn-pink"
+			        onClick={() => handlerValid(contactAndAddress)}
+			        type="button"
+			        disabled={disableBtn}
+				>
 				Замовити Чистоту
 			</button>
 		</div>
@@ -760,11 +783,11 @@ const Aside = ({
 			<h3 className="aside-title t-bold t-5">
 				До сплати:
 				<span className="aside-prise t-e-bold t-3">
-					 {` ${priceTime.price} грн`}
+					 {` ${priceTime.price || 0} грн`}
 				</span>
 			</h3>
 			<p className="aside-min-price t-bold t-7">
-				{priceTime.price < 1000 ? '*МІНІМАЛЬНА сума замовлення 1000 грн' : ''}
+				{validMessage}
 				{validData.userTel }<br/>
 				{validData.userName }
 			</p>
@@ -778,9 +801,9 @@ const Aside = ({
 				/>
 				<span className="t-8">
 					Я приймаю
-					<a href="./dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
+					<a href="http://clean.webgenerator.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="./dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
+					<a href="http://clean.webgenerator.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>
@@ -790,7 +813,7 @@ const Aside = ({
 				        handlerValid(contactAndAddress)
 			        }}
 			        type="button"
-			        disabled={priceTime.price < 1000 || !processingPersonalData}
+			        disabled={disableBtn}
 			        >
 				Замовити Чистоту
 			</button>
