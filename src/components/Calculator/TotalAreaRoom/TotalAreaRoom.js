@@ -70,10 +70,10 @@ const TotalAreaRoom = ({onChange,numeration}) => {
 			<>
 				<Slider
 					aria-label="Always visible"
-					defaultValue={data.min}
-					min={data.min}
-					max={data.maxSlider}
-					value={render.value}
+					defaultValue={+data.min}
+					min={+data.min}
+					max={+data.maxSlider}
+					value={+render.value}
 					onChangeCommitted={handleChange}
 					onChange={handlerRender}
 					valueLabelDisplay="on"
