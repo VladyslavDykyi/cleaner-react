@@ -220,6 +220,7 @@ const Aside = ({
 			.reverse();
 		const calc = new MyCalculator;
 		let resTime = 0; // остаточний час праці
+		console.log(settingsObj)
 		for (let i = 0; i < keys.length; i++) {
 			const {
 				defaultPrice,
@@ -716,9 +717,9 @@ const Aside = ({
 				/>
 				<span className="t-8">
 						Я приймаю
-					<a href="http://clean.webgenerator.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
+					<a href="https://green-gloves.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="http://clean.webgenerator.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
+					<a href="https://green-gloves.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>
@@ -801,9 +802,9 @@ const Aside = ({
 				/>
 				<span className="t-8">
 					Я приймаю
-					<a href="http://clean.webgenerator.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
+					<a href="https://green-gloves.com.ua/site/dowload/privacy-policy-Green-Gloves.pdf" target="_blank">Політику</a>
 					та
-					<a href="http://clean.webgenerator.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
+					<a href="https://green-gloves.com.ua/site/dowload/terms-and-conditions-Green-Gloves-04-10-2023.pdf" target="_blank">Умови використання</a>
 					даним сайтом та послугами
 				</span>
 			</label>

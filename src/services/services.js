@@ -1,5 +1,5 @@
 class Services {
-	_apiBase = 'http://clean.webgenerator.com.ua/api/v1';
+	_apiBase = 'https://green-gloves.com.ua/api/v1';
 	_city = null;
 	constructor (city) {
 		this._city = city;
