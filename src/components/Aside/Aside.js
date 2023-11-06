@@ -234,6 +234,11 @@ const Aside = ({
 					!orderOfDryCleaning.length &&
 					!additionalOfServices.length &&
 					quantityOfCleaner === 0) {
+					const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
+						priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
+					resTime += +timeCleaning * coefficient;
+					resTime += calc.timeBathroom(quantityOfBathroom.timeWork,
+						quantityOfBathroom.quantityRooms);
 					const salaryCleaners = calc.salaryCleaner(
 						+defaultPrice,
 						priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean,
@@ -250,20 +255,22 @@ const Aside = ({
 						quantityOfBathroom.price,
 						quantityOfBathroom.quantityRooms
 					);
-					const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
-						priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
+					
 					return {
 						price: Math.ceil((+defaultPrice * coefficient) + resultPriceBathroom),// Додаем мінімальну цену м2 в залежності від кількості кімнат
-						timeWorkMin: +timeCleaning,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
+						timeWorkMin: resTime,// Додаем мінімальний час праці м2 в залежності від кількості кімнат
 						salaryCleaner: salaryCleaners,
 					};
 				}
-				resTime += +timeCleaning; // Добавляем мінімальний час м2 в залежності від кількості кімнат
+				const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
+					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
+				resTime += +timeCleaning * coefficient; // Добавляем мінімальний час м2 в залежності від кількості кімнат
 				resTime += calc.sumTimeAdditional(additionalOfServices,); // Добавляем час доп. услуг
 				resTime += calc.sumTimeAdditional(orderOfDryCleaning,); // Добавляем час химчистки
 				resTime += calc.sumTimeAdditional(laundryOfServices,); // Добавляем час прання
-				const coefficient = priceTime[keys[i]][typeOfCleaning][typeOfRoom].clean *
-					priceTime[keys[i]][typeOfCleaning][typeOfRoom].room;
+				resTime += calc.timeBathroom(quantityOfBathroom.timeWork,
+					quantityOfBathroom.quantityRooms);
+				
 				const resultPriceAreaM2 = (+defaultPrice * coefficient); // Добавляем мінімальну цену м2 в залежності від кількості кімнат
 				const resultAdditionalOfServices = calc.sumPriceAdditional(additionalOfServices, discountAdditional); // Добавляем цену доп. услуг
 				const resultOrderOfDryCleaning= calc.sumPriceAdditional(orderOfDryCleaning, discountDryOfCleaning); // Добавляем цену химчистки
@@ -347,7 +354,7 @@ const Aside = ({
 			salaryCleaner: "",
 		};
 	}
-	const minutesToHoursAndMinutes = (minutes, timeWorkOneCleaner, quantityOfCleaner = 0) => {
+	const minutesToHoursAndMinutes = (minutes, timeWorkOneCleaner,quantityOfBathroom, quantityOfCleaner = 0) => {
 		if (typeof minutes === 'string' ||
 			minutes === 0 ||
 			isNaN(minutes) ||
@@ -369,8 +376,10 @@ const Aside = ({
 		if (priceTime === null || settings === null) return;
 		return minutesToHoursAndMinutes(priceTime.timeWorkMin,
 			settings.timeWorkOneCleaner,
-			quantityOfCleaner.quantity);
-	}, [priceTime, quantityOfCleaner, settings]);
+			quantityOfBathroom,
+			quantityOfCleaner.quantity,
+			);
+	}, [priceTime, quantityOfCleaner, settings, quantityOfBathroom]);
 	const renderAdditionalServices = (content) => {
 		return (
 			<ul className="aside-list">
