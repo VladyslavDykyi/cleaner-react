@@ -594,7 +594,7 @@ const Aside = ({
 					wrappers.remove();
 				}
 			});
-			const backendUrl = 'http://clean.webgenerator.com.ua/api/v1/order'; // Замените на реальный URL вашего бекенда
+			const backendUrl = 'https://green-gloves.com.ua/api/v1/order'; // Замените на реальный URL вашего бекенда
 			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 			// Определите параметры запроса, включая метод (POST) и тело запроса (JSON-представление объекта)
 			const requestOptions = {
